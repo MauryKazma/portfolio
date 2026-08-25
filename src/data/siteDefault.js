@@ -5,6 +5,7 @@ export const SITE_DEFAULT = {
   logo: "Maurizio Pecutari",
   skipLink: "Salta al contenuto",
   nav: [
+    { id: "skill", label: "Skill" },
     { id: "lavori", label: "Lavori" },
     { id: "chi-sono", label: "Chi sono" },
     { id: "servizi", label: "Servizi" },
@@ -28,6 +29,27 @@ export const SITE_DEFAULT = {
       "Brand",
       "Impaginazione",
       "Art direction",
+    ],
+  },
+  skills: {
+    eyebrow: "Skill",
+    title: "Strumenti e mestiere.",
+    body: "Sostituisci i placeholder con i software e le competenze che vuoi mostrare prima dei lavori.",
+    toolsEyebrow: "Software",
+    tools: [
+      { id: "tool-1", mark: "Aa", name: "Strumento", level: 4 },
+      { id: "tool-2", mark: "Bb", name: "Strumento", level: 3 },
+      { id: "tool-3", mark: "Cc", name: "Strumento", level: 4 },
+      { id: "tool-4", mark: "Dd", name: "Strumento", level: 3 },
+    ],
+    craftsEyebrow: "Mestiere",
+    crafts: [
+      { id: "craft-1", name: "Competenza", level: 4 },
+      { id: "craft-2", name: "Competenza", level: 4 },
+      { id: "craft-3", name: "Competenza", level: 3 },
+      { id: "craft-4", name: "Competenza", level: 3 },
+      { id: "craft-5", name: "Competenza", level: 4 },
+      { id: "craft-6", name: "Competenza", level: 3 },
     ],
   },
   chiSono: {
@@ -162,6 +184,7 @@ export const SITE_DEFAULT = {
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
     menu: [
+      { id: "skill", label: "Skill" },
       { id: "lavori", label: "Lavori" },
       { id: "servizi", label: "Servizi" },
       { id: "curriculum", label: "Curriculum" },
@@ -180,6 +203,36 @@ export const SITE_DEFAULT = {
 
 export function cloneSite(data) {
   return JSON.parse(JSON.stringify(data))
+}
+
+function uid(prefix) {
+  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`
+}
+
+export function emptySkillTool() {
+  return { id: uid("tool"), mark: "Aa", name: "Strumento", level: 3 }
+}
+
+export function emptySkillCraft() {
+  return { id: uid("craft"), name: "Competenza", level: 3 }
+}
+
+export function clampSkillLevel(value) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return 3
+  return Math.max(0, Math.min(5, Math.round(n)))
+}
+
+function normalizeSkillItems(saved, fallback, kind) {
+  if (!Array.isArray(saved) || saved.length === 0) return fallback
+  return saved.map((item, index) => ({
+    id: typeof item?.id === "string" && item.id ? item.id : `${kind}-${index + 1}`,
+    name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
+    level: clampSkillLevel(item?.level),
+    ...(kind === "tool"
+      ? { mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Aa" }
+      : {}),
+  }))
 }
 
 function mergeById(saved, base) {
@@ -290,6 +343,12 @@ export function hydrateSite(saved) {
             : base.ticker.items,
         },
     chiSono,
+    skills: {
+      ...base.skills,
+      ...saved.skills,
+      tools: normalizeSkillItems(saved.skills?.tools, base.skills.tools, "tool"),
+      crafts: normalizeSkillItems(saved.skills?.crafts, base.skills.crafts, "craft"),
+    },
     lavori: {
       ...(needsMigration ? base.lavori : { ...base.lavori, ...saved.lavori }),
       waitLabel:

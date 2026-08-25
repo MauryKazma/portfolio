@@ -1,8 +1,10 @@
 import { CVProvider, useCV } from "./context/CVProvider"
 import { SiteContentProvider, useSite } from "./context/SiteContentProvider"
+import { EditorAccessProvider } from "./context/EditorAccessProvider"
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
 import ChiSono from "./components/ChiSono"
+import Skills from "./components/Skills"
 import LavoriRecenti from "./components/LavoriRecenti"
 import Servizi from "./components/Servizi"
 import Curriculum from "./components/cv/Curriculum"
@@ -11,6 +13,7 @@ import SiteTicker from "./components/SiteTicker"
 import BackToTop from "./components/BackToTop"
 import Atmosphere from "./components/Atmosphere"
 import CasePage, { CaseNotFound } from "./components/CasePage"
+import EditorUnlockDialog from "./components/EditorUnlockDialog"
 import { ConfirmDialog } from "./components/cv/cvUi"
 import { useRoute } from "./hooks/useRoute"
 import { applySeo } from "./utils/route"
@@ -95,6 +98,7 @@ function AppShell() {
           <>
             <Hero />
             <SiteTicker />
+            <Skills />
             <LavoriRecenti />
             <ChiSono />
             <Servizi />
@@ -109,6 +113,7 @@ function AppShell() {
       <Footer />
       <BackToTop />
       <DialogHost />
+      <EditorUnlockDialog />
     </div>
   )
 }
@@ -117,7 +122,9 @@ export default function App() {
   return (
     <CVProvider>
       <SiteContentProvider>
-        <AppShell />
+        <EditorAccessProvider>
+          <AppShell />
+        </EditorAccessProvider>
       </SiteContentProvider>
     </CVProvider>
   )

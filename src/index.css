@@ -1090,6 +1090,176 @@ main > .site-section:first-child {
   padding-left: calc(3rem + 16px);
 }
 
+.skill-intro {
+  max-width: 42ch;
+}
+
+.skill-panel {
+  margin-top: 40px;
+}
+
+.skill-block + .skill-block {
+  margin-top: 36px;
+}
+
+.skill-tools,
+.skill-crafts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 16px;
+  margin-top: 8px;
+}
+
+.skill-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.skill-ring {
+  position: relative;
+  width: 88px;
+  height: 88px;
+}
+
+.skill-ring-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.skill-ring-track,
+.skill-ring-value {
+  fill: none;
+  stroke-width: 5;
+}
+
+.skill-ring-track {
+  stroke: var(--hairline);
+}
+
+.skill-ring-value {
+  stroke: var(--spot-deep);
+  stroke-linecap: round;
+}
+
+.skill-ring-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--spot-deep);
+}
+
+.skill-tool-name,
+.skill-craft-name {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.skill-meter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.skill-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: transparent;
+}
+
+button.skill-dot {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.skill-dot.is-on {
+  background: var(--spot-deep);
+  border-color: var(--spot-deep);
+}
+
+.skill-crafts {
+  display: grid;
+  gap: 16px 40px;
+  margin-top: 8px;
+}
+
+.skill-craft {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.skill-crafts.is-editing .skill-craft {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.skill-empty {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.skill-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.skill-mark-input {
+  width: 4.5rem;
+  text-align: center;
+}
+
+.editor-unlock-form {
+  margin-top: 16px;
+}
+
+.editor-unlock-form .cv-dialog-actions {
+  margin-top: 18px;
+}
+
+@media (min-width: 768px) {
+  .skill-tools {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .skill-tools.is-editing {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skill-crafts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .skill-tools.is-editing {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .link-list {
   margin: 0;
   padding: 0;

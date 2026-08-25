@@ -294,7 +294,8 @@ html[data-look="clean"] .site-section--band {
 }
 
 html[data-look="clean"] #chi-sono,
-html[data-look="clean"] #contatti {
+html[data-look="clean"] #contatti,
+html[data-look="clean"] #skill {
   background: var(--wash);
 }
 
@@ -470,7 +471,13 @@ html[data-look="clean"] .site-nav-brand {
 
 html[data-look="clean"] .site-nav-links {
   justify-self: center;
-  gap: 32px;
+  gap: 20px;
+}
+
+@media (min-width: 1100px) {
+  html[data-look="clean"] .site-nav-links {
+    gap: 32px;
+  }
 }
 
 html[data-look="clean"] .site-nav-end {
@@ -785,6 +792,86 @@ html[data-look="clean"] .toolkit-panel {
   background: #fff;
   border-radius: 24px;
   box-shadow: var(--soft-shadow);
+}
+
+html[data-look="clean"] .skill-panel {
+  padding: 32px 28px 28px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: var(--soft-shadow);
+}
+
+html[data-look="clean"] .skill-intro {
+  color: var(--muted);
+}
+
+html[data-look="clean"] .skill-block + .skill-block {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--hairline);
+}
+
+html[data-look="clean"] .skill-ring-track {
+  stroke: #e4ecf4;
+}
+
+html[data-look="clean"] .skill-ring-value {
+  stroke: var(--spot-deep);
+}
+
+html[data-look="clean"] .skill-ring-mark,
+html[data-look="clean"] .skill-tool-name,
+html[data-look="clean"] .skill-craft-name {
+  color: var(--ink);
+}
+
+html[data-look="clean"] .skill-ring-mark {
+  font-family: var(--font-mono);
+  color: var(--spot-deep);
+}
+
+html[data-look="clean"] .skill-dot {
+  border-color: #d7e3f0;
+}
+
+html[data-look="clean"] .skill-dot.is-on {
+  background: var(--spot-deep);
+  border-color: var(--spot-deep);
+}
+
+@media (hover: hover) {
+  html[data-look="clean"] button.skill-dot:hover {
+    border-color: var(--spot-deep);
+    transform: scale(1.12);
+  }
+}
+
+html[data-look="clean"] .skill-empty {
+  color: var(--muted);
+}
+
+html[data-look="clean"] .cv-dialog-backdrop {
+  background: rgba(27, 36, 48, 0.28);
+  backdrop-filter: blur(8px);
+}
+
+html[data-look="clean"] .cv-dialog {
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
+  box-shadow: var(--soft-shadow-lg);
+  background: #fff;
+}
+
+html[data-look="clean"] .cv-dialog-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  font-size: 1.65rem;
+}
+
+html[data-look="clean"] .editor-unlock-form .cv-input {
+  border-radius: 16px;
 }
 
 html[data-look="clean"] .stat-row {

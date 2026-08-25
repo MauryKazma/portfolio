@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
-import { useEditorAccess } from "../hooks/useEditorAccess"
+import { useEditorUnlock } from "../hooks/useEditorAccess"
 import { useRoute } from "../hooks/useRoute"
 import { goHome, goToSection } from "../utils/scroll"
 import { InlineEdit } from "./EditableText"
@@ -20,13 +20,15 @@ export default function Navbar() {
     setNavLabel,
     setLogo,
   } = useSite()
-  const canEdit = useEditorAccess()
+  const { allowed: canEdit, requestUnlock, unlockOpen } = useEditorUnlock()
   const route = useRoute()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("")
   const [scrolled, setScrolled] = useState(false)
   const toggleRef = useRef(null)
   const panelRef = useRef(null)
+  const secretClicks = useRef(0)
+  const secretTimer = useRef(0)
   const links = display.nav
   const mainLinks = links.filter((link) => link.id !== "contatti")
   const contactLink = links.find((link) => link.id === "contatti")
@@ -98,6 +100,8 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", onKey)
   }, [open])
 
+  useEffect(() => () => window.clearTimeout(secretTimer.current), [])
+
   const guarded = (fn) => {
     guardSite(() => guardCV(fn))
   }
@@ -110,13 +114,33 @@ export default function Navbar() {
     })
   }
 
+  const onBrandClick = () => {
+    if (!canEdit && !unlockOpen) {
+      secretClicks.current += 1
+      window.clearTimeout(secretTimer.current)
+      secretTimer.current = window.setTimeout(() => {
+        secretClicks.current = 0
+      }, 2000)
+      if (secretClicks.current >= 10) {
+        secretClicks.current = 0
+        window.clearTimeout(secretTimer.current)
+        requestUnlock()
+        return
+      }
+    }
+    guarded(() => {
+      setOpen(false)
+      goHome()
+    })
+  }
+
   return (
     <header className={`site-nav${scrolled ? " is-scrolled" : ""}`}>
       <nav className="site-nav-inner" aria-label="Navigazione principale">
         <button
           type="button"
           className="site-nav-brand"
-          onClick={() => guarded(() => goHome())}
+          onClick={onBrandClick}
         >
           <InlineEdit
             value={display.logo}

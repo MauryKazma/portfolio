@@ -1,7 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
-import { cloneSite, hydrateSite, SITE_CONTENT_REVISION } from "../data/siteDefault"
+import {
+  clampSkillLevel,
+  cloneSite,
+  emptySkillCraft,
+  emptySkillTool,
+  hydrateSite,
+  SITE_CONTENT_REVISION,
+} from "../data/siteDefault"
 import { siteStorage } from "../data/siteStorage"
-import { isEditorSession } from "../utils/editorSession"
+import { EDITOR_GRANTED, isEditorSession } from "../utils/editorSession"
 
 const SiteContext = createContext(null)
 
@@ -31,6 +38,17 @@ export function SiteContentProvider({ children }) {
     if (!loaded || loaded.contentRevision === SITE_CONTENT_REVISION) return
     siteStorage.save(data)
   }, [data])
+
+  useEffect(() => {
+    const onGrant = () => {
+      const loaded = hydrateSite(siteStorage.load())
+      setData(loaded)
+      setDraft(cloneSite(loaded))
+      setStatus("")
+    }
+    window.addEventListener(EDITOR_GRANTED, onGrant)
+    return () => window.removeEventListener(EDITOR_GRANTED, onGrant)
+  }, [])
 
   const patch = useCallback(
     (updater) => {
@@ -213,6 +231,71 @@ export function SiteContentProvider({ children }) {
       removeToolkitTag(index) {
         patch((next) => {
           next.chiSono.toolkit = next.chiSono.toolkit.filter((_, i) => i !== index)
+          return next
+        })
+      },
+      setSkills(field, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          next.skills[field] = value
+          return next
+        })
+      },
+      setSkillTool(id, field, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          next.skills.tools = next.skills.tools.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  [field]:
+                    field === "level"
+                      ? clampSkillLevel(value)
+                      : field === "mark"
+                        ? String(value).slice(0, 3)
+                        : value,
+                }
+              : item
+          )
+          return next
+        })
+      },
+      addSkillTool() {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          next.skills.tools = [...next.skills.tools, emptySkillTool()]
+          return next
+        })
+      },
+      removeSkillTool(id) {
+        patch((next) => {
+          if (!next.skills) return next
+          next.skills.tools = next.skills.tools.filter((item) => item.id !== id)
+          return next
+        })
+      },
+      setSkillCraft(id, field, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          next.skills.crafts = next.skills.crafts.map((item) =>
+            item.id === id
+              ? { ...item, [field]: field === "level" ? clampSkillLevel(value) : value }
+              : item
+          )
+          return next
+        })
+      },
+      addSkillCraft() {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          next.skills.crafts = [...next.skills.crafts, emptySkillCraft()]
+          return next
+        })
+      },
+      removeSkillCraft(id) {
+        patch((next) => {
+          if (!next.skills) return next
+          next.skills.crafts = next.skills.crafts.filter((item) => item.id !== id)
           return next
         })
       },

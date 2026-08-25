@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { CV_DEFAULT } from "../data/cvDefault"
 import { cvStorage } from "../data/cvStorage"
-import { isEditorSession } from "../utils/editorSession"
+import { EDITOR_GRANTED, isEditorSession } from "../utils/editorSession"
 import {
   byOrder,
   cloneCV,
@@ -130,6 +130,15 @@ export function CVProvider({ children }) {
   }, [dirty])
 
   useEffect(() => () => clearTimeout(savedMessageTimer.current), [])
+
+  useEffect(() => {
+    const onGrant = () => {
+      const loaded = cvStorage.load()
+      if (loaded) setData(cloneCV(loaded))
+    }
+    window.addEventListener(EDITOR_GRANTED, onGrant)
+    return () => window.removeEventListener(EDITOR_GRANTED, onGrant)
+  }, [])
 
   const guardNavigation = useCallback(
     (proceed) => {
