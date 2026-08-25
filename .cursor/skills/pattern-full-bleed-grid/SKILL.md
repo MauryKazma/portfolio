@@ -10,7 +10,7 @@ description: >-
 
 **Read [PATTERN.md](PATTERN.md) before writing any UI code.**
 
-The live look is `html[data-look="clean"]` (`src/looks/clean.css`). Do not restyle the site as Inchiostro lastre unless the user asks to revert.
+The live look is Pulita only: `html[data-look="clean"]` (`src/looks/clean.css`). Do not restore Inchiostro lastre.
 
 Do not reintroduce neon `#00df8f`, Inter, Space Grotesk, or process yellow `#f0c400`.
 
@@ -51,4 +51,4 @@ CTA: pill `999px`, navy fill, white type, hover lift `-2px`. Cards: radius `16px
 
 ## Revert
 
-Inchiostro is archived (`src/looks/ink.css`, `?look=ink`). Do not evolve it. Future UI work goes in the Pulita overlay only.
+Inchiostro is removed. Future UI work goes in the Pulita overlay only.

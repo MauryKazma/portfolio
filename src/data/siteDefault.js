@@ -1,9 +1,12 @@
+export const SITE_CONTENT_REVISION = 2
+
 export const SITE_DEFAULT = {
+  contentRevision: SITE_CONTENT_REVISION,
   logo: "Maurizio Pecutari",
   skipLink: "Salta al contenuto",
   nav: [
-    { id: "chi-sono", label: "Chi sono" },
     { id: "lavori", label: "Lavori" },
+    { id: "chi-sono", label: "Chi sono" },
     { id: "servizi", label: "Servizi" },
     { id: "curriculum", label: "CV" },
     { id: "contatti", label: "Contatti" },
@@ -20,11 +23,10 @@ export const SITE_DEFAULT = {
     items: [
       "Identità visiva",
       "Editoria",
+      "Comunicazione",
       "Brand",
-      "Motion",
       "Impaginazione",
       "Art direction",
-      "Graphic design",
     ],
   },
   chiSono: {
@@ -35,115 +37,80 @@ export const SITE_DEFAULT = {
     body2:
       "Lavoro a cavallo tra strategia e immagine: definisco sistemi visivi coerenti, impaginazioni misurate e materiali che rendono il brand riconoscibile. Design e tecnica viaggiano insieme, con un unico obiettivo: pezzi utili, distintivi e duraturi.",
     stats: [
-      { value: "20+", label: "Premi e riconoscimenti" },
-      { value: "100%", label: "Impegno in ogni progetto" },
+      { value: "2018", label: "Primo incarico" },
+      { value: "Oggi", label: "Grafico in agenzia" },
     ],
-    toolkitEyebrow: "Il mio toolkit",
+    toolkitEyebrow: "Il mio mestiere",
     toolkit: [
-      "Graphic Design",
-      "Brand Identity",
-      "Logo Design",
-      "Editorial",
-      "Adobe Photoshop",
-      "Adobe Illustrator",
-      "Adobe InDesign",
-      "Adobe Premiere",
-      "Adobe Lightroom",
-      "Video Editing",
+      "Identità visiva",
+      "Editoria",
+      "Comunicazione",
+      "Logo",
       "Impaginazione",
-      "Art Direction",
+      "Art direction",
+      "Illustrator",
+      "InDesign",
     ],
   },
   lavori: {
     eyebrow: "Portfolio",
-    title: "Lavori recenti",
-    cta: "Esplora il progetto",
+    title: "Lavori",
+    cta: "Vedi il progetto",
+    waitLabel: "Disponibile su richiesta",
     projects: [
       {
-        id: "nexus",
-        title: "Nexus Finance",
-        category: "Prodotto digitale",
+        id: "identita",
+        title: "Identità visiva",
+        category: "Sistema di marca",
         description:
-          "Un’esperienza bancaria ridisegnata intorno alla chiarezza: dashboard, onboarding e flussi di investimento resi semplici, con un sistema visivo che ispira fiducia senza appesantire l’interfaccia.",
-        tags: ["UX/UI", "Design System", "Fintech", "Prototipazione"],
+          "Qui arriverà un pezzo di identità: marchio, palette e applicazioni. Per ora lo spazio è tenuto pulito, in attesa della foto del lavoro.",
+        tags: ["Brand", "Logo", "Sistema visivo"],
         href: "",
-        image:
-          "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+        image: "/work-identita.svg",
       },
       {
-        id: "aura",
-        title: "Aura Studio",
-        category: "Brand e sito portfolio",
+        id: "editoria",
+        title: "Editoria",
+        category: "Pubblicazione",
         description:
-          "Identità e sito per uno studio creativo indipendente. Un racconto visivo calibrato, tipografia editoriale e transizioni misurate che trasformano il portfolio in un’esperienza, non in una galleria.",
-        tags: ["Brand Identity", "Web Design", "Motion", "Art Direction"],
+          "Qui arriverà un pezzo editoriale: ritmo tipografico, impaginazione e presenza sulla carta. La foto del volume o del layout prenderà il posto di questo riquadro.",
+        tags: ["Editorial", "Tipografia", "Impaginazione"],
         href: "",
-        image:
-          "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=800&auto=format&fit=crop",
+        image: "/work-editoria.svg",
       },
       {
-        id: "shift",
-        title: "Shift Mobility",
-        category: "Esperienza SaaS",
+        id: "comunicazione",
+        title: "Comunicazione",
+        category: "Campagna",
         description:
-          "Piattaforma per la gestione di flotte urbane: mappa operativa, prenotazione e analytics in un’unica interfaccia. Abbiamo ridotto la complessità senza togliere controllo ai team sul campo.",
-        tags: ["Product Design", "SaaS", "User Research", "React"],
+          "Qui arriverà un pezzo di comunicazione grafica: manifesto, social o materiale per il punto vendita. Un’immagine vera, non uno stock.",
+        tags: ["Print", "Campagna", "Art direction"],
         href: "",
-        image:
-          "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop",
-      },
-      {
-        id: "mono",
-        title: "Mono Architecture",
-        category: "Sito editoriale",
-        description:
-          "Un sito-rivista per uno studio di architettura: grandi immagini, ritmo tipografico e una navigazione silenziosa che lascia spazio ai progetti. Digitale con la stessa presenza di una pubblicazione stampata.",
-        tags: ["Editorial", "Web Design", "UX Writing", "Front-end"],
-        href: "",
-        image:
-          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
+        image: "/work-comunicazione.svg",
       },
     ],
   },
   servizi: {
-    eyebrow: "Metodo",
-    title: "Fasi di sviluppo di un sito web",
+    eyebrow: "Offerte",
+    title: "Identità, editoria, comunicazione.",
     phases: [
       {
-        id: "briefing",
+        id: "identita",
         number: "01",
-        title: "Briefing",
-        body: "Ascolto obiettivi, vincoli e ambizioni. Allineo aspettative, pubblico e misura del successo prima di disegnare qualsiasi schermata.",
+        title: "Identità visiva",
+        body: "Marchio, palette, tipografia e regole d’uso. Un sistema che rende riconoscibile il brand su carta, schermo e spazio, senza inseguire l’effetto per l’effetto.",
       },
       {
-        id: "analisi",
+        id: "editoria",
         number: "02",
-        title: "Analisi",
-        body: "Mappo utenti, competitor e flussi esistenti. Trasformo i dati in insight azionabili che guidano architettura, tono e priorità di prodotto.",
+        title: "Editoria",
+        body: "Libri, cataloghi, riviste e impaginati. Misuro gerarchia, bianco e ritmo perché il testo si legga e le immagini tengano, dalla copertina all’ultima pagina.",
       },
       {
-        id: "prototipazione",
+        id: "comunicazione",
         number: "03",
-        title: "Prototipazione",
-        body: "Costruisco prototipi navigabili per validare le scelte in anticipo. Meno ipotesi, più evidenze: si corregge quando costa poco.",
-      },
-      {
-        id: "design",
-        number: "04",
-        title: "Design",
-        body: "Definisco interfaccia, sistema visivo e microinterazioni. Ogni dettaglio serve una funzione: chiarezza, ritmo e riconoscibilità del brand.",
-      },
-      {
-        id: "sviluppo",
-        number: "05",
-        title: "Sviluppo responsive",
-        body: "Traduco il design in un’esperienza fluida su ogni dispositivo. Componenti riutilizzabili, performance e accessibilità come standard, non come extra.",
-      },
-      {
-        id: "consegna",
-        number: "06",
-        title: "Consegna finale",
-        body: "Rilascio, documentazione e affiancamento. Il progetto non si ferma al lancio: lascio un sistema che il team può far crescere con sicurezza.",
+        title: "Comunicazione grafica",
+        body: "Manifesti, campagne, social e materiali per il punto vendita. Traduco il messaggio in un’immagine chiara, utile e memorabile, allineata all’identità.",
       },
     ],
   },
@@ -154,28 +121,25 @@ export const SITE_DEFAULT = {
   },
   footer: {
     eyebrow: "Contatti",
-    title: "Come posso aiutarti?",
-    body: "Hai un’idea, un brand o un progetto grafico che merita una direzione più chiara? Parliamone e costruiamo insieme un’identità capace di fare la differenza.",
+    title: "Un progetto da mettere a fuoco?",
+    body: "Hai un’idea, un brand o un pezzo grafico che merita una direzione più chiara? Scrivimi: partiamo dal messaggio, poi dall’immagine.",
     cta: "Scrivimi un’email",
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
     menu: [
-      { id: "chi-sono", label: "Chi sono" },
       { id: "lavori", label: "Lavori" },
       { id: "servizi", label: "Servizi" },
       { id: "curriculum", label: "Curriculum" },
-      { id: "contatti", label: "Contatti" },
     ],
     socialEyebrow: "Social",
     social: [
-      { href: "#", label: "LinkedIn" },
-      { href: "#", label: "Behance" },
-      { href: "#", label: "Instagram" },
-      { href: "#", label: "Dribbble" },
+      { href: "", label: "LinkedIn" },
+      { href: "", label: "Behance" },
+      { href: "", label: "Instagram" },
     ],
     copyright: "© 2026 Maurizio Pecutari. Tutti i diritti riservati.",
-    privacy: "Privacy",
-    cookie: "Cookie",
+    privacy: "",
+    cookie: "",
   },
 }
 
@@ -194,9 +158,31 @@ function mergeById(saved, base) {
   return merged
 }
 
+function isStockProject(project) {
+  const image = String(project?.image ?? "")
+  const id = String(project?.id ?? "")
+  return (
+    image.includes("unsplash.com") ||
+    ["nexus", "aura", "shift", "mono"].includes(id)
+  )
+}
+
+function isLegacyServizi(servizi) {
+  const title = servizi?.title ?? ""
+  const phases = servizi?.phases
+  return (
+    /sito web/i.test(title) ||
+    (Array.isArray(phases) && phases.length > 3) ||
+    (Array.isArray(phases) &&
+      phases.some((phase) => ["briefing", "prototipazione", "sviluppo"].includes(phase.id)))
+  )
+}
+
 export function hydrateSite(saved) {
   const base = cloneSite(SITE_DEFAULT)
   if (!saved || typeof saved !== "object") return base
+
+  const needsMigration = saved.contentRevision !== SITE_CONTENT_REVISION
   const savedProjects = Array.isArray(saved.lavori?.projects)
     ? saved.lavori.projects
     : base.lavori.projects
@@ -207,9 +193,41 @@ export function hydrateSite(saved) {
     !savedPortrait.trim() ||
     savedPortrait.endsWith("hero-portrait.svg")
 
+  const replaceProjects = needsMigration || savedProjects.some(isStockProject)
+  const chiSono = {
+    ...base.chiSono,
+    ...saved.chiSono,
+    stats: saved.chiSono?.stats ?? base.chiSono.stats,
+    toolkit: saved.chiSono?.toolkit ?? base.chiSono.toolkit,
+  }
+  if (
+    needsMigration ||
+    chiSono.stats?.some((stat) => /impegno/i.test(stat.label) || stat.value === "100%")
+  ) {
+    chiSono.stats = base.chiSono.stats
+  }
+  if (needsMigration || (Array.isArray(chiSono.toolkit) && chiSono.toolkit.length > 8)) {
+    chiSono.toolkit = base.chiSono.toolkit
+    chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
+  }
+
+  const servizi = isLegacyServizi(saved.servizi) || needsMigration
+    ? base.servizi
+    : {
+        ...base.servizi,
+        ...saved.servizi,
+        phases: saved.servizi?.phases ?? base.servizi.phases,
+      }
+
+  const footerPrivacy =
+    !saved.footer?.privacy || saved.footer.privacy === "Privacy" ? "" : saved.footer.privacy
+  const footerCookie =
+    !saved.footer?.cookie || saved.footer.cookie === "Cookie" ? "" : saved.footer.cookie
+
   return {
     ...base,
     ...saved,
+    contentRevision: SITE_CONTENT_REVISION,
     logo: !savedLogo || savedLogo === "Maurizio." ? base.logo : saved.logo,
     nav: mergeById(saved.nav, base.nav),
     hero: {
@@ -217,36 +235,41 @@ export function hydrateSite(saved) {
       ...saved.hero,
       portraitSrc: placeholderPortrait ? "" : savedPortrait,
     },
-    ticker: {
-      items: Array.isArray(saved.ticker?.items)
-        ? saved.ticker.items.filter((item) => typeof item === "string")
-        : base.ticker.items,
-    },
-    chiSono: {
-      ...base.chiSono,
-      ...saved.chiSono,
-      stats: saved.chiSono?.stats ?? base.chiSono.stats,
-      toolkit: saved.chiSono?.toolkit ?? base.chiSono.toolkit,
-    },
+    ticker: needsMigration
+      ? base.ticker
+      : {
+          items: Array.isArray(saved.ticker?.items)
+            ? saved.ticker.items.filter((item) => typeof item === "string")
+            : base.ticker.items,
+        },
+    chiSono,
     lavori: {
-      ...base.lavori,
-      ...saved.lavori,
-      projects: savedProjects.map((project) => ({
-        href: "",
-        ...project,
-      })),
+      ...(needsMigration ? base.lavori : { ...base.lavori, ...saved.lavori }),
+      waitLabel:
+        needsMigration || !saved.lavori?.waitLabel
+          ? base.lavori.waitLabel
+          : saved.lavori.waitLabel,
+      projects: replaceProjects
+        ? base.lavori.projects
+        : savedProjects.map((project) => ({
+            href: "",
+            ...project,
+          })),
     },
-    servizi: {
-      ...base.servizi,
-      ...saved.servizi,
-      phases: saved.servizi?.phases ?? base.servizi.phases,
-    },
+    servizi,
     cv: { ...base.cv, ...saved.cv },
-    footer: {
-      ...base.footer,
-      ...saved.footer,
-      menu: mergeById(saved.footer?.menu, base.footer.menu),
-      social: saved.footer?.social ?? base.footer.social,
-    },
+    footer: needsMigration
+      ? {
+          ...base.footer,
+          email: saved.footer?.email ?? base.footer.email,
+        }
+      : {
+          ...base.footer,
+          ...saved.footer,
+          menu: mergeById(saved.footer?.menu, base.footer.menu),
+          social: saved.footer?.social ?? base.footer.social,
+          privacy: footerPrivacy,
+          cookie: footerCookie,
+        },
   }
 }

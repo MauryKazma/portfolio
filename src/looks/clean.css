@@ -1,5 +1,4 @@
-/* Look “pulita” — UX 2026: whitespace, organic UI, work-first, disclosure.
-   Overlay su index.css. Inchiostro resta con data-look="ink". */
+/* Pulita — look canonico. Overlay su index.css. */
 
 html[data-look="clean"] {
   --ink: #1b2430;
@@ -511,11 +510,18 @@ html[data-look="clean"] .hero-portrait-add:focus-within {
   background: color-mix(in srgb, var(--spot) 10%, white);
 }
 
+html[data-look="clean"] .hero-portrait-add.is-idle,
+html[data-look="clean"] .hero-portrait-add.is-idle:hover {
+  color: var(--muted);
+  background: transparent;
+  cursor: default;
+}
+
 html[data-look="clean"] .hero-portrait-change {
   color: var(--spot-deep);
 }
 
-html[data-look="clean"] .ink-ticker {
+html[data-look="clean"] .site-ticker {
   margin: 0;
   padding: 18px 0;
   background: transparent;
@@ -526,15 +532,15 @@ html[data-look="clean"] .ink-ticker {
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
 }
 
-html[data-look="clean"] .ink-ticker-track {
-  animation-duration: 42s;
+html[data-look="clean"] .site-ticker-track {
+  animation-duration: 56s;
 }
 
-html[data-look="clean"] .ink-ticker .btn-secondary,
-html[data-look="clean"] .ink-ticker .site-tag-input,
-html[data-look="clean"] .ink-ticker .site-tag-add-input,
-html[data-look="clean"] .ink-ticker .site-tag-remove,
-html[data-look="clean"] .ink-ticker-edit-label {
+html[data-look="clean"] .site-ticker .btn-secondary,
+html[data-look="clean"] .site-ticker .site-tag-input,
+html[data-look="clean"] .site-ticker .site-tag-add-input,
+html[data-look="clean"] .site-ticker .site-tag-remove,
+html[data-look="clean"] .site-ticker-edit-label {
   color: var(--spot-deep);
   border-color: color-mix(in srgb, var(--spot-deep) 28%, white);
 }
@@ -640,7 +646,7 @@ html[data-look="clean"] .project-frame {
   border-radius: 24px;
   background: #e8eef5;
   box-shadow: var(--soft-shadow-lg);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
 }
 
 html[data-look="clean"] .project-frame-chip {
@@ -660,11 +666,18 @@ html[data-look="clean"] .project-frame-chip {
 
 html[data-look="clean"] .project-title {
   color: var(--ink);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-style: normal;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
   letter-spacing: -0.03em;
-  font-size: 1.5rem;
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  line-height: 1.1;
+}
+
+html[data-look="clean"] .project-wait {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 0.9375rem;
 }
 
 html[data-look="clean"] .project-cta {
@@ -704,9 +717,9 @@ html[data-look="clean"] .phase-list {
   gap: 18px;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   html[data-look="clean"] .phase-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   html[data-look="clean"] .phase-list li:nth-child(even),
@@ -796,11 +809,7 @@ html[data-look="clean"] .site-section--ink .link-list a:hover {
 
 html[data-look="clean"] .contact-email {
   margin-top: 22px;
-}
-
-html[data-look="clean"] .contact-email a {
-  color: var(--spot-deep);
-  background-image: none !important;
+  color: var(--muted);
 }
 
 html[data-look="clean"] .footer-meta {
@@ -860,7 +869,7 @@ html[data-look="clean"] .cv-hero {
 }
 
 html[data-look="clean"] .cv-entry {
-  padding: 18px 0;
+  padding: 22px 0;
 }
 
 html[data-look="clean"] .cv-toolbar .btn-primary,
@@ -883,7 +892,7 @@ html[data-look="clean"] .back-to-top {
   html[data-look="clean"] .reveal.is-pending,
   html[data-look="clean"] .reveal.is-visible,
   html[data-look="clean"] .hero-portrait-glow,
-  html[data-look="clean"] .ink-ticker-track {
+  html[data-look="clean"] .site-ticker-track {
     animation: none !important;
     opacity: 1;
     transform: none;

@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
-import { cloneSite, hydrateSite } from "../data/siteDefault"
+import { cloneSite, hydrateSite, SITE_CONTENT_REVISION } from "../data/siteDefault"
 import { siteStorage } from "../data/siteStorage"
 
 const SiteContext = createContext(null)
@@ -21,6 +21,12 @@ export function SiteContentProvider({ children }) {
   const editing = draft !== null
   const display = draft ?? data
   const dirty = editing && JSON.stringify(draft) !== JSON.stringify(data)
+
+  useEffect(() => {
+    const loaded = siteStorage.load()
+    if (!loaded || loaded.contentRevision === SITE_CONTENT_REVISION) return
+    siteStorage.save(data)
+  }, [data])
 
   const patch = useCallback(
     (updater) => {

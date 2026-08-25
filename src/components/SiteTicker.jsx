@@ -6,11 +6,11 @@ function TickerTrack({ items }) {
   const loop = [...items, ...items]
 
   return (
-    <div className="ink-ticker-track">
+    <div className="site-ticker-track">
       {loop.map((label, index) => (
         <Fragment key={`${label}-${index}`}>
-          <span className="ink-ticker-item">{label}</span>
-          <span className="ink-ticker-sep" aria-hidden="true">
+          <span className="site-ticker-item">{label}</span>
+          <span className="site-ticker-sep" aria-hidden="true">
             —
           </span>
         </Fragment>
@@ -19,7 +19,7 @@ function TickerTrack({ items }) {
   )
 }
 
-export default function InkTicker() {
+export default function SiteTicker() {
   const { display, editing, setTickerItem, addTickerItem, removeTickerItem } = useSite()
   const [draft, setDraft] = useState("")
   const items = display.ticker?.items ?? []
@@ -32,18 +32,18 @@ export default function InkTicker() {
 
   if (editing) {
     return (
-      <div className="ink-ticker is-editing">
+      <div className="site-ticker is-editing">
         <div className="site-content">
-          <p className="ink-ticker-edit-label">Testi in scorrimento</p>
-          <ul className="ink-ticker-edit-list">
+          <p className="site-ticker-edit-label">Testi in scorrimento</p>
+          <ul className="site-ticker-edit-list">
             {items.map((item, index) => (
               <Fragment key={`edit-${index}`}>
                 {index > 0 ? (
-                  <li className="ink-ticker-sep" aria-hidden="true">
+                  <li className="site-ticker-sep" aria-hidden="true">
                     —
                   </li>
                 ) : null}
-                <li className="ink-ticker-edit-item">
+                <li className="site-ticker-edit-item">
                   <input
                     className="site-tag-input"
                     value={item}
@@ -88,7 +88,7 @@ export default function InkTicker() {
   if (!phrases.length) return null
 
   return (
-    <div className="ink-ticker" aria-hidden="true">
+    <div className="site-ticker" aria-hidden="true">
       <TickerTrack items={phrases} />
     </div>
   )

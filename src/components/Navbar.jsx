@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
@@ -23,6 +23,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("")
   const [scrolled, setScrolled] = useState(false)
+  const toggleRef = useRef(null)
+  const panelRef = useRef(null)
   const links = display.nav
   const mainLinks = links.filter((link) => link.id !== "contatti")
   const contactLink = links.find((link) => link.id === "contatti")
@@ -60,6 +62,36 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = ""
     }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return undefined
+    const panel = panelRef.current
+    const toggle = toggleRef.current
+    const focusables = panel?.querySelectorAll("button, [href], input, textarea")
+    const list = focusables ? [...focusables] : []
+    list[0]?.focus()
+
+    const onKey = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault()
+        setOpen(false)
+        toggle?.focus()
+        return
+      }
+      if (event.key !== "Tab" || list.length === 0) return
+      const index = list.indexOf(document.activeElement)
+      if (event.shiftKey && (index <= 0)) {
+        event.preventDefault()
+        list[list.length - 1].focus()
+      } else if (!event.shiftKey && index === list.length - 1) {
+        event.preventDefault()
+        list[0].focus()
+      }
+    }
+
+    document.addEventListener("keydown", onKey)
+    return () => document.removeEventListener("keydown", onKey)
   }, [open])
 
   const guarded = (fn) => {
@@ -149,6 +181,7 @@ export default function Navbar() {
           ) : null}
 
           <button
+            ref={toggleRef}
             type="button"
             className="site-nav-toggle"
             onClick={() => setOpen((v) => !v)}
@@ -162,7 +195,14 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div id="menu-mobile" className="site-nav-mobile md:hidden">
+        <div
+          ref={panelRef}
+          id="menu-mobile"
+          className="site-nav-mobile md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
           <ul>
             {links.map((link) => (
               <li key={link.id}>

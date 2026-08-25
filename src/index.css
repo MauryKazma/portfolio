@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Inchiostro vivo — lastre: paper / ink / blu CUBOT. Radius 0, 6-col grid. */
+/* Pulita — token di base. Overlay in src/looks/clean.css. */
 
 @property --spot {
   syntax: "<color>";
@@ -9,30 +9,27 @@
 }
 
 :root {
-  --ink: #121212;
-  --paper: #f7f4ee;
-  --surface: #f7f4ee;
-  --raised: #fffcf7;
+  --ink: #1b2430;
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --raised: #ffffff;
   --accent: #1d4ed8;
   --spot: #38bdf8;
   --spot-deep: #1e3a8a;
-  --muted: #5c5752;
-  --paper-muted: #b7b1a7;
-  --hairline: #d6d0c6;
-  --grid-line: rgba(18, 18, 18, 0.14);
-  --divider: rgba(18, 18, 18, 0.12);
+  --muted: #66707c;
+  --paper-muted: #7b8494;
+  --hairline: #e4ecf4;
+  --grid-line: transparent;
+  --divider: rgba(30, 58, 138, 0.08);
   --content-max: 1200px;
-  --nav-h: 52px;
+  --nav-h: 76px;
   --section-y: 88px;
-  --radius: 0px;
+  --radius: 16px;
+  --wash: #f5f8fb;
   --t-fast: 140ms;
   --t-ui: 220ms;
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --band-fill: repeating-linear-gradient(
-    135deg,
-    rgba(247, 244, 238, 0.07) 0 1px,
-    transparent 1px 9px
-  );
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --band-fill: none;
   --font-display: "Instrument Serif", "Times New Roman", serif;
   --font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
@@ -48,12 +45,12 @@
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", "Times New Roman", serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
-  --color-ink: #121212;
-  --color-surface: #f7f4ee;
+  --color-ink: #1b2430;
+  --color-surface: #ffffff;
   --color-accent: #1d4ed8;
   --color-spot: #38bdf8;
-  --color-muted: #5c5752;
-  --color-hairline: #d6d0c6;
+  --color-muted: #66707c;
+  --color-hairline: #e4ecf4;
 }
 
 @layer base {
@@ -71,11 +68,11 @@
 
   body {
     margin: 0;
-    background: var(--ink);
+    background: var(--paper);
     color: var(--ink);
     font-family: var(--font-body);
-    font-size: 0.9375rem;
-    line-height: 1.55;
+    font-size: 1.0625rem;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -142,7 +139,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--ink);
+  background: var(--paper);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -152,7 +149,7 @@
 .page {
   position: relative;
   min-height: 100vh;
-  background: var(--ink);
+  background: var(--paper);
 }
 
 .site-section {
@@ -165,15 +162,15 @@
 }
 
 .site-section--ink {
-  background: var(--ink);
-  color: var(--paper);
-  border-bottom-color: rgba(247, 244, 238, 0.14);
+  background: transparent;
+  color: var(--ink);
+  border-bottom-color: transparent;
 }
 
 .site-section--spot {
-  background: var(--spot-deep);
-  color: var(--paper);
-  border-bottom-color: rgba(247, 244, 238, 0.16);
+  background: transparent;
+  color: var(--ink);
+  border-bottom-color: transparent;
 }
 
 main > .site-section:first-child {
@@ -181,8 +178,8 @@ main > .site-section:first-child {
 }
 
 .site-section--band {
-  background-color: var(--ink);
-  background-image: var(--band-fill);
+  background-color: transparent;
+  background-image: none;
   overflow: visible;
 }
 
@@ -407,10 +404,11 @@ main > .site-section:first-child {
 
 .contact-email {
   margin: 20px 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
-  font-style: italic;
-  line-height: 1.2;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-style: normal;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
 .contact-email a {
@@ -683,6 +681,16 @@ main > .site-section:first-child {
   background: color-mix(in srgb, var(--spot) 12%, transparent);
 }
 
+.hero-portrait-add.is-idle {
+  cursor: default;
+}
+
+.hero-portrait-add.is-idle:hover,
+.hero-portrait-add.is-idle:focus-within {
+  color: var(--paper-muted);
+  background: transparent;
+}
+
 .hero-portrait-add input,
 .hero-portrait-change input {
   position: absolute;
@@ -910,7 +918,7 @@ main > .site-section:first-child {
 
 .project-frame {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
   background: var(--hairline);
@@ -938,6 +946,11 @@ main > .site-section:first-child {
 
 .project-cta {
   margin-top: 24px;
+}
+
+.project-wait {
+  margin-top: 24px;
+  color: var(--muted);
 }
 
 .project-frame img {
@@ -1675,7 +1688,7 @@ input.stat-value.site-edit-field {
   display: inline-block;
 }
 
-.ink-ticker {
+.site-ticker {
   position: relative;
   z-index: 2;
   overflow: hidden;
@@ -1691,29 +1704,29 @@ input.stat-value.site-edit-field {
   text-transform: uppercase;
 }
 
-.ink-ticker-track {
+.site-ticker-track {
   display: flex;
   align-items: center;
   width: max-content;
   gap: 2rem;
-  animation: ink-ticker 32s linear infinite;
+  animation: site-ticker 56s linear infinite;
 }
 
-.ink-ticker-item {
+.site-ticker-item {
   white-space: nowrap;
 }
 
-.ink-ticker-sep {
+.site-ticker-sep {
   flex: 0 0 auto;
   letter-spacing: 0;
   line-height: 1;
 }
 
-.ink-ticker.is-editing {
+.site-ticker.is-editing {
   padding: 20px 0;
 }
 
-.ink-ticker-edit-label {
+.site-ticker-edit-label {
   margin: 0 0 12px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -1723,7 +1736,7 @@ input.stat-value.site-edit-field {
   color: var(--ink);
 }
 
-.ink-ticker-edit-list {
+.site-ticker-edit-list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1733,14 +1746,14 @@ input.stat-value.site-edit-field {
   list-style: none;
 }
 
-.ink-ticker-edit-item {
+.site-ticker-edit-item {
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.ink-ticker .site-tag-input,
-.ink-ticker .site-tag-add-input {
+.site-ticker .site-tag-input,
+.site-ticker .site-tag-add-input {
   width: auto;
   min-width: 16ch;
   max-width: 28ch;
@@ -1754,16 +1767,16 @@ input.stat-value.site-edit-field {
   font-size: 0.75rem;
 }
 
-.ink-ticker .site-tag-remove {
+.site-ticker .site-tag-remove {
   color: var(--ink);
 }
 
-.ink-ticker .btn-secondary {
+.site-ticker .btn-secondary {
   color: var(--ink);
   border-color: var(--ink);
 }
 
-@keyframes ink-ticker {
+@keyframes site-ticker {
   from {
     transform: translateX(0);
   }
@@ -1776,7 +1789,7 @@ input.stat-value.site-edit-field {
 .site-section--ink .site-eyebrow,
 .site-section--ink .project-title,
 .site-section--ink .footer-meta {
-  color: var(--paper);
+  color: var(--ink);
 }
 
 .site-section--ink .site-body,
@@ -1784,7 +1797,7 @@ input.stat-value.site-edit-field {
 .site-section--ink .link-list button,
 .site-section--ink .link-list a,
 .site-section--ink .phase-list button {
-  color: var(--paper-muted);
+  color: var(--muted);
 }
 
 .site-section--ink .project-list,
@@ -1805,12 +1818,12 @@ input.stat-value.site-edit-field {
 .site-section--ink .link-list a:hover,
 .site-section--ink .phase-list button:hover,
 .site-section--ink .phase-list button[aria-expanded="true"] {
-  color: var(--paper);
+  color: var(--spot-deep);
 }
 
 .site-section--ink .chip-list li {
-  color: var(--paper);
-  border-color: rgba(247, 244, 238, 0.28);
+  color: var(--spot-deep);
+  border-color: var(--hairline);
 }
 
 .site-section--ink .chip-list li:hover {
@@ -1834,24 +1847,24 @@ input.stat-value.site-edit-field {
 
 .site-section--spot .site-headline,
 .site-section--spot .site-eyebrow {
-  color: var(--paper);
+  color: var(--ink);
 }
 
 .site-section--spot .site-body,
 .site-section--spot .phase-list button {
-  color: color-mix(in srgb, var(--paper) 82%, var(--spot-deep));
+  color: var(--muted);
 }
 
 .site-section--spot .phase-list,
 .site-section--spot .phase-list li,
 .site-section--spot .phase-icon {
-  border-color: rgba(247, 244, 238, 0.22);
-  color: var(--paper);
+  border-color: var(--hairline);
+  color: var(--ink);
 }
 
 .site-section--spot .phase-list button:hover,
 .site-section--spot .phase-list button[aria-expanded="true"] {
-  color: var(--paper);
+  color: var(--spot-deep);
 }
 
 .site-section--spot .phase-list button[aria-expanded="true"] .phase-icon {
@@ -1904,7 +1917,7 @@ input.stat-value.site-edit-field {
     transform: none;
   }
 
-  .ink-ticker-track {
+  .site-ticker-track {
     animation: none;
   }
 

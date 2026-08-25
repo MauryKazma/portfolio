@@ -63,7 +63,7 @@ design:
 
 This portfolio’s **canonical** visual system is **Pulita**: white agency field, Cubot navy CTAs, sky used only as atmosphere, Instrument Serif for display. Translate product requests so they look like the same designer authored the page.
 
-The previous **Inchiostro** look (`data-look="ink"`, `src/looks/ink.css`) is an archive for the “Precedente” switch. Do not add new Inchiostro styles unless the user asks to revert.
+The previous **Inchiostro** look has been removed. Do not add Inchiostro styles.
 
 ### 2 · Token compliance
 
@@ -130,7 +130,7 @@ Never do the following unless the user explicitly asks:
 - Restore the 6-column overlay.
 - Use sky `#38bdf8` as paragraph text on white.
 - Duplicate primary CTAs in one section.
-- Evolve `src/looks/ink.css` (archive only).
+- Restore or reintroduce Inchiostro (`data-look="ink"`, lastre, radius 0).
 
 ### 5 · Before you finish
 
@@ -139,7 +139,7 @@ Never do the following unless the user explicitly asks:
 - [ ] CTA is navy pill on white
 - [ ] One primary CTA per section
 - [ ] Sky only on blobs / ticker / marks
-- [ ] Changes landed in `src/looks/clean.css` (or components), not in the ink snapshot
+- [ ] Changes landed in `src/looks/clean.css` (or components)
 - [ ] Previewed locally; asked before GitHub/Railway unless the user already said to uppare
 
 ---
@@ -154,7 +154,7 @@ Always, for new UI on this project.
 
 ## When to avoid it
 
-Only if the user asks to return to Inchiostro (`?look=ink`).
+Only if the user explicitly asks to abandon Pulita for a new system.
 
 ## Do
 
@@ -165,7 +165,7 @@ Only if the user asks to return to Inchiostro (`?look=ink`).
 ## Don't
 
 - Don’t fill the page with competing blobs on every section (hero + servizi accent is enough).
-- Don’t make the look-switcher a primary UI; it is a revert control.
+- Don’t add a look-switcher or a second visual system.
 
 ---
 

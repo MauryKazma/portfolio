@@ -1,31 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
+import { useEditorAccess } from "../hooks/useEditorAccess"
+import { readImageFile } from "../utils/image"
 import { scrollToId } from "../utils/scroll"
 import { useSite } from "../context/SiteContentProvider"
 import { EditableText, InlineEdit } from "./EditableText"
 import SiteSection from "./SiteSection"
-
-function readPortraitFile(file) {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    const blobUrl = URL.createObjectURL(file)
-    img.onload = () => {
-      const max = 1200
-      const scale = Math.min(1, max / Math.max(img.width, img.height))
-      const canvas = document.createElement("canvas")
-      canvas.width = Math.max(1, Math.round(img.width * scale))
-      canvas.height = Math.max(1, Math.round(img.height * scale))
-      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height)
-      URL.revokeObjectURL(blobUrl)
-      resolve(canvas.toDataURL("image/jpeg", 0.86))
-    }
-    img.onerror = () => {
-      URL.revokeObjectURL(blobUrl)
-      reject(new Error("Immagine non valida"))
-    }
-    img.src = blobUrl
-  })
-}
 
 function reduceMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -33,8 +13,10 @@ function reduceMotion() {
 
 function HeroPortrait() {
   const { display, editing, setHero, persistPortrait } = useSite()
+  const canEdit = useEditorAccess()
   const { hero } = display
   const portraitSrc = hero.portraitSrc?.trim()
+  const canDrag = Boolean(portraitSrc)
   const stageRef = useRef(null)
   const moverRef = useRef(null)
   const phys = useRef({
@@ -140,6 +122,7 @@ function HeroPortrait() {
   useEffect(() => () => stopLoop(), [])
 
   const onPointerDown = (event) => {
+    if (!canDrag) return
     if (event.button !== 0) return
     if (event.target.closest("input, textarea, button, label, a, [contenteditable='true']")) return
     event.currentTarget.setPointerCapture(event.pointerId)
@@ -201,7 +184,7 @@ function HeroPortrait() {
     event.target.value = ""
     if (!file) return
     try {
-      persistPortrait(await readPortraitFile(file))
+      persistPortrait(await readImageFile(file))
     } catch {
       /* ignore invalid files */
     }
@@ -216,13 +199,18 @@ function HeroPortrait() {
         <div className="hero-portrait-glow" aria-hidden="true" />
         <figure
           className={`hero-portrait${dragging ? " is-dragging" : ""}`}
-          aria-label="Ritratto. Trascina per spostare, doppio clic per riportarlo a posto."
+          aria-label={
+            canDrag
+              ? "Ritratto. Trascina per spostare, doppio clic per riportarlo a posto."
+              : hero.portraitName || "Ritratto"
+          }
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
           onLostPointerCapture={endDrag}
           onDoubleClick={() => {
+            if (!canDrag) return
             const p = phys.current
             p.grabbing = false
             p.home = true
@@ -234,14 +222,14 @@ function HeroPortrait() {
             {portraitSrc ? (
               <img
                 src={portraitSrc}
-                alt=""
+                alt={hero.portraitName || "Ritratto"}
                 width={360}
                 height={480}
                 draggable={false}
                 decoding="async"
                 fetchPriority="high"
               />
-            ) : (
+            ) : canEdit ? (
               <label className="hero-portrait-add">
                 <input type="file" accept="image/*" onChange={onFile} />
                 <span className="hero-portrait-monogram" aria-hidden="true">
@@ -255,6 +243,18 @@ function HeroPortrait() {
                 </span>
                 <span>Inserisci foto</span>
               </label>
+            ) : (
+              <div className="hero-portrait-add is-idle">
+                <span className="hero-portrait-monogram" aria-hidden="true">
+                  {(hero.portraitName || "MP")
+                    .split(" ")
+                    .filter(Boolean)
+                    .map((word) => word[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
+                </span>
+              </div>
             )}
           </div>
           <figcaption className="hero-portrait-caption">
@@ -265,7 +265,7 @@ function HeroPortrait() {
               onChange={(value) => setHero("portraitName", value)}
               ariaLabel="Nome nel ritratto"
             />
-            {portraitSrc ? (
+            {canEdit && portraitSrc ? (
               <label className="hero-portrait-change">
                 <input type="file" accept="image/*" onChange={onFile} />
                 Cambia foto

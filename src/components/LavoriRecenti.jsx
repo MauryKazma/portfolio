@@ -2,7 +2,7 @@ import { useState } from "react"
 import { flushSync } from "react-dom"
 import { ArrowUpRight } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
-import { scrollToId } from "../utils/scroll"
+import { isPlaceholderImage, readImageFile } from "../utils/image"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 
@@ -26,6 +26,8 @@ export default function LavoriRecenti() {
   const active = projects[safeIdx]
   const projectHref = active?.href?.trim()
   const external = isHttpHref(projectHref)
+  const placeholder = isPlaceholderImage(active?.image)
+  const waitLabel = display.lavori.waitLabel ?? "Disponibile su richiesta"
 
   const selectProject = (index) => {
     if (index === safeIdx) return
@@ -49,6 +51,17 @@ export default function LavoriRecenti() {
     if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
       event.preventDefault()
       selectProject((safeIdx - 1 + projects.length) % projects.length)
+    }
+  }
+
+  const onFile = async (event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ""
+    if (!file || !active) return
+    try {
+      setProject(active.id, "image", await readImageFile(file))
+    } catch {
+      /* ignore invalid files */
     }
   }
 
@@ -107,13 +120,17 @@ export default function LavoriRecenti() {
           </ul>
 
           <article className="project-stage" id={`lavoro-${active.id}`} tabIndex={-1} aria-live="polite">
-            <div className="project-frame">
+            <div className={`project-frame${placeholder ? " is-placeholder" : ""}`}>
               <img
                 key={active.id}
                 src={active.image}
-                alt={`Anteprima del progetto ${active.title}`}
+                alt={
+                  placeholder
+                    ? `Spazio riservato alla foto del progetto ${active.title}`
+                    : `Anteprima del progetto ${active.title}`
+                }
                 width={800}
-                height={500}
+                height={600}
                 sizes="(min-width: 900px) 640px, 100vw"
                 loading={safeIdx === 0 ? "eager" : "lazy"}
                 fetchPriority={safeIdx === 0 ? "high" : "auto"}
@@ -121,6 +138,12 @@ export default function LavoriRecenti() {
               />
               <span className="project-frame-chip">{active.category}</span>
             </div>
+            {editing ? (
+              <label className="hero-portrait-change">
+                <input type="file" accept="image/*" onChange={onFile} />
+                {placeholder ? "Inserisci foto del lavoro" : "Cambia foto"}
+              </label>
+            ) : null}
             <p className="site-eyebrow">{`${String(safeIdx + 1).padStart(2, "0")} — ${String(projects.length).padStart(2, "0")}`}</p>
             <EditableText
               as="h3"
@@ -176,12 +199,7 @@ export default function LavoriRecenti() {
             ) : editing ? (
               <p className="site-body">Aggiungi un URL per mostrare il pulsante del progetto.</p>
             ) : (
-              <div className="project-cta">
-                <button type="button" className="btn-primary" onClick={() => scrollToId("contatti")}>
-                  {display.lavori.cta}
-                  <ArrowUpRight size={16} aria-hidden />
-                </button>
-              </div>
+              <p className="project-wait">{waitLabel}</p>
             )}
           </article>
         </div>

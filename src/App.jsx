@@ -7,8 +7,7 @@ import LavoriRecenti from "./components/LavoriRecenti"
 import Servizi from "./components/Servizi"
 import Curriculum from "./components/cv/Curriculum"
 import Footer from "./components/Footer"
-import InkTicker from "./components/InkTicker"
-import LookSwitch from "./components/LookSwitch"
+import SiteTicker from "./components/SiteTicker"
 import BackToTop from "./components/BackToTop"
 import { ConfirmDialog } from "./components/cv/cvUi"
 
@@ -41,14 +40,13 @@ export default function App() {
           <Navbar />
           <main id="contenuto">
             <Hero />
-            <InkTicker />
-            <ChiSono />
+            <SiteTicker />
             <LavoriRecenti />
+            <ChiSono />
             <Servizi />
             <Curriculum />
           </main>
           <Footer />
-          <LookSwitch />
           <BackToTop />
           <DialogHost />
         </div>

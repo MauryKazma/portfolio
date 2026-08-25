@@ -18,6 +18,7 @@ export default function Footer() {
   const socialItems = editing
     ? footer.social
     : footer.social.filter((item) => isLiveHref(item.href))
+  const legal = [footer.privacy, footer.cookie].map((item) => item?.trim()).filter(Boolean)
 
   const go = (id) => {
     guardSite(() =>
@@ -67,9 +68,7 @@ export default function Footer() {
                 />
               </div>
             ) : (
-              <p className="contact-email">
-                <a href={`mailto:${footer.email}`}>{footer.email}</a>
-              </p>
+              <p className="contact-email">{footer.email}</p>
             )}
             <div className="project-cta">
               <a href={`mailto:${footer.email}`} className="btn-primary">
@@ -163,31 +162,31 @@ export default function Footer() {
             onChange={(value) => setFooter("copyright", value)}
             ariaLabel="Copyright"
           />
-          <div>
-            {editing ? (
-              <>
-                <input
-                  className="site-edit-field"
-                  value={footer.privacy}
-                  aria-label="Testo privacy"
-                  onChange={(event) => setFooter("privacy", event.target.value)}
-                />
-                <span> · </span>
-                <input
-                  className="site-edit-field"
-                  value={footer.cookie}
-                  aria-label="Testo cookie"
-                  onChange={(event) => setFooter("cookie", event.target.value)}
-                />
-              </>
-            ) : (
-              <>
-                <span>{footer.privacy}</span>
-                {" · "}
-                <span>{footer.cookie}</span>
-              </>
-            )}
-          </div>
+          {editing || legal.length > 0 ? (
+            <div>
+              {editing ? (
+                <>
+                  <input
+                    className="site-edit-field"
+                    value={footer.privacy}
+                    aria-label="Testo privacy"
+                    placeholder="Privacy"
+                    onChange={(event) => setFooter("privacy", event.target.value)}
+                  />
+                  <span> · </span>
+                  <input
+                    className="site-edit-field"
+                    value={footer.cookie}
+                    aria-label="Testo cookie"
+                    placeholder="Cookie"
+                    onChange={(event) => setFooter("cookie", event.target.value)}
+                  />
+                </>
+              ) : (
+                legal.join(" · ")
+              )}
+            </div>
+          ) : null}
         </div>
       </div>
     </SiteSection>
