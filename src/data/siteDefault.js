@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 2
+export const SITE_CONTENT_REVISION = 7
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -12,10 +12,11 @@ export const SITE_DEFAULT = {
     { id: "contatti", label: "Contatti" },
   ],
   hero: {
-    eyebrow: "Graphic Designer",
-    title: "Esperienze visive.",
-    body: "Progetto identità visive, editoria e comunicazione grafica, unendo strategia, design e tecnica per trasformare idee complesse in immagini chiare, utili e memorabili.",
+    eyebrow: "Graphic designer",
+    title: "Identità e editoria.",
+    body: "Progetto sistemi visivi, volumi e comunicazione grafica per chi deve farsi riconoscere su carta, schermo e spazio. Dal 2023 sono grafico in Mandarino Agency.",
     cta: "Guarda i miei lavori",
+    availability: "Disponibile per nuovi incarichi.",
     portraitName: "Maurizio Pecutari",
     portraitSrc: "",
   },
@@ -35,10 +36,11 @@ export const SITE_DEFAULT = {
     body1:
       "Sono un graphic designer con formazione professionale. Unisco identità visiva, editoria e progettazione grafica per costruire comunicazioni che restano chiare anche quando il problema è complesso. Ogni decisione parte dal messaggio da far arrivare, non dall’effetto per l’effetto.",
     body2:
-      "Lavoro a cavallo tra strategia e immagine: definisco sistemi visivi coerenti, impaginazioni misurate e materiali che rendono il brand riconoscibile. Design e tecnica viaggiano insieme, con un unico obiettivo: pezzi utili, distintivi e duraturi.",
-    stats: [
-      { value: "2018", label: "Primo incarico" },
-      { value: "Oggi", label: "Grafico in agenzia" },
+      "Dal 2022 al 2023 ho lavorato come grafico in Stratego. Dal 2023 sono grafico in Mandarino Agency. Definisco sistemi visivi coerenti, impaginazioni misurate e materiali che rendono il brand riconoscibile. Design e tecnica viaggiano insieme: pezzi utili, distintivi e duraturi.",
+    studiosEyebrow: "Studi",
+    studios: [
+      { name: "Mandarino Agency", role: "Grafico", period: "2023–oggi" },
+      { name: "Stratego", role: "Grafico", period: "2022–2023" },
     ],
     toolkitEyebrow: "Il mio mestiere",
     toolkit: [
@@ -55,38 +57,65 @@ export const SITE_DEFAULT = {
   lavori: {
     eyebrow: "Portfolio",
     title: "Lavori",
-    cta: "Vedi il progetto",
+    cta: "Apri il case",
     waitLabel: "Disponibile su richiesta",
     projects: [
       {
         id: "identita",
-        title: "Identità visiva",
-        category: "Sistema di marca",
+        title: "Un sistema che tiene",
+        category: "Identità visiva",
+        role: "Grafico",
+        year: "2023–oggi",
+        deliverable: "Marchio, palette, applicazioni",
         description:
-          "Qui arriverà un pezzo di identità: marchio, palette e applicazioni. Per ora lo spazio è tenuto pulito, in attesa della foto del lavoro.",
-        tags: ["Brand", "Logo", "Sistema visivo"],
+          "Il brief, quando arriva un’identità, è far stare un brand su più supporti senza rifare il marchio a ogni stagione. Carta, insegna, schermo: lo stesso sistema, non tre versioni. Il vincolo in agenzia è il tempo e i formati già in produzione — non un mondo parallelo da inventare. La mia parte è chiudere segno, palette e regole d’uso in poche decisioni, poi applicarle. L’esito che cerco è riconoscibilità senza rumore: i materiali si tengono tra loro e nessuno deve «aggiustare» il logo sul nuovo formato. Quando le foto del pezzo saranno qui, vedrai marchio, carta intestata, insegna e una pagina di linee guida — il sistema, non il segno isolato.",
+        tags: ["Marchio", "Palette", "Applicazioni"],
         href: "",
         image: "/work-identita.svg",
+        frame: "landscape",
+        gallery: [
+          { src: "", caption: "Carta intestata" },
+          { src: "", caption: "Insegna" },
+          { src: "", caption: "Linee guida" },
+        ],
       },
       {
         id: "editoria",
-        title: "Editoria",
-        category: "Pubblicazione",
+        title: "Pagine che si tengono",
+        category: "Editoria",
+        role: "Grafico",
+        year: "2022–oggi",
+        deliverable: "Copertina, spread, dorso",
         description:
-          "Qui arriverà un pezzo editoriale: ritmo tipografico, impaginazione e presenza sulla carta. La foto del volume o del layout prenderà il posto di questo riquadro.",
-        tags: ["Editorial", "Tipografia", "Impaginazione"],
+          "Un volume non è una sequenza di pagine belle: è un ritmo che deve durare. Il brief è far leggere un contenuto lungo senza perdere il lettore a metà. Il vincolo è concreto — formato, carta, margini, dorso: la pagina ha un bordo vero, non uno schermo infinito. La mia parte è la gerarchia tipografica, la griglia e una copertina che annuncia il dentro invece di coprirlo. L’esito è un oggetto che si tiene in mano: aperture che respirano, bianco misurato, testo che corre. Qui arriveranno copertina, due o tre spread e il dorso nominato. Fino ad allora lo spazio resta pulito: niente mockup di libreria altrui.",
+        tags: ["Copertina", "Spread", "Tipografia"],
         href: "",
         image: "/work-editoria.svg",
+        frame: "landscape",
+        gallery: [
+          { src: "", caption: "Spread" },
+          { src: "", caption: "Dorso" },
+          { src: "", caption: "Carta e formato" },
+        ],
       },
       {
         id: "comunicazione",
-        title: "Comunicazione",
-        category: "Campagna",
+        title: "Il pezzo a tre metri",
+        category: "Comunicazione",
+        role: "Grafico",
+        year: "2018–oggi",
+        deliverable: "Manifesto, stampa, affissione",
         description:
-          "Qui arriverà un pezzo di comunicazione grafica: manifesto, social o materiale per il punto vendita. Un’immagine vera, non uno stock.",
-        tags: ["Print", "Campagna", "Art direction"],
+          "Il pezzo di comunicazione deve funzionare a tre metri, non in un mockup. Il brief è un messaggio da far arrivare in un passaggio — manifesto, punto vendita, campagna. Il vincolo è la stampa vera: luce, carta, affissione. Ho lavorato anche sul lato che va in strada, dove l’immagine o regge o sparisce. La mia parte è tradurre il messaggio in un’immagine chiara, allineata all’identità, senza effetto per l’effetto. L’esito è un pezzo riconoscibile da fermo, che non chiede di essere spiegato. Qui arriverà la foto del manifesto o del materiale in contesto — stampa reale, non stock.",
+        tags: ["Manifesto", "Stampa", "Affissione"],
         href: "",
         image: "/work-comunicazione.svg",
+        frame: "portrait",
+        gallery: [
+          { src: "", caption: "Punto vendita" },
+          { src: "", caption: "Stampa" },
+          { src: "", caption: "Affissione" },
+        ],
       },
     ],
   },
@@ -115,14 +144,15 @@ export const SITE_DEFAULT = {
     ],
   },
   cv: {
-    eyebrow: "Curriculum vitae",
+    eyebrow: "Curriculum",
+    title: "Studi e agenzie.",
     openLabel: "Apri curriculum",
     closeLabel: "Chiudi curriculum",
   },
   footer: {
     eyebrow: "Contatti",
     title: "Un progetto da mettere a fuoco?",
-    body: "Hai un’idea, un brand o un pezzo grafico che merita una direzione più chiara? Scrivimi: partiamo dal messaggio, poi dall’immagine.",
+    body: "Sono disponibile per nuovi incarichi. Hai un’idea, un brand o un pezzo grafico che merita una direzione più chiara? Scrivimi: partiamo dal messaggio, poi dall’immagine.",
     cta: "Scrivimi un’email",
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
@@ -197,14 +227,16 @@ export function hydrateSite(saved) {
   const chiSono = {
     ...base.chiSono,
     ...saved.chiSono,
-    stats: saved.chiSono?.stats ?? base.chiSono.stats,
     toolkit: saved.chiSono?.toolkit ?? base.chiSono.toolkit,
+    studios: Array.isArray(saved.chiSono?.studios)
+      ? saved.chiSono.studios
+      : base.chiSono.studios,
   }
-  if (
-    needsMigration ||
-    chiSono.stats?.some((stat) => /impegno/i.test(stat.label) || stat.value === "100%")
-  ) {
-    chiSono.stats = base.chiSono.stats
+  if (needsMigration) {
+    chiSono.body1 = base.chiSono.body1
+    chiSono.body2 = base.chiSono.body2
+    chiSono.studios = base.chiSono.studios
+    chiSono.studiosEyebrow = base.chiSono.studiosEyebrow
   }
   if (needsMigration || (Array.isArray(chiSono.toolkit) && chiSono.toolkit.length > 8)) {
     chiSono.toolkit = base.chiSono.toolkit
@@ -234,6 +266,16 @@ export function hydrateSite(saved) {
       ...base.hero,
       ...saved.hero,
       portraitSrc: placeholderPortrait ? "" : savedPortrait,
+      ...(needsMigration
+        ? {
+            eyebrow: base.hero.eyebrow,
+            title: base.hero.title,
+            body: base.hero.body,
+            availability: base.hero.availability,
+          }
+        : {
+            availability: saved.hero?.availability ?? base.hero.availability,
+          }),
     },
     ticker: needsMigration
       ? base.ticker
@@ -251,13 +293,31 @@ export function hydrateSite(saved) {
           : saved.lavori.waitLabel,
       projects: replaceProjects
         ? base.lavori.projects
-        : savedProjects.map((project) => ({
-            href: "",
-            ...project,
-          })),
+        : savedProjects.map((project) => {
+            const fallback = base.lavori.projects.find((item) => item.id === project.id)
+            const gallery =
+              Array.isArray(project.gallery) && project.gallery.length > 0
+                ? project.gallery
+                : (fallback?.gallery ?? [])
+            return {
+              role: fallback?.role ?? "",
+              year: fallback?.year ?? "",
+              deliverable: fallback?.deliverable ?? "",
+              href: "",
+              ...project,
+              gallery,
+              frame: project.frame || fallback?.frame || "landscape",
+            }
+          }),
     },
     servizi,
-    cv: { ...base.cv, ...saved.cv },
+    cv: {
+      ...base.cv,
+      ...saved.cv,
+      ...(needsMigration
+        ? { title: base.cv.title, eyebrow: base.cv.eyebrow }
+        : {}),
+    },
     footer: needsMigration
       ? {
           ...base.footer,

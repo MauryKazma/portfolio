@@ -7,7 +7,7 @@ export default function ChiSono() {
     display,
     editing,
     setChiSono,
-    setStat,
+    setStudio,
     setToolkitTag,
     addToolkitTag,
     removeToolkitTag,
@@ -50,24 +50,42 @@ export default function ChiSono() {
             onChange={(value) => setChiSono("body2", value)}
             ariaLabel="Secondo paragrafo Chi sono"
           />
-          <div className="stat-row">
-            {chiSono.stats.map((stat, index) => (
-              <div className="stat-card" key={index}>
+          <div className="studio-list">
+            <EditableText
+              className="site-eyebrow"
+              value={chiSono.studiosEyebrow}
+              editing={editing}
+              onChange={(value) => setChiSono("studiosEyebrow", value)}
+              ariaLabel="Etichetta studi"
+            />
+            {(chiSono.studios ?? []).map((studio, index) => (
+              <article className="studio-card" key={`${studio.name}-${index}`}>
                 <EditableText
-                  className="stat-value"
-                  value={stat.value}
+                  as="h3"
+                  className="studio-name"
+                  value={studio.name}
                   editing={editing}
-                  onChange={(value) => setStat(index, "value", value)}
-                  ariaLabel={`Valore statistica ${index + 1}`}
+                  onChange={(value) => setStudio(index, "name", value)}
+                  ariaLabel={`Nome studio ${index + 1}`}
                 />
-                <EditableText
-                  className="site-body"
-                  value={stat.label}
-                  editing={editing}
-                  onChange={(value) => setStat(index, "label", value)}
-                  ariaLabel={`Etichetta statistica ${index + 1}`}
-                />
-              </div>
+                <p className="studio-meta">
+                  <EditableText
+                    as="span"
+                    value={studio.role}
+                    editing={editing}
+                    onChange={(value) => setStudio(index, "role", value)}
+                    ariaLabel={`Ruolo studio ${index + 1}`}
+                  />
+                  <span aria-hidden="true"> · </span>
+                  <EditableText
+                    as="span"
+                    value={studio.period}
+                    editing={editing}
+                    onChange={(value) => setStudio(index, "period", value)}
+                    ariaLabel={`Periodo studio ${index + 1}`}
+                  />
+                </p>
+              </article>
             ))}
           </div>
         </div>

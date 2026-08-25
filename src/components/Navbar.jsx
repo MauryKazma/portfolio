@@ -3,7 +3,8 @@ import { Menu, X } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
 import { useEditorAccess } from "../hooks/useEditorAccess"
-import { scrollToId } from "../utils/scroll"
+import { useRoute } from "../hooks/useRoute"
+import { goHome, goToSection } from "../utils/scroll"
 import { InlineEdit } from "./EditableText"
 
 export default function Navbar() {
@@ -20,6 +21,7 @@ export default function Navbar() {
     setLogo,
   } = useSite()
   const canEdit = useEditorAccess()
+  const route = useRoute()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("")
   const [scrolled, setScrolled] = useState(false)
@@ -37,12 +39,14 @@ export default function Navbar() {
       ticking = false
       setScrolled(window.scrollY > 12)
       const probe = Math.round(window.innerHeight * 0.4)
-      let current = ""
-      ids.forEach((id) => {
-        const el = document.getElementById(id)
-        if (!el) return
-        if (el.getBoundingClientRect().top <= probe) current = id
-      })
+      let current = route.name === "case" ? "lavori" : ""
+      if (route.name === "home") {
+        ids.forEach((id) => {
+          const el = document.getElementById(id)
+          if (!el) return
+          if (el.getBoundingClientRect().top <= probe) current = id
+        })
+      }
       setActive(current)
     }
 
@@ -55,7 +59,7 @@ export default function Navbar() {
     update()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
-  }, [links])
+  }, [links, route.name])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -102,7 +106,7 @@ export default function Navbar() {
     guarded(() => {
       setOpen(false)
       if (id === "curriculum") expand()
-      requestAnimationFrame(() => scrollToId(id))
+      requestAnimationFrame(() => goToSection(id))
     })
   }
 
@@ -112,7 +116,7 @@ export default function Navbar() {
         <button
           type="button"
           className="site-nav-brand"
-          onClick={() => guarded(() => window.scrollTo({ top: 0, behavior: "smooth" }))}
+          onClick={() => guarded(() => goHome())}
         >
           <InlineEdit
             value={display.logo}

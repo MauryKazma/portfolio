@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { useEditorAccess } from "../hooks/useEditorAccess"
 import { readImageFile } from "../utils/image"
-import { scrollToId } from "../utils/scroll"
+import { goToSection } from "../utils/scroll"
 import { useSite } from "../context/SiteContentProvider"
 import { EditableText, InlineEdit } from "./EditableText"
 import SiteSection from "./SiteSection"
@@ -11,12 +11,15 @@ function reduceMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
+function canThrowCard() {
+  return window.matchMedia("(min-width: 768px) and (pointer: fine)").matches
+}
+
 function HeroPortrait() {
   const { display, editing, setHero, persistPortrait } = useSite()
   const canEdit = useEditorAccess()
   const { hero } = display
   const portraitSrc = hero.portraitSrc?.trim()
-  const canDrag = Boolean(portraitSrc)
   const stageRef = useRef(null)
   const moverRef = useRef(null)
   const phys = useRef({
@@ -39,6 +42,7 @@ function HeroPortrait() {
   })
   const [dragging, setDragging] = useState(false)
   const [live, setLive] = useState(false)
+  const [throwable, setThrowable] = useState(canThrowCard)
 
   const paint = () => {
     const node = moverRef.current
@@ -121,8 +125,36 @@ function HeroPortrait() {
 
   useEffect(() => () => stopLoop(), [])
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px) and (pointer: fine)")
+    const sync = () => setThrowable(mq.matches)
+    sync()
+    mq.addEventListener("change", sync)
+    window.addEventListener("resize", sync)
+    return () => {
+      mq.removeEventListener("change", sync)
+      window.removeEventListener("resize", sync)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (throwable) return
+    const p = phys.current
+    p.grabbing = false
+    p.home = false
+    p.x = 0
+    p.y = 0
+    p.vx = 0
+    p.vy = 0
+    p.tilt = 0
+    setDragging(false)
+    stopLoop()
+    const node = moverRef.current
+    if (node) node.style.transform = ""
+  }, [throwable])
+
   const onPointerDown = (event) => {
-    if (!canDrag) return
+    if (!throwable) return
     if (event.button !== 0) return
     if (event.target.closest("input, textarea, button, label, a, [contenteditable='true']")) return
     event.currentTarget.setPointerCapture(event.pointerId)
@@ -198,25 +230,28 @@ function HeroPortrait() {
       <div ref={moverRef} className="hero-portrait-mover">
         <div className="hero-portrait-glow" aria-hidden="true" />
         <figure
-          className={`hero-portrait${dragging ? " is-dragging" : ""}`}
+          className={`hero-portrait${dragging ? " is-dragging" : ""}${throwable ? "" : " is-static"}`}
           aria-label={
-            canDrag
+            throwable
               ? "Ritratto. Trascina per spostare, doppio clic per riportarlo a posto."
-              : hero.portraitName || "Ritratto"
+              : "Ritratto."
           }
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-          onLostPointerCapture={endDrag}
-          onDoubleClick={() => {
-            if (!canDrag) return
-            const p = phys.current
-            p.grabbing = false
-            p.home = true
-            setDragging(false)
-            ensureLoop()
-          }}
+          onPointerDown={throwable ? onPointerDown : undefined}
+          onPointerMove={throwable ? onPointerMove : undefined}
+          onPointerUp={throwable ? endDrag : undefined}
+          onPointerCancel={throwable ? endDrag : undefined}
+          onLostPointerCapture={throwable ? endDrag : undefined}
+          onDoubleClick={
+            throwable
+              ? () => {
+                  const p = phys.current
+                  p.grabbing = false
+                  p.home = true
+                  setDragging(false)
+                  ensureLoop()
+                }
+              : undefined
+          }
         >
           <div className="hero-portrait-frame">
             {portraitSrc ? (
@@ -229,20 +264,6 @@ function HeroPortrait() {
                 decoding="async"
                 fetchPriority="high"
               />
-            ) : canEdit ? (
-              <label className="hero-portrait-add">
-                <input type="file" accept="image/*" onChange={onFile} />
-                <span className="hero-portrait-monogram" aria-hidden="true">
-                  {(hero.portraitName || "MP")
-                    .split(" ")
-                    .filter(Boolean)
-                    .map((word) => word[0])
-                    .join("")
-                    .slice(0, 2)
-                    .toUpperCase()}
-                </span>
-                <span>Inserisci foto</span>
-              </label>
             ) : (
               <div className="hero-portrait-add is-idle">
                 <span className="hero-portrait-monogram" aria-hidden="true">
@@ -265,10 +286,10 @@ function HeroPortrait() {
               onChange={(value) => setHero("portraitName", value)}
               ariaLabel="Nome nel ritratto"
             />
-            {canEdit && portraitSrc ? (
+            {canEdit ? (
               <label className="hero-portrait-change">
                 <input type="file" accept="image/*" onChange={onFile} />
-                Cambia foto
+                {portraitSrc ? "Cambia foto" : "Inserisci foto"}
               </label>
             ) : null}
             {editing ? (
@@ -290,6 +311,7 @@ function HeroPortrait() {
 export default function Hero() {
   const { display, editing, setHero } = useSite()
   const { hero } = display
+  const email = display.footer?.email?.trim()
 
   return (
     <SiteSection
@@ -325,10 +347,24 @@ export default function Hero() {
               onChange={(value) => setHero("body", value)}
               ariaLabel="Testo hero"
             />
+            {hero.availability || editing ? (
+              <EditableText
+                className="hero-availability"
+                value={hero.availability}
+                editing={editing}
+                onChange={(value) => setHero("availability", value)}
+                ariaLabel="Disponibilità"
+              />
+            ) : null}
+            {email ? (
+              <a className="hero-email" href={`mailto:${email}`}>
+                {email}
+              </a>
+            ) : null}
             <div className="hero-cta">
               <button
                 type="button"
-                onClick={() => scrollToId("lavori")}
+                onClick={() => goToSection("lavori")}
                 className="btn-primary"
               >
                 <InlineEdit

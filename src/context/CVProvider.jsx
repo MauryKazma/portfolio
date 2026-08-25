@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { CV_DEFAULT } from "../data/cvDefault"
 import { cvStorage } from "../data/cvStorage"
+import { isEditorSession } from "../utils/editorSession"
 import {
   byOrder,
   cloneCV,
@@ -21,7 +22,9 @@ function insertFirst(list, item) {
 }
 
 export function CVProvider({ children }) {
-  const [data, setData] = useState(() => cvStorage.load() ?? cloneCV(CV_DEFAULT))
+  const [data, setData] = useState(() =>
+    (isEditorSession() ? cvStorage.load() : null) ?? cloneCV(CV_DEFAULT)
+  )
   const [draft, setDraft] = useState(null)
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState("")
@@ -90,7 +93,7 @@ export function CVProvider({ children }) {
     }
     const saved = cloneCV(draft)
     setData(saved)
-    cvStorage.save(saved)
+    if (isEditorSession()) cvStorage.save(saved)
     setDraft(null)
     setStatus("saved")
     clearTimeout(savedMessageTimer.current)

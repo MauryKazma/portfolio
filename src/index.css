@@ -682,7 +682,7 @@ main > .site-section:first-child {
 }
 
 .hero-portrait-add.is-idle {
-  cursor: default;
+  cursor: inherit;
 }
 
 .hero-portrait-add.is-idle:hover,
@@ -743,6 +743,32 @@ main > .site-section:first-child {
 @media (max-width: 767px) {
   .hero-portrait-add {
     aspect-ratio: 4 / 3;
+  }
+
+  .hero-portrait,
+  .hero-portrait.is-static {
+    cursor: default;
+    touch-action: auto;
+    user-select: auto;
+  }
+
+  .hero-portrait-mover {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .hero-portrait,
+  .hero-portrait.is-static {
+    cursor: default;
+    touch-action: auto;
+    user-select: auto;
+  }
+
+  .hero-portrait-mover {
+    transform: none !important;
+    will-change: auto;
   }
 }
 

@@ -1,7 +1,7 @@
 import { Mail } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
-import { scrollToId } from "../utils/scroll"
+import { goToSection } from "../utils/scroll"
 import { EditableText, InlineEdit } from "./EditableText"
 import SiteSection from "./SiteSection"
 
@@ -24,7 +24,7 @@ export default function Footer() {
     guardSite(() =>
       guardCV(() => {
         if (id === "curriculum") expand()
-        requestAnimationFrame(() => scrollToId(id))
+        requestAnimationFrame(() => goToSection(id))
       })
     )
   }
@@ -68,7 +68,9 @@ export default function Footer() {
                 />
               </div>
             ) : (
-              <p className="contact-email">{footer.email}</p>
+              <a className="contact-email" href={`mailto:${footer.email}`}>
+                {footer.email}
+              </a>
             )}
             <div className="project-cta">
               <a href={`mailto:${footer.email}`} className="btn-primary">

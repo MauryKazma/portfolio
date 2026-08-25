@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { cloneSite, hydrateSite, SITE_CONTENT_REVISION } from "../data/siteDefault"
 import { siteStorage } from "../data/siteStorage"
+import { isEditorSession } from "../utils/editorSession"
 
 const SiteContext = createContext(null)
 
@@ -12,7 +13,9 @@ function uniqueTag(list, label) {
 }
 
 export function SiteContentProvider({ children }) {
-  const [data, setData] = useState(() => hydrateSite(siteStorage.load()))
+  const [data, setData] = useState(() =>
+    hydrateSite(isEditorSession() ? siteStorage.load() : null)
+  )
   const [draft, setDraft] = useState(null)
   const [status, setStatus] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -23,6 +26,7 @@ export function SiteContentProvider({ children }) {
   const dirty = editing && JSON.stringify(draft) !== JSON.stringify(data)
 
   useEffect(() => {
+    if (!isEditorSession()) return
     const loaded = siteStorage.load()
     if (!loaded || loaded.contentRevision === SITE_CONTENT_REVISION) return
     siteStorage.save(data)
@@ -67,7 +71,7 @@ export function SiteContentProvider({ children }) {
     if (!draft) return false
     const saved = cloneSite(draft)
     setData(saved)
-    siteStorage.save(saved)
+    if (isEditorSession()) siteStorage.save(saved)
     setDraft(null)
     setStatus("saved")
     clearTimeout(savedMessageTimer.current)
@@ -143,16 +147,17 @@ export function SiteContentProvider({ children }) {
         })
       },
       persistPortrait(value) {
-        setData((current) => {
-          const next = cloneSite(current)
-          next.hero.portraitSrc = value
-          siteStorage.save(next)
-          return next
-        })
         setDraft((current) => {
           if (!current) return current
           const next = cloneSite(current)
           next.hero.portraitSrc = value
+          return next
+        })
+        if (!isEditorSession()) return
+        setData((current) => {
+          const next = cloneSite(current)
+          next.hero.portraitSrc = value
+          siteStorage.save(next)
           return next
         })
       },
@@ -185,9 +190,9 @@ export function SiteContentProvider({ children }) {
           return next
         })
       },
-      setStat(index, field, value) {
+      setStudio(index, field, value) {
         patch((next) => {
-          next.chiSono.stats = next.chiSono.stats.map((item, i) =>
+          next.chiSono.studios = (next.chiSono.studios ?? []).map((item, i) =>
             i === index ? { ...item, [field]: value } : item
           )
           return next
@@ -251,6 +256,17 @@ export function SiteContentProvider({ children }) {
           next.lavori.projects = next.lavori.projects.map((item) => {
             if (item.id !== id) return item
             return { ...item, tags: item.tags.filter((_, i) => i !== index) }
+          })
+          return next
+        })
+      },
+      setProjectGalleryItem(id, index, field, value) {
+        patch((next) => {
+          next.lavori.projects = next.lavori.projects.map((item) => {
+            if (item.id !== id) return item
+            const gallery = Array.isArray(item.gallery) ? [...item.gallery] : []
+            gallery[index] = { src: "", caption: "", ...gallery[index], [field]: value }
+            return { ...item, gallery }
           })
           return next
         })

@@ -13,8 +13,8 @@ function ExperiencePeek({ item }) {
   return (
     <article className="cv-entry">
       <p className="cv-eyebrow">{formatPeriod(item.startDate, item.endDate, item.current)}</p>
-      <h3 className="cv-entry-title">{item.role}</h3>
-      <p className="cv-entry-meta">{[item.company, item.location].filter(Boolean).join(" · ")}</p>
+      <h3 className="cv-entry-title">{item.company || item.role}</h3>
+      <p className="cv-entry-meta">{item.role}</p>
     </article>
   )
 }
@@ -62,9 +62,15 @@ export default function Curriculum() {
             onChange={(value) => setCv("eyebrow", value)}
             ariaLabel="Etichetta curriculum"
           />
-          <h2 id="cv-title" className="site-headline">
-            {display.personalInfo.fullName || "Curriculum"}
-          </h2>
+          <EditableText
+            as="h2"
+            id="cv-title"
+            className="site-headline"
+            value={site.cv?.title ?? "Studi e agenzie."}
+            editing={siteEditing}
+            onChange={(value) => setCv("title", value)}
+            ariaLabel="Titolo curriculum"
+          />
           <div className="cv-toolbar">
             {editing ? (
               <>

@@ -2,23 +2,6 @@ import { Fragment, useState } from "react"
 import { X } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
 
-function TickerTrack({ items }) {
-  const loop = [...items, ...items]
-
-  return (
-    <div className="site-ticker-track">
-      {loop.map((label, index) => (
-        <Fragment key={`${label}-${index}`}>
-          <span className="site-ticker-item">{label}</span>
-          <span className="site-ticker-sep" aria-hidden="true">
-            —
-          </span>
-        </Fragment>
-      ))}
-    </div>
-  )
-}
-
 export default function SiteTicker() {
   const { display, editing, setTickerItem, addTickerItem, removeTickerItem } = useSite()
   const [draft, setDraft] = useState("")
@@ -34,7 +17,7 @@ export default function SiteTicker() {
     return (
       <div className="site-ticker is-editing">
         <div className="site-content">
-          <p className="site-ticker-edit-label">Testi in scorrimento</p>
+          <p className="site-ticker-edit-label">Mestieri</p>
           <ul className="site-ticker-edit-list">
             {items.map((item, index) => (
               <Fragment key={`edit-${index}`}>
@@ -47,7 +30,7 @@ export default function SiteTicker() {
                   <input
                     className="site-tag-input"
                     value={item}
-                    aria-label={`Voce ticker ${index + 1}`}
+                    aria-label={`Voce mestiere ${index + 1}`}
                     onChange={(event) => setTickerItem(index, event.target.value)}
                   />
                   <button
@@ -67,7 +50,7 @@ export default function SiteTicker() {
               className="site-tag-add-input"
               value={draft}
               placeholder="Nuova voce"
-              aria-label="Nuova voce del ticker"
+              aria-label="Nuova voce mestieri"
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
@@ -88,8 +71,14 @@ export default function SiteTicker() {
   if (!phrases.length) return null
 
   return (
-    <div className="site-ticker" aria-hidden="true">
-      <TickerTrack items={phrases} />
+    <div className="site-ticker">
+      <ul className="site-ticker-track">
+        {phrases.map((label, index) => (
+          <li key={`${label}-${index}`} className="site-ticker-item">
+            {label}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

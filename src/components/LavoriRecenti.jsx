@@ -1,13 +1,63 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { flushSync } from "react-dom"
-import { ArrowUpRight } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage, readImageFile } from "../utils/image"
+import { navigateTo } from "../utils/route"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 
-function isHttpHref(href) {
-  return typeof href === "string" && /^https?:\/\//i.test(href)
+export function projectShots(project) {
+  const cover = {
+    src: project.image ?? "",
+    caption: project.category || "Pezzo",
+  }
+  const extras = Array.isArray(project.gallery) ? project.gallery : []
+  return [cover, ...extras]
+}
+
+export function frameClass(frame) {
+  return frame === "portrait" ? " is-portrait" : ""
+}
+
+export function ProjectShot({ src, alt, caption, className = "", eager = false, frame = "landscape" }) {
+  const missing = !String(src ?? "").trim()
+  const placeholder = missing || isPlaceholderImage(src)
+  const [ratio, setRatio] = useState(null)
+
+  useEffect(() => {
+    setRatio(null)
+  }, [src])
+
+  return (
+    <div
+      className={`project-frame${placeholder ? " is-placeholder" : ""}${frameClass(frame)} ${className}`.trim()}
+      style={ratio ? { aspectRatio: ratio } : undefined}
+    >
+      {missing ? (
+        <div className="project-shot-empty">
+          <span className="project-shot-empty-title">{caption}</span>
+          <span className="project-shot-empty-meta">Foto in arrivo</span>
+        </div>
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          width={frame === "portrait" ? 600 : 800}
+          height={frame === "portrait" ? 800 : 600}
+          sizes="(min-width: 900px) 640px, 100vw"
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : "auto"}
+          decoding="async"
+          onLoad={(event) => {
+            if (placeholder) return
+            const { naturalWidth: width, naturalHeight: height } = event.currentTarget
+            if (width > 0 && height > 0) setRatio(`${width} / ${height}`)
+          }}
+        />
+      )}
+      {caption ? <span className="project-frame-chip">{caption}</span> : null}
+    </div>
+  )
 }
 
 export default function LavoriRecenti() {
@@ -19,19 +69,27 @@ export default function LavoriRecenti() {
     setProjectTag,
     addProjectTag,
     removeProjectTag,
+    setProjectGalleryItem,
   } = useSite()
   const projects = display.lavori.projects
   const [activeIdx, setActiveIdx] = useState(0)
+  const [shotIdx, setShotIdx] = useState(0)
   const safeIdx = projects.length === 0 ? 0 : Math.min(activeIdx, projects.length - 1)
   const active = projects[safeIdx]
-  const projectHref = active?.href?.trim()
-  const external = isHttpHref(projectHref)
-  const placeholder = isPlaceholderImage(active?.image)
-  const waitLabel = display.lavori.waitLabel ?? "Disponibile su richiesta"
+  const shots = active ? projectShots(active) : []
+  const safeShot = shots.length === 0 ? 0 : Math.min(shotIdx, shots.length - 1)
+  const currentShot = shots[safeShot]
+
+  useEffect(() => {
+    setShotIdx(0)
+  }, [active?.id])
 
   const selectProject = (index) => {
     if (index === safeIdx) return
-    const apply = () => setActiveIdx(index)
+    const apply = () => {
+      setActiveIdx(index)
+      setShotIdx(0)
+    }
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (!reduceMotion && typeof document.startViewTransition === "function") {
       document.startViewTransition(() => {
@@ -54,7 +112,7 @@ export default function LavoriRecenti() {
     }
   }
 
-  const onFile = async (event) => {
+  const onCoverFile = async (event) => {
     const file = event.target.files?.[0]
     event.target.value = ""
     if (!file || !active) return
@@ -65,7 +123,20 @@ export default function LavoriRecenti() {
     }
   }
 
-  if (!active) return null
+  const onGalleryFile = async (index, event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ""
+    if (!file || !active) return
+    try {
+      setProjectGalleryItem(active.id, index, "src", await readImageFile(file))
+    } catch {
+      /* ignore invalid files */
+    }
+  }
+
+  if (!active || !currentShot) return null
+
+  const extras = Array.isArray(active.gallery) ? active.gallery : []
 
   return (
     <SiteSection id="lavori" className="scroll-mt-24" tone="ink" aria-labelledby="lavori-title">
@@ -87,7 +158,7 @@ export default function LavoriRecenti() {
           ariaLabel="Titolo lavori"
         />
 
-        <div className="project-board">
+        <div className={`project-board${safeIdx === 0 ? " is-lead" : ""}`}>
           <ul className="project-list" onKeyDown={onListKeyDown}>
             {projects.map((project, index) => (
               <li key={project.id}>
@@ -108,10 +179,10 @@ export default function LavoriRecenti() {
                     <InlineEdit
                       as="span"
                       className="site-body"
-                      value={project.category}
+                      value={project.year || project.category}
                       editing={editing}
-                      onChange={(value) => setProject(project.id, "category", value)}
-                      ariaLabel={`Categoria progetto ${index + 1}`}
+                      onChange={(value) => setProject(project.id, "year", value)}
+                      ariaLabel={`Anno progetto ${index + 1}`}
                     />
                   </span>
                 </button>
@@ -120,30 +191,94 @@ export default function LavoriRecenti() {
           </ul>
 
           <article className="project-stage" id={`lavoro-${active.id}`} tabIndex={-1} aria-live="polite">
-            <div className={`project-frame${placeholder ? " is-placeholder" : ""}`}>
-              <img
-                key={active.id}
-                src={active.image}
-                alt={
-                  placeholder
-                    ? `Spazio riservato alla foto del progetto ${active.title}`
-                    : `Anteprima del progetto ${active.title}`
-                }
-                width={800}
-                height={600}
-                sizes="(min-width: 900px) 640px, 100vw"
-                loading={safeIdx === 0 ? "eager" : "lazy"}
-                fetchPriority={safeIdx === 0 ? "high" : "auto"}
-                decoding="async"
-              />
-              <span className="project-frame-chip">{active.category}</span>
-            </div>
+            <ProjectShot
+              key={`${active.id}-${safeShot}`}
+              src={currentShot.src}
+              caption={currentShot.caption}
+              frame={active.frame}
+              eager={safeIdx === 0 && safeShot === 0}
+              alt={
+                isPlaceholderImage(currentShot.src) || !currentShot.src
+                  ? `Spazio riservato alla foto: ${currentShot.caption}`
+                  : `${currentShot.caption} — ${active.title}`
+              }
+            />
+
+            {shots.length > 1 ? (
+              <ul className="project-gallery">
+                {shots.map((shot, index) => (
+                  <li key={`${active.id}-shot-${index}`}>
+                    <button
+                      type="button"
+                      className={`project-gallery-btn${frameClass(active.frame)}`}
+                      onClick={() => setShotIdx(index)}
+                      aria-current={index === safeShot ? true : undefined}
+                      aria-label={`Mostra ${shot.caption || `immagine ${index + 1}`}`}
+                    >
+                      {String(shot.src ?? "").trim() ? (
+                        <img src={shot.src} alt="" width={240} height={180} decoding="async" />
+                      ) : (
+                        <span className="project-gallery-empty">{shot.caption}</span>
+                      )}
+                    </button>
+                    {editing && index > 0 ? (
+                      <label className="hero-portrait-change project-gallery-add">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(event) => onGalleryFile(index - 1, event)}
+                        />
+                        {shot.src ? "Cambia" : "Inserisci"}
+                      </label>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
             {editing ? (
               <label className="hero-portrait-change">
-                <input type="file" accept="image/*" onChange={onFile} />
-                {placeholder ? "Inserisci foto del lavoro" : "Cambia foto"}
+                <input type="file" accept="image/*" onChange={onCoverFile} />
+                {isPlaceholderImage(active.image) ? "Inserisci foto principale" : "Cambia foto principale"}
               </label>
             ) : null}
+
+            <dl className="project-meta">
+              <div>
+                <dt>Ruolo</dt>
+                <dd>
+                  <InlineEdit
+                    value={active.role}
+                    editing={editing}
+                    onChange={(value) => setProject(active.id, "role", value)}
+                    ariaLabel="Ruolo nel progetto"
+                  />
+                </dd>
+              </div>
+              <div>
+                <dt>Anno</dt>
+                <dd>
+                  <InlineEdit
+                    value={active.year}
+                    editing={editing}
+                    onChange={(value) => setProject(active.id, "year", value)}
+                    ariaLabel="Anno del progetto"
+                  />
+                </dd>
+              </div>
+              <div>
+                <dt>Deliverable</dt>
+                <dd>
+                  <InlineEdit
+                    value={active.deliverable}
+                    editing={editing}
+                    onChange={(value) => setProject(active.id, "deliverable", value)}
+                    ariaLabel="Deliverable del progetto"
+                  />
+                </dd>
+              </div>
+            </dl>
+
             <p className="site-eyebrow">{`${String(safeIdx + 1).padStart(2, "0")} — ${String(projects.length).padStart(2, "0")}`}</p>
             <EditableText
               as="h3"
@@ -154,53 +289,66 @@ export default function LavoriRecenti() {
               ariaLabel="Titolo progetto selezionato"
             />
             <EditableText
-              className="site-body"
+              className="site-body project-case"
               value={active.description}
               editing={editing}
               multiline
               onChange={(value) => setProject(active.id, "description", value)}
-              ariaLabel="Descrizione progetto"
+              ariaLabel="Racconto del progetto"
             />
             <TagEditor
               tags={active.tags}
               editing={editing}
               listClassName="chip-list"
-              addLabel="Nuovo tag progetto"
+              addLabel="Nuovo deliverable"
               onRename={(index, value) => setProjectTag(active.id, index, value)}
               onAdd={(label) => addProjectTag(active.id, label)}
               onRemove={(index) => removeProjectTag(active.id, index)}
             />
             {editing ? (
-              <input
-                className="site-edit-field project-href"
-                value={active.href ?? ""}
-                aria-label="Link del progetto"
-                placeholder="https://…"
-                onChange={(event) => setProject(active.id, "href", event.target.value)}
-              />
-            ) : null}
-            {projectHref && external ? (
-              <div className="project-cta">
-                <a
-                  href={projectHref}
-                  className="btn-primary"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  <InlineEdit
-                    value={display.lavori.cta}
-                    editing={editing}
-                    onChange={(value) => setLavori("cta", value)}
-                    ariaLabel="Testo pulsante progetto"
+              <>
+                <input
+                  className="site-edit-field"
+                  value={active.category ?? ""}
+                  aria-label="Tipo di pezzo"
+                  placeholder="Tipo di pezzo (identità, editoria…)"
+                  onChange={(event) => setProject(active.id, "category", event.target.value)}
+                />
+                {extras.map((item, index) => (
+                  <input
+                    key={`cap-${index}`}
+                    className="site-edit-field"
+                    value={item.caption ?? ""}
+                    aria-label={`Didascalia foto ${index + 2}`}
+                    placeholder={`Didascalia foto ${index + 2}`}
+                    onChange={(event) =>
+                      setProjectGalleryItem(active.id, index, "caption", event.target.value)
+                    }
                   />
-                  <ArrowUpRight size={16} aria-hidden />
-                </a>
-              </div>
-            ) : editing ? (
-              <p className="site-body">Aggiungi un URL per mostrare il pulsante del progetto.</p>
-            ) : (
-              <p className="project-wait">{waitLabel}</p>
-            )}
+                ))}
+                <input
+                  className="site-edit-field project-href"
+                  value={active.href ?? ""}
+                  aria-label="Link del progetto"
+                  placeholder="https://…"
+                  onChange={(event) => setProject(active.id, "href", event.target.value)}
+                />
+              </>
+            ) : null}
+            <div className="project-cta">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => navigateTo(`/lavori/${active.id}`)}
+              >
+                <InlineEdit
+                  value={display.lavori.cta}
+                  editing={editing}
+                  onChange={(value) => setLavori("cta", value)}
+                  ariaLabel="Testo pulsante progetto"
+                />
+              </button>
+            </div>
           </article>
         </div>
       </div>
