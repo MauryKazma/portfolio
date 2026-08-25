@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 7
+export const SITE_CONTENT_REVISION = 8
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -67,6 +67,8 @@ export const SITE_DEFAULT = {
         role: "Grafico",
         year: "2023–oggi",
         deliverable: "Marchio, palette, applicazioni",
+        teaser:
+          "Un sistema che sta su carta, insegna e schermo senza rifare il marchio a ogni stagione.",
         description:
           "Il brief, quando arriva un’identità, è far stare un brand su più supporti senza rifare il marchio a ogni stagione. Carta, insegna, schermo: lo stesso sistema, non tre versioni. Il vincolo in agenzia è il tempo e i formati già in produzione — non un mondo parallelo da inventare. La mia parte è chiudere segno, palette e regole d’uso in poche decisioni, poi applicarle. L’esito che cerco è riconoscibilità senza rumore: i materiali si tengono tra loro e nessuno deve «aggiustare» il logo sul nuovo formato. Quando le foto del pezzo saranno qui, vedrai marchio, carta intestata, insegna e una pagina di linee guida — il sistema, non il segno isolato.",
         tags: ["Marchio", "Palette", "Applicazioni"],
@@ -86,6 +88,8 @@ export const SITE_DEFAULT = {
         role: "Grafico",
         year: "2022–oggi",
         deliverable: "Copertina, spread, dorso",
+        teaser:
+          "Un volume è un ritmo: gerarchia, bianco e una copertina che annuncia il dentro.",
         description:
           "Un volume non è una sequenza di pagine belle: è un ritmo che deve durare. Il brief è far leggere un contenuto lungo senza perdere il lettore a metà. Il vincolo è concreto — formato, carta, margini, dorso: la pagina ha un bordo vero, non uno schermo infinito. La mia parte è la gerarchia tipografica, la griglia e una copertina che annuncia il dentro invece di coprirlo. L’esito è un oggetto che si tiene in mano: aperture che respirano, bianco misurato, testo che corre. Qui arriveranno copertina, due o tre spread e il dorso nominato. Fino ad allora lo spazio resta pulito: niente mockup di libreria altrui.",
         tags: ["Copertina", "Spread", "Tipografia"],
@@ -105,6 +109,7 @@ export const SITE_DEFAULT = {
         role: "Grafico",
         year: "2018–oggi",
         deliverable: "Manifesto, stampa, affissione",
+        teaser: "Il pezzo deve funzionare a tre metri — manifesto, stampa, affissione.",
         description:
           "Il pezzo di comunicazione deve funzionare a tre metri, non in un mockup. Il brief è un messaggio da far arrivare in un passaggio — manifesto, punto vendita, campagna. Il vincolo è la stampa vera: luce, carta, affissione. Ho lavorato anche sul lato che va in strada, dove l’immagine o regge o sparisce. La mia parte è tradurre il messaggio in un’immagine chiara, allineata all’identità, senza effetto per l’effetto. L’esito è un pezzo riconoscibile da fermo, che non chiede di essere spiegato. Qui arriverà la foto del manifesto o del materiale in contesto — stampa reale, non stock.",
         tags: ["Manifesto", "Stampa", "Affissione"],
@@ -306,6 +311,7 @@ export function hydrateSite(saved) {
               href: "",
               ...project,
               gallery,
+              teaser: project.teaser || fallback?.teaser || "",
               frame: project.frame || fallback?.frame || "landscape",
             }
           }),

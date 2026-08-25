@@ -734,7 +734,7 @@ html[data-look="clean"] .site-ticker {
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 20px 0 8px;
+  padding: 28px 0 48px;
   overflow: visible;
   background: transparent;
   color: var(--spot-deep);
@@ -875,10 +875,6 @@ html[data-look="clean"] .project-stage {
     grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
   }
 
-  html[data-look="clean"] .project-board.is-lead {
-    grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.55fr);
-  }
-
   html[data-look="clean"] .project-stage {
     order: -1;
   }
@@ -886,6 +882,7 @@ html[data-look="clean"] .project-stage {
 
 html[data-look="clean"] .project-list {
   border-top: 0;
+  align-self: start;
 }
 
 html[data-look="clean"] .project-list button {
@@ -921,6 +918,10 @@ html[data-look="clean"] .project-frame.is-portrait {
   aspect-ratio: 3 / 4;
 }
 
+html[data-look="clean"] .project-frame.is-locked {
+  aspect-ratio: 4 / 3;
+}
+
 html[data-look="clean"] .project-gallery-btn.is-portrait {
   aspect-ratio: 3 / 4;
 }
@@ -952,6 +953,11 @@ html[data-look="clean"] .project-title {
 
 html[data-look="clean"] .project-case {
   max-width: 42em;
+}
+
+html[data-look="clean"] .project-teaser {
+  max-width: 42em;
+  min-height: 5.1em;
 }
 
 html[data-look="clean"] .project-meta {
@@ -1180,8 +1186,32 @@ html[data-look="clean"] .phase-list li {
   background: #fff;
   border-radius: 22px;
   box-shadow: var(--soft-shadow);
-  padding: 8px 10px 4px;
+  padding: 0;
   transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+}
+
+html[data-look="clean"] .phase-card {
+  height: 100%;
+  padding: 26px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+html[data-look="clean"] .phase-title {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  line-height: 1.15;
+}
+
+html[data-look="clean"] .phase-card .site-body {
+  margin: 10px 0 0;
+  padding: 0;
 }
 
 @media (hover: hover) {
@@ -1191,42 +1221,8 @@ html[data-look="clean"] .phase-list li {
   }
 }
 
-html[data-look="clean"] .phase-list button {
-  padding: 16px 14px;
-  color: var(--ink);
-  align-items: center;
-}
-
-html[data-look="clean"] .phase-list button:hover,
-html[data-look="clean"] .phase-list button[aria-expanded="true"],
-html[data-look="clean"] .site-section--spot .phase-list button:hover,
-html[data-look="clean"] .site-section--spot .phase-list button[aria-expanded="true"] {
-  color: var(--spot-deep);
-}
-
-html[data-look="clean"] .phase-icon {
-  border-color: color-mix(in srgb, var(--spot-deep) 18%, white);
-  color: var(--spot-deep);
-  border-radius: 999px;
-  width: 40px;
-  height: 40px;
-}
-
-html[data-look="clean"] .phase-list button[aria-expanded="true"] .phase-icon,
-html[data-look="clean"] .site-section--spot .phase-list button[aria-expanded="true"] .phase-icon {
-  background: var(--spot-deep);
-  border-color: var(--spot-deep);
-  color: #fff;
-}
-
-html[data-look="clean"] .phase-list .site-body {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
 html[data-look="clean"] .site-section--spot .phase-list,
-html[data-look="clean"] .site-section--spot .phase-list li,
-html[data-look="clean"] .site-section--spot .phase-icon {
+html[data-look="clean"] .site-section--spot .phase-list li {
   border-color: transparent;
   color: var(--ink);
 }

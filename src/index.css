@@ -949,7 +949,6 @@ main > .site-section:first-child {
   border-radius: var(--radius);
   background: var(--hairline);
   overflow: hidden;
-  view-transition-name: project-shot;
 }
 
 .article .site-eyebrow {
@@ -1008,12 +1007,6 @@ main > .site-section:first-child {
   to {
     opacity: 1;
   }
-}
-
-::view-transition-old(project-shot),
-::view-transition-new(project-shot) {
-  animation-duration: var(--t-ui);
-  animation-timing-function: var(--ease);
 }
 
 .phase-list {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { flushSync } from "react-dom"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage, readImageFile } from "../utils/image"
 import { navigateTo } from "../utils/route"
@@ -19,7 +18,15 @@ export function frameClass(frame) {
   return frame === "portrait" ? " is-portrait" : ""
 }
 
-export function ProjectShot({ src, alt, caption, className = "", eager = false, frame = "landscape" }) {
+export function ProjectShot({
+  src,
+  alt,
+  caption,
+  className = "",
+  eager = false,
+  frame = "landscape",
+  lockRatio = false,
+}) {
   const missing = !String(src ?? "").trim()
   const placeholder = missing || isPlaceholderImage(src)
   const [ratio, setRatio] = useState(null)
@@ -30,8 +37,10 @@ export function ProjectShot({ src, alt, caption, className = "", eager = false, 
 
   return (
     <div
-      className={`project-frame${placeholder ? " is-placeholder" : ""}${frameClass(frame)} ${className}`.trim()}
-      style={ratio ? { aspectRatio: ratio } : undefined}
+      className={`project-frame${placeholder ? " is-placeholder" : ""}${
+        lockRatio ? " is-locked" : frameClass(frame)
+      } ${className}`.trim()}
+      style={!lockRatio && ratio ? { aspectRatio: ratio } : undefined}
     >
       {missing ? (
         <div className="project-shot-empty">
@@ -42,14 +51,14 @@ export function ProjectShot({ src, alt, caption, className = "", eager = false, 
         <img
           src={src}
           alt={alt}
-          width={frame === "portrait" ? 600 : 800}
-          height={frame === "portrait" ? 800 : 600}
+          width={lockRatio || frame !== "portrait" ? 800 : 600}
+          height={lockRatio || frame !== "portrait" ? 600 : 800}
           sizes="(min-width: 900px) 640px, 100vw"
           loading={eager ? "eager" : "lazy"}
           fetchPriority={eager ? "high" : "auto"}
           decoding="async"
           onLoad={(event) => {
-            if (placeholder) return
+            if (placeholder || lockRatio) return
             const { naturalWidth: width, naturalHeight: height } = event.currentTarget
             if (width > 0 && height > 0) setRatio(`${width} / ${height}`)
           }}
@@ -86,18 +95,8 @@ export default function LavoriRecenti() {
 
   const selectProject = (index) => {
     if (index === safeIdx) return
-    const apply = () => {
-      setActiveIdx(index)
-      setShotIdx(0)
-    }
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (!reduceMotion && typeof document.startViewTransition === "function") {
-      document.startViewTransition(() => {
-        flushSync(apply)
-      })
-      return
-    }
-    apply()
+    setActiveIdx(index)
+    setShotIdx(0)
   }
 
   const onListKeyDown = (event) => {
@@ -137,6 +136,7 @@ export default function LavoriRecenti() {
   if (!active || !currentShot) return null
 
   const extras = Array.isArray(active.gallery) ? active.gallery : []
+  const teaser = active.teaser || active.description
 
   return (
     <SiteSection id="lavori" className="scroll-mt-24" tone="ink" aria-labelledby="lavori-title">
@@ -158,7 +158,7 @@ export default function LavoriRecenti() {
           ariaLabel="Titolo lavori"
         />
 
-        <div className={`project-board${safeIdx === 0 ? " is-lead" : ""}`}>
+        <div className="project-board">
           <ul className="project-list" onKeyDown={onListKeyDown}>
             {projects.map((project, index) => (
               <li key={project.id}>
@@ -192,10 +192,10 @@ export default function LavoriRecenti() {
 
           <article className="project-stage" id={`lavoro-${active.id}`} tabIndex={-1} aria-live="polite">
             <ProjectShot
-              key={`${active.id}-${safeShot}`}
               src={currentShot.src}
               caption={currentShot.caption}
-              frame={active.frame}
+              frame="landscape"
+              lockRatio
               eager={safeIdx === 0 && safeShot === 0}
               alt={
                 isPlaceholderImage(currentShot.src) || !currentShot.src
@@ -210,7 +210,7 @@ export default function LavoriRecenti() {
                   <li key={`${active.id}-shot-${index}`}>
                     <button
                       type="button"
-                      className={`project-gallery-btn${frameClass(active.frame)}`}
+                      className="project-gallery-btn"
                       onClick={() => setShotIdx(index)}
                       aria-current={index === safeShot ? true : undefined}
                       aria-label={`Mostra ${shot.caption || `immagine ${index + 1}`}`}
@@ -289,12 +289,12 @@ export default function LavoriRecenti() {
               ariaLabel="Titolo progetto selezionato"
             />
             <EditableText
-              className="site-body project-case"
-              value={active.description}
+              className="site-body project-teaser"
+              value={teaser}
               editing={editing}
               multiline
-              onChange={(value) => setProject(active.id, "description", value)}
-              ariaLabel="Racconto del progetto"
+              onChange={(value) => setProject(active.id, "teaser", value)}
+              ariaLabel="Teaser del progetto"
             />
             <TagEditor
               tags={active.tags}
@@ -307,6 +307,14 @@ export default function LavoriRecenti() {
             />
             {editing ? (
               <>
+                <EditableText
+                  className="site-body project-case"
+                  value={active.description}
+                  editing
+                  multiline
+                  onChange={(value) => setProject(active.id, "description", value)}
+                  ariaLabel="Racconto completo del progetto"
+                />
                 <input
                   className="site-edit-field"
                   value={active.category ?? ""}
