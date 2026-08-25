@@ -1,0 +1,13 @@
+---
+description: Design system — Full-bleed Grid with Dividers. Always apply on this project.
+alwaysApply: true
+---
+
+# Design system: Full-bleed Grid with Dividers
+
+This project's visual system is **Full-bleed Grid with Dividers** with the **Inchiostro vivo** palette in **lastre** (ink / paper / CUBOT navy). Before any UI change, read and follow:
+
+- `.cursor/skills/pattern-full-bleed-grid/SKILL.md`
+- `.cursor/skills/pattern-full-bleed-grid/PATTERN.md` (source of truth)
+
+Non-negotiable: 1200px content column, radius `0px`, one sharp CTA per section. Do not restore the 6-column viewport hairline overlay unless the user asks. Display type is **Instrument Serif** italic; body is Geist; meta is Geist Mono. Surfaces alternate: ink `#121212`, paper `#f7f4ee`, spot lastre `#1e3a8a`. Sky `#38bdf8` is a mark on dark surfaces only — never text on paper. Primary CTA is navy `#1e3a8a` on paper, sky `#38bdf8` on ink. Never mix the old dark/neon palette (`#00df8f`, Inter, Space Grotesk, rounded pills) or process yellow `#f0c400` unless the user explicitly asks to revert.

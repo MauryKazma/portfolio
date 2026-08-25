@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 480" role="img" aria-hidden="true">
+  <rect width="360" height="480" fill="#121212"/>
+  <g stroke="#f7f4ee" stroke-opacity="0.12" fill="none">
+    <line x1="0" y1="0" x2="0" y2="480"/>
+    <line x1="60" y1="0" x2="60" y2="480"/>
+    <line x1="120" y1="0" x2="120" y2="480"/>
+    <line x1="180" y1="0" x2="180" y2="480"/>
+    <line x1="240" y1="0" x2="240" y2="480"/>
+    <line x1="300" y1="0" x2="300" y2="480"/>
+    <line x1="360" y1="0" x2="360" y2="480"/>
+  </g>
+  <text x="24" y="268" font-family="Georgia, serif" font-size="72" font-style="italic" font-weight="400" letter-spacing="-3.2" fill="#f7f4ee">MP</text>
+  <line x1="24" y1="292" x2="140" y2="292" stroke="#38bdf8" stroke-width="8"/>
+</svg>
