@@ -1,7 +1,12 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "./index.css"
+import "./looks/clean.css"
+import "./looks/chrome.css"
+import { applyLook } from "./looks/applyLook"
 import App from "./App.jsx"
+
+applyLook()
 
 function absolutizeSeo() {
   const origin = window.location.origin

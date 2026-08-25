@@ -1,51 +1,54 @@
 ---
-name: pattern-full-bleed-grid
+name: pattern-pulita
 description: >-
-  Applies the Full-bleed Grid with Dividers design system: 1200px content
-  column, ink/paper/navy lastre, Instrument Serif display, Geist body,
-  Cubot blue CTAs. Use when building or editing UI for this project.
+  Applies the Pulita design system: white/wash surfaces, organic blue blobs,
+  Instrument Serif display, Geist body, pill navy CTAs. Use when building or
+  editing UI for this project.
 ---
 
-# Full-bleed Grid with Dividers — Inchiostro vivo (lastre)
+# Pulita — design system canonico
 
 **Read [PATTERN.md](PATTERN.md) before writing any UI code.**
 
-Do not revert to neon `#00df8f`, Inter, Space Grotesk, pills, process yellow `#f0c400`, or all-paper Geist-only UI unless the user asks.
+The live look is `html[data-look="clean"]` (`src/looks/clean.css`). Do not restyle the site as Inchiostro lastre unless the user asks to revert.
+
+Do not reintroduce neon `#00df8f`, Inter, Space Grotesk, or process yellow `#f0c400`.
 
 ## Layout
 
-- No viewport hairline overlay (removed at user request)
 - Content max-width `1200px`
-- Section padding `88px` / `120px`
-- Radius `0px`
+- No 6-column hairline overlay
+- Section padding `88px` / `120px` from `768px`
+- Nav height `76px`: brand left, links center, Contatti pill right
 - One primary CTA per section
 
-## Surfaces (`tone` on SiteSection)
-
-| Tone | Background | Text |
-|------|------------|------|
-| paper (default) | `#f7f4ee` | ink |
-| ink | `#121212` | paper / paper-muted |
-| spot | `#1e3a8a` (CUBOT `--brand-deep`) | paper |
-
-Hero + lavori + footer = `ink`. Servizi = `spot`. Chi sono + CV = paper.
-
-## Type
-
-- **Display:** Instrument Serif italic, `clamp(3.25rem, 11vw, 7.25rem)`, leading `0.88`
-- **Body:** Geist `0.9375rem` / 1.55
-- **Meta:** Geist Mono uppercase `0.16em`
-
-## Cubot blues (contrast)
+## Surfaces
 
 | Token | Hex | Use |
 |-------|-----|-----|
-| `--spot` | `#38bdf8` | Marks **on ink / navy only** (hero bar, ticker, eyebrow, chips, CTA on dark). Never as text on paper. |
-| `--spot-deep` | `#1e3a8a` | Paper-context fill (CTA, stats, toolkit hover) and the spot lastre. |
-| `--accent` | `#1d4ed8` | Action blue (optional). |
+| `--paper` | `#ffffff` | Default page |
+| `--wash` | `#f5f8fb` | Chi sono, Servizi, Contatti |
+| `--ink` | `#1b2430` | Text |
+| `--muted` | `#66707c` | Body |
 
-Paper CTA: navy + paper text. Ink/nav/spot CTA: sky + ink text.
+Hero + ticker + lavori + CV sit on white. Organic sky blobs are decoration only.
 
-## Constraints
+## Type
 
-No pills, no neon green, no purple mesh, no card shadows. Sky `#38bdf8` is never body copy on cream.
+- **Display:** Instrument Serif italic, `clamp(2.4rem, 6.4vw, 4.75rem)`, leading `0.96`
+- **Body:** Geist `1.0625rem` / 1.7
+- **Meta:** Geist Mono or Geist uppercase tracking `0.18em`–`0.22em`
+
+## Color + CTA
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| `--spot-deep` | `#1e3a8a` | CTA fill, active nav, stats, contact |
+| `--spot` | `#38bdf8` | Blobs, ticker, marks — **never body text on white** |
+| `--accent` | `#1d4ed8` | Optional action |
+
+CTA: pill `999px`, navy fill, white type, hover lift `-2px`. Cards: radius `16px`–`24px`, `--soft-shadow`.
+
+## Revert
+
+Inchiostro is archived (`src/looks/ink.css`, `?look=ink`). Do not evolve it. Future UI work goes in the Pulita overlay only.

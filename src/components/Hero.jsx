@@ -244,6 +244,15 @@ function HeroPortrait() {
             ) : (
               <label className="hero-portrait-add">
                 <input type="file" accept="image/*" onChange={onFile} />
+                <span className="hero-portrait-monogram" aria-hidden="true">
+                  {(hero.portraitName || "MP")
+                    .split(" ")
+                    .filter(Boolean)
+                    .map((word) => word[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
+                </span>
                 <span>Inserisci foto</span>
               </label>
             )}

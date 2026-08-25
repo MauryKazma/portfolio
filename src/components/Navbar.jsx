@@ -17,11 +17,15 @@ export default function Navbar() {
     save,
     guardNavigation: guardSite,
     setNavLabel,
+    setLogo,
   } = useSite()
   const canEdit = useEditorAccess()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("")
+  const [scrolled, setScrolled] = useState(false)
   const links = display.nav
+  const mainLinks = links.filter((link) => link.id !== "contatti")
+  const contactLink = links.find((link) => link.id === "contatti")
 
   useEffect(() => {
     const ids = links.map((link) => link.id)
@@ -29,6 +33,7 @@ export default function Navbar() {
 
     const update = () => {
       ticking = false
+      setScrolled(window.scrollY > 12)
       const probe = Math.round(window.innerHeight * 0.4)
       let current = ""
       ids.forEach((id) => {
@@ -70,10 +75,22 @@ export default function Navbar() {
   }
 
   return (
-    <header className="site-nav">
+    <header className={`site-nav${scrolled ? " is-scrolled" : ""}`}>
       <nav className="site-nav-inner" aria-label="Navigazione principale">
+        <button
+          type="button"
+          className="site-nav-brand"
+          onClick={() => guarded(() => window.scrollTo({ top: 0, behavior: "smooth" }))}
+        >
+          <InlineEdit
+            value={display.logo}
+            editing={editing}
+            onChange={setLogo}
+            ariaLabel="Nome in navigazione"
+          />
+        </button>
         <ul className="site-nav-links">
-          {links.map((link) => (
+          {mainLinks.map((link) => (
             <li key={link.id}>
               <button
                 type="button"
@@ -91,40 +108,57 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {canEdit ? (
-          <div className="site-nav-actions">
-            {editing ? (
-              <>
-                <button type="button" className="btn-secondary" onClick={requestCancel}>
-                  Annulla
+        <div className="site-nav-end">
+          {contactLink ? (
+            <button
+              type="button"
+              className="site-nav-contact"
+              onClick={() => go(contactLink.id)}
+              aria-current={active === contactLink.id ? "location" : undefined}
+            >
+              <InlineEdit
+                value={contactLink.label}
+                editing={editing}
+                onChange={(value) => setNavLabel(contactLink.id, value)}
+                ariaLabel={`Voce di menu ${contactLink.label}`}
+              />
+            </button>
+          ) : null}
+          {canEdit ? (
+            <div className="site-nav-actions">
+              {editing ? (
+                <>
+                  <button type="button" className="btn-secondary" onClick={requestCancel}>
+                    Annulla
+                  </button>
+                  <button type="button" className="btn-primary" onClick={save}>
+                    Salva
+                  </button>
+                </>
+              ) : (
+                <button type="button" className="btn-secondary" onClick={startEdit}>
+                  Modifica
                 </button>
-                <button type="button" className="btn-primary" onClick={save}>
-                  Salva
-                </button>
-              </>
-            ) : (
-              <button type="button" className="btn-secondary" onClick={startEdit}>
-                Modifica
-              </button>
-            )}
-            {status === "saved" ? (
-              <p className="site-nav-status" aria-live="polite">
-                Salvato.
-              </p>
-            ) : null}
-          </div>
-        ) : null}
+              )}
+              {status === "saved" ? (
+                <p className="site-nav-status" aria-live="polite">
+                  Salvato.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
 
-        <button
-          type="button"
-          className="site-nav-toggle"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          aria-label={open ? "Chiudi menu" : "Apri menu"}
-        >
-          {open ? <X size={16} aria-hidden /> : <Menu size={16} aria-hidden />}
-        </button>
+          <button
+            type="button"
+            className="site-nav-toggle"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            aria-label={open ? "Chiudi menu" : "Apri menu"}
+          >
+            {open ? <X size={16} aria-hidden /> : <Menu size={16} aria-hidden />}
+          </button>
+        </div>
       </nav>
 
       {open ? (

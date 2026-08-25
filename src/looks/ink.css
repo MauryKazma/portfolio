@@ -1,3 +1,6 @@
+/* Snapshot della versione Inchiostro vivo. Non modificare: è il ripristino.
+   Si attiva con il pulsante “Precedente” o ?look=ink */
+
 @import "tailwindcss";
 
 /* Inchiostro vivo — lastre: paper / ink / blu CUBOT. Radius 0, 6-col grid. */
@@ -355,68 +358,6 @@ main > .site-section:first-child {
   gap: 16px;
 }
 
-.site-nav-brand {
-  display: none;
-}
-
-.site-nav-end {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.site-nav-contact {
-  display: none;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--paper) 62%, transparent);
-  background: none;
-  border: 1px solid color-mix(in srgb, var(--paper) 35%, transparent);
-  padding: 6px 14px;
-}
-
-.project-frame-chip {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  z-index: 1;
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--paper);
-  background: color-mix(in srgb, var(--ink) 72%, transparent);
-}
-
-.hero-portrait-monogram {
-  display: block;
-  margin-bottom: 10px;
-  font-family: var(--font-display);
-  font-size: 3rem;
-  font-style: italic;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--paper-muted);
-}
-
-.contact-email {
-  margin: 20px 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
-  font-style: italic;
-  line-height: 1.2;
-}
-
-.contact-email a {
-  background-image: none !important;
-}
-
 .site-nav-links {
   display: none;
   align-items: center;
@@ -564,11 +505,6 @@ main > .site-section:first-child {
 
   .site-nav-toggle {
     display: none;
-  }
-
-  .site-nav-contact {
-    display: inline-flex;
-    align-items: center;
   }
 }
 
@@ -832,18 +768,8 @@ main > .site-section:first-child {
   margin-top: 24px;
 }
 
-.project-board {
-  display: grid;
-  gap: 48px;
-  margin-top: 24px;
-}
-
 @media (min-width: 900px) {
   .split-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .project-board {
     grid-template-columns: 1fr 1fr;
   }
 }

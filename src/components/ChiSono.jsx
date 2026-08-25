@@ -16,8 +16,8 @@ export default function ChiSono() {
 
   return (
     <SiteSection id="chi-sono" className="scroll-mt-24" aria-labelledby="chi-sono-title">
-      <div className="site-content split-grid">
-        <div>
+      <div className="site-content split-grid about-grid">
+        <div className="about-copy">
           <EditableText
             className="site-eyebrow"
             value={chiSono.eyebrow}
@@ -52,7 +52,7 @@ export default function ChiSono() {
           />
           <div className="stat-row">
             {chiSono.stats.map((stat, index) => (
-              <div key={index}>
+              <div className="stat-card" key={index}>
                 <EditableText
                   className="stat-value"
                   value={stat.value}
@@ -72,7 +72,7 @@ export default function ChiSono() {
           </div>
         </div>
 
-        <div>
+        <div className="toolkit-panel">
           <EditableText
             className="site-eyebrow"
             value={chiSono.toolkitEyebrow}

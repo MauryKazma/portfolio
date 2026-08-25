@@ -8,6 +8,8 @@ import Servizi from "./components/Servizi"
 import Curriculum from "./components/cv/Curriculum"
 import Footer from "./components/Footer"
 import InkTicker from "./components/InkTicker"
+import LookSwitch from "./components/LookSwitch"
+import BackToTop from "./components/BackToTop"
 import { ConfirmDialog } from "./components/cv/cvUi"
 
 function DialogHost() {
@@ -46,6 +48,8 @@ export default function App() {
             <Curriculum />
           </main>
           <Footer />
+          <LookSwitch />
+          <BackToTop />
           <DialogHost />
         </div>
       </SiteContentProvider>

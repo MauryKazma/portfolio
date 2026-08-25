@@ -2,6 +2,7 @@ import { useState } from "react"
 import { flushSync } from "react-dom"
 import { ArrowUpRight } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
+import { scrollToId } from "../utils/scroll"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 
@@ -73,7 +74,7 @@ export default function LavoriRecenti() {
           ariaLabel="Titolo lavori"
         />
 
-        <div className="split-grid">
+        <div className="project-board">
           <ul className="project-list" onKeyDown={onListKeyDown}>
             {projects.map((project, index) => (
               <li key={project.id}>
@@ -105,7 +106,7 @@ export default function LavoriRecenti() {
             ))}
           </ul>
 
-          <article id={`lavoro-${active.id}`} tabIndex={-1} aria-live="polite">
+          <article className="project-stage" id={`lavoro-${active.id}`} tabIndex={-1} aria-live="polite">
             <div className="project-frame">
               <img
                 key={active.id}
@@ -113,11 +114,12 @@ export default function LavoriRecenti() {
                 alt={`Anteprima del progetto ${active.title}`}
                 width={800}
                 height={500}
-                sizes="(min-width: 900px) 560px, 100vw"
+                sizes="(min-width: 900px) 640px, 100vw"
                 loading={safeIdx === 0 ? "eager" : "lazy"}
                 fetchPriority={safeIdx === 0 ? "high" : "auto"}
                 decoding="async"
               />
+              <span className="project-frame-chip">{active.category}</span>
             </div>
             <p className="site-eyebrow">{`${String(safeIdx + 1).padStart(2, "0")} — ${String(projects.length).padStart(2, "0")}`}</p>
             <EditableText
@@ -173,7 +175,14 @@ export default function LavoriRecenti() {
               </div>
             ) : editing ? (
               <p className="site-body">Aggiungi un URL per mostrare il pulsante del progetto.</p>
-            ) : null}
+            ) : (
+              <div className="project-cta">
+                <button type="button" className="btn-primary" onClick={() => scrollToId("contatti")}>
+                  {display.lavori.cta}
+                  <ArrowUpRight size={16} aria-hidden />
+                </button>
+              </div>
+            )}
           </article>
         </div>
       </div>

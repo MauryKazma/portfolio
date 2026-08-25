@@ -32,7 +32,7 @@ export default function Footer() {
     <SiteSection as="footer" id="contatti" className="scroll-mt-24" tone="ink">
       <div className="site-content">
         <div className="footer-grid">
-          <div>
+          <div className="contact-lead">
             <EditableText
               className="site-eyebrow"
               value={footer.eyebrow}
@@ -66,7 +66,11 @@ export default function Footer() {
                   onChange={(event) => setFooter("email", event.target.value)}
                 />
               </div>
-            ) : null}
+            ) : (
+              <p className="contact-email">
+                <a href={`mailto:${footer.email}`}>{footer.email}</a>
+              </p>
+            )}
             <div className="project-cta">
               <a href={`mailto:${footer.email}`} className="btn-primary">
                 <Mail size={16} aria-hidden />
@@ -80,7 +84,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="split-grid">
+          <div className="contact-directories split-grid">
             <div>
               <EditableText
                 className="site-eyebrow"

@@ -7,7 +7,7 @@ import SiteSection from "./SiteSection"
 export default function Servizi() {
   const { display, editing, setServizi, setPhase } = useSite()
   const phases = display.servizi.phases
-  const [openId, setOpenId] = useState(phases[0]?.id ?? null)
+  const [openId, setOpenId] = useState(null)
 
   const toggle = (id) => {
     setOpenId((current) => (current === id ? null : id))
@@ -15,7 +15,7 @@ export default function Servizi() {
 
   return (
     <SiteSection id="servizi" className="scroll-mt-24" tone="spot" aria-labelledby="servizi-title">
-      <div className="site-content">
+      <div className="site-content service-board">
         <EditableText
           className="site-eyebrow"
           value={display.servizi.eyebrow}

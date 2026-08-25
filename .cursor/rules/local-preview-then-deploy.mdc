@@ -1,0 +1,36 @@
+---
+description: Modifiche solo in locale, anteprima in Cursor, poi chiedi se uppare su GitHub e Railway.
+alwaysApply: true
+---
+
+# Locale, anteprima, poi deploy
+
+Questa regola è fissa per **questo progetto**. Non vale per altri workspace.
+
+## 1. Modifiche solo in locale
+
+Quando l’utente chiede modifiche, lavora **solo** sui file di questa cartella. Non fare `git push`, non aprire PRs, non cambiare GitHub o Railway, non usare `railway up` / variabili / domini, finché non lo chiede esplicitamente.
+
+## 2. Mostrare il sito dentro Cursor
+
+Dopo ogni modifica visibile (UI, CSS, contenuto, routing):
+
+1. Avvia o riusa Vite locale (`npm run dev`) se non è già in ascolto.
+2. Apri l’URL locale **dentro Cursor** con `open_resource` (`http://localhost:5173` o la porta effettiva).
+3. Verifica il flusso nel browser di Cursor (click, scroll, viewport se il layout è cambiato). Non limitarti a descrivere le modifiche.
+
+## 3. Dopo le modifiche, chiedi sempre
+
+A lavoro locale finito, chiedi **sempre** (anche se il cambio è piccolo):
+
+> Vuoi uppare su GitHub e Railway ciò che è stato fatto?
+
+Non pushare finché la risposta non è sì.
+
+## 4. Quando dice di uppare, esegui
+
+Frasi come «uppa», «uppa su GitHub e Railway», «sì uppa», «pubblica» = **esegui tu**, senza un’altra guida a click:
+
+1. `git add` dei file pertinenti, commit (messaggio sul perché), `git push -u origin main` sul repo `https://github.com/MauryKazma/portfolio`.
+2. Non toccare `git config`. Non aggiungere uno script `start`. Railway (progetto `fabulous-unity`, servizio `portfolio`) ridistribuisce da GitHub; controlla che il deploy finisca e comunica l’URL `https://portfolio-production-cb03.up.railway.app`.
+3. Se il push o il deploy fallisce, sistema e ritenta; non lasciare l’utente a farlo a mano se puoi farlo tu.

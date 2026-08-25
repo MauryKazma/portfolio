@@ -10,7 +10,23 @@
       content="Maurizio Pecutari — Graphic Designer. Identità visiva, editoria e comunicazione grafica."
     />
     <meta name="author" content="Maurizio Pecutari" />
-    <meta name="theme-color" content="#121212" />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      (function () {
+        var q = new URLSearchParams(location.search).get("look");
+        var look = q === "ink" || q === "clean" ? q : null;
+        if (!look) {
+          try { look = localStorage.getItem("site-look"); } catch (e) {}
+        }
+        if (look !== "ink" && look !== "clean") look = "clean";
+        document.documentElement.setAttribute("data-look", look);
+        if (q === "ink" || q === "clean") {
+          try { localStorage.setItem("site-look", q); } catch (e) {}
+        }
+        var theme = document.querySelector('meta[name="theme-color"]');
+        if (theme) theme.setAttribute("content", look === "ink" ? "#121212" : "#ffffff");
+      })();
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="it_IT" />
     <meta property="og:title" content="Maurizio Pecutari — Graphic Designer" />

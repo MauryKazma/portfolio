@@ -1,0 +1,80 @@
+/* Controlli di versione visiva: visibili in entrambe le look. */
+
+.look-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 80;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2eaf2;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(18, 18, 18, 0.06);
+  opacity: 0.72;
+  transition: opacity 180ms ease;
+}
+
+.look-switch:hover,
+.look-switch:focus-within {
+  opacity: 1;
+}
+
+.look-switch button {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  padding: 7px 12px;
+  background: transparent;
+  color: #5c5752;
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.look-switch button[aria-pressed="true"] {
+  background: #1e3a8a;
+  color: #fff;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: #1e3a8a;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(30, 58, 138, 0.28);
+}
+
+html[data-look="ink"] .back-to-top {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .look-switch {
+    left: 8px;
+    bottom: 8px;
+  }
+
+  .look-switch button {
+    padding: 6px 9px;
+    font-size: 0.5625rem;
+  }
+
+  .back-to-top {
+    right: 12px;
+    bottom: 58px;
+  }
+}
