@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 9
+export const SITE_CONTENT_REVISION = 14
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -14,8 +14,8 @@ export const SITE_DEFAULT = {
   ],
   hero: {
     eyebrow: "Graphic designer",
-    title: "Identità e editoria.",
-    body: "Progetto sistemi visivi, volumi e comunicazione grafica per chi deve farsi riconoscere su carta, schermo e spazio. Dal 2023 sono grafico in Mandarino Agency.",
+    title: "GDO, brand, digitale.",
+    body: "Grafico editoriale per la grande distribuzione. Faccio volantini, POP, cartellonistica e video, anche per lo Stadio Olimpico. In GDO seguo la lavorazione per intero: analisi delle liste prodotti, etichette con processi di automazione, composizione delle pagine del volantino, poi POP, cartellonistica e video. Identità visive e tool digitali con Cursor e Antigravity. Dal 2023 sono in Mandarino Agency.",
     cta: "Guarda i miei lavori",
     availability: "Disponibile per nuovi incarichi.",
     portraitName: "Maurizio Pecutari",
@@ -23,175 +23,416 @@ export const SITE_DEFAULT = {
   },
   ticker: {
     items: [
-      "Identità visiva",
-      "Editoria",
-      "Comunicazione",
-      "Brand",
-      "Impaginazione",
-      "Art direction",
+      "Editoria GDO",
+      "Volantini",
+      "POP",
+      "Brand identity",
+      "Video stadio",
+      "Vibe coding",
+      "Cursor",
+      "CUBOT",
     ],
   },
   skills: {
     eyebrow: "Skill",
     title: "Strumenti e mestiere.",
-    body: "La suite con cui chiudo identità, volumi e pezzi di comunicazione — e le competenze che tengono il lavoro insieme.",
+    body: "InDesign e Adobe per i volantini e le identità. Premiere per i video in negozio e allo stadio. Cursor e Antigravity per il vibe coding. Se esce uno strumento nuovo, lo provo e lo porto nel lavoro.",
     toolsEyebrow: "Software",
     tools: [
-      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 88 },
-      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 94 },
-      { id: "tool-id", mark: "Id", name: "InDesign", level: 92 },
-      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 62 },
-      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 58 },
+      { id: "tool-id", mark: "Id", name: "InDesign", level: 94 },
+      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 92 },
+      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 90 },
+      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 80 },
+      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 78 },
+      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 74 },
       { id: "tool-fg", mark: "Fg", name: "Figma", level: 70 },
-      { id: "tool-lr", mark: "Lr", name: "Lightroom", level: 74 },
-      { id: "tool-ac", mark: "Ac", name: "Acrobat", level: 80 },
+      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 68 },
     ],
     supportsEyebrow: "Supporti",
     supports: [
-      { id: "support-carta", name: "Carta", level: 92 },
-      { id: "support-schermo", name: "Schermo", level: 78 },
-      { id: "support-spazio", name: "Spazio", level: 72 },
+      { id: "support-carta", name: "Carta", level: 94 },
+      { id: "support-schermo", name: "Schermo", level: 82 },
+      { id: "support-spazio", name: "Spazio / OOH", level: 80 },
     ],
     craftsEyebrow: "Mestiere",
     crafts: [
-      { id: "craft-identita", name: "Identità visiva", level: 90 },
-      { id: "craft-editoria", name: "Editoria", level: 88 },
-      { id: "craft-impaginazione", name: "Impaginazione", level: 86 },
+      { id: "craft-gdo", name: "Editoria GDO", level: 92 },
+      { id: "craft-impaginazione", name: "Impaginazione", level: 90 },
+      { id: "craft-identita", name: "Identità visiva", level: 88 },
       { id: "craft-tipografia", name: "Tipografia", level: 84 },
       { id: "craft-comunicazione", name: "Comunicazione", level: 82 },
-      { id: "craft-brand", name: "Brand", level: 80 },
-      { id: "craft-art", name: "Art direction", level: 76 },
-      { id: "craft-stampa", name: "Pre-stampa", level: 70 },
+      { id: "craft-video", name: "Video", level: 80 },
+      { id: "craft-stampa", name: "Pre-stampa", level: 78 },
+      { id: "craft-vibe", name: "Vibe coding", level: 76 },
     ],
   },
   chiSono: {
     eyebrow: "Chi sono",
-    title: "Progettare con uno scopo.",
+    title: "Dalle liste al punto vendita.",
     body1:
-      "Sono un graphic designer con formazione professionale. Unisco identità visiva, editoria e progettazione grafica per costruire comunicazioni che restano chiare anche quando il problema è complesso. Ogni decisione parte dal messaggio da far arrivare, non dall’effetto per l’effetto.",
+      "Sono un graphic designer, formato come grafico pubblicitario. In Mandarino Agency lavoro su Risparmio Casa. Prima, in Stratego, ho seguito Portobello. In GDO seguo la lavorazione per intero: parto dalle liste prodotti, creo le etichette con processi di automazione, compongo le pagine del volantino e chiudo con POP, cartellonistica e video. Se il flusso è lento o pieno di giri, lo smonto e lo ottimizo.",
     body2:
-      "Dal 2022 al 2023 ho lavorato come grafico in Stratego. Dal 2023 sono grafico in Mandarino Agency. Definisco sistemi visivi coerenti, impaginazioni misurate e materiali che rendono il brand riconoscibile. Design e tecnica viaggiano insieme: pezzi utili, distintivi e duraturi.",
+      "Faccio anche identità visive: Tracina Beach, Landaway, Industrialtech, Kitaku. E tool interni. CUBOT è il gestionale del flusso volantini, costruito in vibe coding con Antigravity e Cursor.",
     studiosEyebrow: "Studi",
     studios: [
-      { name: "Mandarino Agency", role: "Grafico", period: "2023–oggi" },
-      { name: "Stratego", role: "Grafico", period: "2022–2023" },
+      { name: "Mandarino Agency", role: "Grafico editoriale", period: "2023–oggi" },
+      { name: "Stratego", role: "Grafico editoriale", period: "2022–2023" },
     ],
     toolkitEyebrow: "Il mio mestiere",
     toolkit: [
-      "Identità visiva",
-      "Editoria",
-      "Comunicazione",
-      "Logo",
-      "Impaginazione",
-      "Art direction",
-      "Illustrator",
+      "Liste prodotti",
+      "Automazione",
+      "Volantini",
+      "POP",
+      "Video",
+      "Brand",
+      "Cursor",
       "InDesign",
     ],
   },
   lavori: {
     eyebrow: "Portfolio",
-    title: "Lavori",
+    title: "Lavori.",
+    body: "Volantini, POP, cartellonistica, video, identità e CUBOT. In GDO seguo la lavorazione per intero: liste prodotti, etichette in automazione, pagine del volantino, poi i pezzi in store e fuori.",
     cta: "Apri il case",
     waitLabel: "Disponibile su richiesta",
+    filters: [
+      { id: "all", label: "Tutti" },
+      { id: "gdo", label: "GDO" },
+      { id: "video", label: "Video" },
+      { id: "brand", label: "Brand" },
+      { id: "digital", label: "Digitale" },
+    ],
     projects: [
       {
-        id: "identita",
-        title: "Un sistema che tiene",
-        category: "Identità visiva",
-        role: "Grafico",
+        id: "rc-volantino",
+        group: "gdo",
+        client: "Risparmio Casa",
+        title: "Volantino rete",
+        category: "Volantino",
+        role: "Grafico editoriale, Mandarino Agency",
         year: "2023–oggi",
-        deliverable: "Marchio, palette, applicazioni",
+        deliverable: "Foliazioni web e stampa",
         teaser:
-          "Un sistema che sta su carta, insegna e schermo senza rifare il marchio a ogni stagione.",
+          "Pagine di rete, prezzi e prodotti. Prima delle pagine ci sono le liste e le etichette in automazione.",
         description:
-          "Il brief, quando arriva un’identità, è far stare un brand su più supporti senza rifare il marchio a ogni stagione. Carta, insegna, schermo: lo stesso sistema, non tre versioni. Il vincolo in agenzia è il tempo e i formati già in produzione — non un mondo parallelo da inventare. La mia parte è chiudere segno, palette e regole d’uso in poche decisioni, poi applicarle. L’esito che cerco è riconoscibilità senza rumore: i materiali si tengono tra loro e nessuno deve «aggiustare» il logo sul nuovo formato. Quando le foto del pezzo saranno qui, vedrai marchio, carta intestata, insegna e una pagina di linee guida — il sistema, non il segno isolato.",
-        tags: ["Marchio", "Palette", "Applicazioni"],
+          "In Mandarino chiudo i volantini di Risparmio Casa. Parto dalle liste prodotti: le analizzo, genero le etichette con processi di automazione, poi compongo le pagine (anche 24 facciate) e le versioni di rete. Offertissime, Prezzo bomba, Fidelity Card. Da qui ripartono POP, cartelloni e video.",
+        tags: ["Liste", "Automazione", "InDesign"],
         href: "",
-        image: "/work-identita.svg",
-        frame: "landscape",
-        gallery: [
-          { src: "", caption: "Carta intestata" },
-          { src: "", caption: "Insegna" },
-          { src: "", caption: "Linee guida" },
-        ],
+        image: "/works/rc-volantino.jpg",
+        frame: "portrait",
+        gallery: [],
       },
       {
-        id: "editoria",
-        title: "Pagine che si tengono",
-        category: "Editoria",
-        role: "Grafico",
-        year: "2022–oggi",
-        deliverable: "Copertina, spread, dorso",
+        id: "rc-pop",
+        group: "gdo",
+        client: "Risparmio Casa",
+        title: "POP in corsia",
+        category: "POP",
+        role: "Grafico editoriale, Mandarino Agency",
+        year: "2023–oggi",
+        deliverable: "Locandine 70×100, stopper, A4",
         teaser:
-          "Un volume è un ritmo: gerarchia, bianco e una copertina che annuncia il dentro.",
+          "Locandine e stopper a scaffale, dopo che il volantino è chiuso.",
         description:
-          "Un volume non è una sequenza di pagine belle: è un ritmo che deve durare. Il brief è far leggere un contenuto lungo senza perdere il lettore a metà. Il vincolo è concreto — formato, carta, margini, dorso: la pagina ha un bordo vero, non uno schermo infinito. La mia parte è la gerarchia tipografica, la griglia e una copertina che annuncia il dentro invece di coprirlo. L’esito è un oggetto che si tiene in mano: aperture che respirano, bianco misurato, testo che corre. Qui arriveranno copertina, due o tre spread e il dorso nominato. Fino ad allora lo spazio resta pulito: niente mockup di libreria altrui.",
-        tags: ["Copertina", "Spread", "Tipografia"],
+          "Il POP arriva quando le pagine del volantino sono ferme. Stesso prodotto, stesso prezzo, formato da corsia: locandina 70×100, stopper, A4. Tre versioni (Rete, PRZ+BSS, ANC+BSS). Stesso giro della lavorazione GDO, portato in corsia.",
+        tags: ["Locandina", "Stopper", "A4"],
         href: "",
-        image: "/work-editoria.svg",
-        frame: "landscape",
-        gallery: [
-          { src: "", caption: "Spread" },
-          { src: "", caption: "Dorso" },
-          { src: "", caption: "Carta e formato" },
-        ],
-      },
-      {
-        id: "comunicazione",
-        title: "Il pezzo a tre metri",
-        category: "Comunicazione",
-        role: "Grafico",
-        year: "2018–oggi",
-        deliverable: "Manifesto, stampa, affissione",
-        teaser: "Il pezzo deve funzionare a tre metri — manifesto, stampa, affissione.",
-        description:
-          "Il pezzo di comunicazione deve funzionare a tre metri, non in un mockup. Il brief è un messaggio da far arrivare in un passaggio — manifesto, punto vendita, campagna. Il vincolo è la stampa vera: luce, carta, affissione. Ho lavorato anche sul lato che va in strada, dove l’immagine o regge o sparisce. La mia parte è tradurre il messaggio in un’immagine chiara, allineata all’identità, senza effetto per l’effetto. L’esito è un pezzo riconoscibile da fermo, che non chiede di essere spiegato. Qui arriverà la foto del manifesto o del materiale in contesto — stampa reale, non stock.",
-        tags: ["Manifesto", "Stampa", "Affissione"],
-        href: "",
-        image: "/work-comunicazione.svg",
+        image: "/works/rc-locandina.jpg",
         frame: "portrait",
         gallery: [
-          { src: "", caption: "Punto vendita" },
-          { src: "", caption: "Stampa" },
-          { src: "", caption: "Affissione" },
+          { src: "/works/rc-stopper.jpg", caption: "Stopper a scaffale" },
         ],
+      },
+      {
+        id: "rc-cartellonistica",
+        group: "gdo",
+        client: "Risparmio Casa",
+        title: "Cartellonistica",
+        category: "OOH",
+        role: "Grafico editoriale, Mandarino Agency",
+        year: "2023–oggi",
+        deliverable: "4×3, 75×150, Coupon Days",
+        teaser:
+          "Affissione di rete e Coupon Days a Pescara. Si legge dal marciapiede.",
+        description:
+          "Cartelloni 4×3, 6×3, 75×150, striscione e Coupon Days (Pescara, via Socrate). Stessa campagna del volantino, portata fuori dal negozio. Arriva in coda alla lavorazione, quando liste e pagine sono già chiuse.",
+        tags: ["4×3", "75×150", "Coupon Days"],
+        href: "",
+        image: "/works/rc-ooh-4x3.jpg",
+        frame: "landscape",
+        gallery: [
+          { src: "/works/rc-coupon.jpg", caption: "Coupon Days, Pescara" },
+          { src: "/works/rc-poster-75.jpg", caption: "Affissione 75×150" },
+        ],
+      },
+      {
+        id: "pb-volantino",
+        group: "gdo",
+        client: "Portobello",
+        title: "Volantino web",
+        category: "Volantino",
+        role: "Grafico editoriale, Stratego",
+        year: "2022–2023",
+        deliverable: "Foliazioni web",
+        teaser:
+          "Foliazioni da maggio 2022 in poi. Mamma che offerte, sottoprezzo, calendario promozionale.",
+        description:
+          "In Stratego ho chiuso i volantini web di Portobello. Stesso mestiere: liste prodotti, etichette, pagine, poi il resto della campagna. Teal del brand, prezzo in evidenza, date di validità in chiaro.",
+        tags: ["Foliazione", "Prezzo", "InDesign"],
+        href: "",
+        image: "/works/pb-volantino.jpg",
+        frame: "portrait",
+        gallery: [],
+      },
+      {
+        id: "pb-newsletter",
+        group: "gdo",
+        client: "Portobello",
+        title: "Newsletter",
+        category: "Newsletter",
+        role: "Grafico editoriale, Stratego",
+        year: "2022",
+        deliverable: "Tre uscite di maggio",
+        teaser:
+          "Brief, bozze, correzioni. Il volantino in mail, con CTA per il negozio.",
+        description:
+          "Tre newsletter di maggio 2022: copertina, volantino sfogliabile, pulsante «trova il negozio». Brief, giri di bozze e correzioni. Stesso giro del volantino, in mail.",
+        tags: ["Mail", "Bozze", "CTA"],
+        href: "",
+        image: "/works/pb-nl-page.jpg",
+        frame: "landscape",
+        gallery: [
+          { src: "/works/pb-nl-cover.jpg", caption: "Copertina" },
+          { src: "/works/pb-nl-intro.jpg", caption: "Apertura" },
+          { src: "/works/pb-nl-cta.jpg", caption: "CTA negozio" },
+        ],
+      },
+      {
+        id: "pb-pop",
+        group: "gdo",
+        client: "Portobello",
+        title: "POP prodotto",
+        category: "POP",
+        role: "Grafico editoriale, Stratego",
+        year: "2022",
+        deliverable: "Materiale in store",
+        teaser:
+          "Panasonic 50” e United 32”. Prodotto, prezzo, max 1 pz.",
+        description:
+          "POP in store per le offerte del volantino. Stesso teal, stesso periodo, formato da corsia. Liste e pagine prima, poi il pezzo che sta accanto al prodotto.",
+        tags: ["Store", "Prezzo", "Prodotto"],
+        href: "",
+        image: "/works/pb-pop-50.jpg",
+        frame: "portrait",
+        gallery: [
+          { src: "/works/pb-pop-32.jpg", caption: "United 32”" },
+        ],
+      },
+      {
+        id: "stadio-olimpico",
+        group: "video",
+        client: "Risparmio Casa",
+        title: "Stadio Olimpico",
+        category: "Video",
+        role: "Video, Mandarino Agency",
+        year: "2025–2026",
+        deliverable: "Maxischermo e girocampo LED",
+        teaser:
+          "Maxischermo 1095×645 e strisce LED di girocampo. L’offerta si legge in un passaggio.",
+        description:
+          "Video per lo Stadio Olimpico: maxischermo HD (app, Pasqua, promo di rete) e girocampo LED, da 1152×96 fino a 5760×96. È l’ultimo tratto della lavorazione GDO, lo stesso messaggio del volantino portato sul campo. Montaggio in Premiere, testo grosso, pochi secondi.",
+        tags: ["Maxischermo", "Girocampo", "Premiere"],
+        href: "",
+        image: "/works/stadio-app.jpg",
+        frame: "landscape",
+        gallery: [
+          { src: "/works/stadio-promo.jpg", caption: "Aria di Pasqua" },
+          { src: "/works/stadio-girocampo.jpg", caption: "Girocampo LED" },
+        ],
+      },
+      {
+        id: "pb-video",
+        group: "video",
+        client: "Portobello",
+        title: "Video in store",
+        category: "Video",
+        role: "Video, Stratego",
+        year: "2022",
+        deliverable: "Totem e stories",
+        teaser:
+          "Tre formati: 528×880, 1000×1500, 1080×1920. Versioni per Udine e San Benedetto.",
+        description:
+          "Video del volantino per totem e stories. Stesso layout, adattato al verticale. Tre tagli e versioni di rete. In GDO il video arriva dopo le pagine.",
+        tags: ["Totem", "Stories", "Premiere"],
+        href: "",
+        image: "/works/pb-video-cover.jpg",
+        frame: "portrait",
+        gallery: [
+          { src: "/works/pb-video-stories.jpg", caption: "1080×1920 rete" },
+        ],
+      },
+      {
+        id: "rc-video",
+        group: "video",
+        client: "Risparmio Casa",
+        title: "Video prodotti",
+        category: "Video",
+        role: "Video, Mandarino Agency",
+        year: "2023–oggi",
+        deliverable: "Video di rete",
+        teaser:
+          "Natale rete e ranking scuola. Packshot e prezzo in movimento.",
+        description:
+          "Video prodotto per la rete: Natale e ranking scuola. Parte dalle stesse liste e dallo stesso volantino. Premiere, packshot, pochi secondi, si capisce anche da fermo.",
+        tags: ["Packshot", "Rete", "Premiere"],
+        href: "",
+        image: "/works/rc-video-natale.jpg",
+        frame: "landscape",
+        gallery: [],
+      },
+      {
+        id: "tracina",
+        group: "brand",
+        client: "Tracina Beach",
+        title: "Tracina Beach",
+        category: "Brand identity",
+        role: "Grafico",
+        year: "2024",
+        deliverable: "Marchio e applicazioni",
+        teaser:
+          "Marchio geometrico, polaroid, palette da spiaggia. Applicazioni social.",
+        description:
+          "Identità per Tracina Beach. Marchio a blocchi, sole e fasce magenta, arancio e cielo. Polaroid, varianti del logo, post. Un sistema da applicare su carta e social.",
+        tags: ["Marchio", "Palette", "Social"],
+        href: "",
+        image: "/works/tracina-polaroid.jpg",
+        frame: "portrait",
+        gallery: [
+          { src: "/works/tracina-logo.jpg", caption: "Marchio" },
+          { src: "/works/tracina-ig5.jpg", caption: "Applicazione" },
+          { src: "/works/tracina-ig7.jpg", caption: "Social" },
+          { src: "/works/tracina-ig11.jpg", caption: "Tavola" },
+        ],
+      },
+      {
+        id: "landaway",
+        group: "brand",
+        client: "Landaway",
+        title: "Landaway",
+        category: "Brand identity",
+        role: "Grafico",
+        year: "2022–2024",
+        deliverable: "Tavola tipografica",
+        teaser:
+          "Stress, lavoro, ansia. Tipografia nera su bianco.",
+        description:
+          "Tavola per Landaway. Parole ripetute in nero, griglia stretta, un «annoiato?» al centro. Identità fatta di tipo, senza illustrazione.",
+        tags: ["Tipografia", "Tavola"],
+        href: "",
+        image: "/works/landaway.jpg",
+        frame: "landscape",
+        gallery: [],
+      },
+      {
+        id: "industrialtech",
+        group: "brand",
+        client: "Industrialtech",
+        title: "Industrialtech",
+        category: "Brand identity",
+        role: "Grafico",
+        year: "2022–2024",
+        deliverable: "Marchio",
+        teaser:
+          "Lente, navy e blu. Marchio per un brand tecnico.",
+        description:
+          "Marchio Industrialtech: occhio/lente, navy e blu, wordmark a due pesi. Presentazione logo in tavola.",
+        tags: ["Marchio", "Presentazione"],
+        href: "",
+        image: "/works/industrialtech.jpg",
+        frame: "landscape",
+        gallery: [],
+      },
+      {
+        id: "kitaku",
+        group: "brand",
+        client: "Kitaku",
+        title: "Kitaku",
+        category: "Brand identity",
+        role: "Grafico",
+        year: "2022–2024",
+        deliverable: "Wordmark",
+        teaser:
+          "Wordmark geometrico, nero su bianco.",
+        description:
+          "Marchio Kitaku. Lettere chiuse tra loro, taglio da insegna. Un segno solo, da tenere pulito.",
+        tags: ["Wordmark"],
+        href: "",
+        image: "/works/kitaku.jpg",
+        frame: "landscape",
+        gallery: [],
+      },
+      {
+        id: "cubot",
+        group: "digital",
+        client: "CUBOT",
+        title: "CUBOT",
+        category: "Digitale",
+        role: "Progetto e vibe coding",
+        year: "2025–2026",
+        deliverable: "Workflow hub",
+        teaser:
+          "Gestionale del flusso volantini. Costruito in vibe coding con Antigravity e Cursor.",
+        description:
+          "CUBOT tiene insieme il lavoro GDO che faccio a mano: liste, scadenze, varianti di rete, OK stampa. L’ho costruito in vibe coding, prima con Antigravity e poi con Cursor. Python, FastAPI, Vue. Serve a chi chiude i volantini.",
+        tags: ["Cursor", "Antigravity", "Vibe coding"],
+        href: "",
+        image: "/works/cubot-login.png",
+        frame: "landscape",
+        gallery: [],
       },
     ],
   },
   servizi: {
-    eyebrow: "Offerte",
-    title: "Identità, editoria, comunicazione.",
+    eyebrow: "Servizi",
+    title: "Cosa faccio.",
     phases: [
       {
-        id: "identita",
+        id: "gdo",
         number: "01",
-        title: "Identità visiva",
-        body: "Marchio, palette, tipografia e regole d’uso. Un sistema che rende riconoscibile il brand su carta, schermo e spazio, senza inseguire l’effetto per l’effetto.",
+        title: "Lavorazione GDO",
+        body: "Oltre ai file, penso al processo e lo ottimizzo. Seguo la struttura di una lavorazione GDO per intero: analisi delle liste prodotti, etichette con processi di automazione, composizione delle pagine del volantino, poi POP, cartellonistica e video.",
       },
       {
-        id: "editoria",
+        id: "identita",
         number: "02",
-        title: "Editoria",
-        body: "Libri, cataloghi, riviste e impaginati. Misuro gerarchia, bianco e ritmo perché il testo si legga e le immagini tengano, dalla copertina all’ultima pagina.",
+        title: "Identità visiva",
+        body: "Marchio, palette, tipografia e tavole. Un sistema da applicare su carta e schermo.",
       },
       {
-        id: "comunicazione",
+        id: "video",
         number: "03",
-        title: "Comunicazione grafica",
-        body: "Manifesti, campagne, social e materiali per il punto vendita. Traduco il messaggio in un’immagine chiara, utile e memorabile, allineata all’identità.",
+        title: "Video",
+        body: "Punto vendita, stories e, per Risparmio Casa, maxischermo e girocampo LED dello Stadio Olimpico. Stesso messaggio del volantino, formato giusto.",
+      },
+      {
+        id: "digitale",
+        number: "04",
+        title: "Digitale e vibe coding",
+        body: "Tool interni e interfacce. CUBOT e questo sito. Lavoro con Cursor e Antigravity.",
       },
     ],
   },
   cv: {
     eyebrow: "Curriculum",
-    title: "Studi e agenzie.",
+    title: "Lavoro e formazione.",
     openLabel: "Apri curriculum",
     closeLabel: "Chiudi curriculum",
   },
   footer: {
     eyebrow: "Contatti",
-    title: "Un progetto da mettere a fuoco?",
-    body: "Sono disponibile per nuovi incarichi. Hai un’idea, un brand o un pezzo grafico che merita una direzione più chiara? Scrivimi: partiamo dal messaggio, poi dall’immagine.",
+    title: "Hai un lavoro da chiudere?",
+    body: "Volantino, identità, video o un tool interno. Sono disponibile per nuovi incarichi.",
     cta: "Scrivimi un’email",
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
@@ -289,7 +530,8 @@ function isStockProject(project) {
   const id = String(project?.id ?? "")
   return (
     image.includes("unsplash.com") ||
-    ["nexus", "aura", "shift", "mono"].includes(id)
+    /work-(identita|editoria|comunicazione)\.svg$/.test(image) ||
+    ["nexus", "aura", "shift", "mono", "identita", "editoria", "comunicazione", "risparmiocasa", "portobello", "video-retail", "brand-identity"].includes(id)
   )
 }
 
@@ -298,10 +540,13 @@ function isLegacyServizi(servizi) {
   const phases = servizi?.phases
   return (
     /sito web/i.test(title) ||
-    (Array.isArray(phases) && phases.length > 3) ||
     (Array.isArray(phases) &&
       phases.some((phase) => ["briefing", "prototipazione", "sviluppo"].includes(phase.id)))
   )
+}
+
+function nonempty(value, fallback) {
+  return typeof value === "string" && value.trim() ? value : fallback
 }
 
 export function hydrateSite(saved) {
@@ -362,16 +607,15 @@ export function hydrateSite(saved) {
       ...base.hero,
       ...saved.hero,
       portraitSrc: placeholderPortrait ? "" : savedPortrait,
-      ...(needsMigration
-        ? {
-            eyebrow: base.hero.eyebrow,
-            title: base.hero.title,
-            body: base.hero.body,
-            availability: base.hero.availability,
-          }
-        : {
-            availability: saved.hero?.availability ?? base.hero.availability,
-          }),
+      eyebrow: needsMigration
+        ? base.hero.eyebrow
+        : nonempty(saved.hero?.eyebrow, base.hero.eyebrow),
+      title: needsMigration ? base.hero.title : nonempty(saved.hero?.title, base.hero.title),
+      body: needsMigration ? base.hero.body : nonempty(saved.hero?.body, base.hero.body),
+      cta: needsMigration ? base.hero.cta : nonempty(saved.hero?.cta, base.hero.cta),
+      availability: needsMigration
+        ? base.hero.availability
+        : nonempty(saved.hero?.availability, base.hero.availability),
     },
     ticker: needsMigration
       ? base.ticker
@@ -412,6 +656,8 @@ export function hydrateSite(saved) {
               href: "",
               ...project,
               gallery,
+              group: project.group || fallback?.group || "",
+              client: project.client || fallback?.client || "",
               teaser: project.teaser || fallback?.teaser || "",
               frame: project.frame || fallback?.frame || "landscape",
             }

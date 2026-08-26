@@ -13,7 +13,7 @@ export const CV_DEFAULT = {
     address: "Via Ninfina 43, 04012, Cisterna di Latina, Italia",
   },
   presentation:
-    "Sono un grafico pubblicitario con formazione professionale, specializzato in video editing, ritocco fotografico, logo design, impaginazione editoriale e progettazione grafica. Ho ottime conoscenze informatiche, sia hardware sia software.",
+    "Sono un grafico editoriale, formato come grafico pubblicitario. Lavoro sulla comunicazione per la GDO: volantini, POP, cartellonistica, newsletter, identità visiva e video, anche per maxischermo e girocampo dello Stadio Olimpico. In GDO seguo la lavorazione per intero: analisi delle liste prodotti, etichette con processi di automazione, composizione delle pagine del volantino, poi POP, cartellonistica e video. Progetto anche tool digitali in vibe coding, con Cursor e Antigravity. Ho ottime conoscenze informatiche, hardware e software.",
   experiences: [
     {
       id: "exp-mandarino",
@@ -21,9 +21,10 @@ export const CV_DEFAULT = {
       endDate: "",
       current: true,
       company: "Mandarino Agency",
-      role: "Grafico",
+      role: "Grafico editoriale",
       location: "",
-      description: "",
+      description:
+        "Editoria GDO per Risparmio Casa. Seguo la lavorazione per intero: dalle liste prodotti alle etichette con processi di automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Identità visive e sviluppo di CUBOT, workflow hub interno, in vibe coding con Cursor e Antigravity.",
       order: 0,
     },
     {
@@ -32,9 +33,10 @@ export const CV_DEFAULT = {
       endDate: "2023-09-29",
       current: false,
       company: "Stratego",
-      role: "Grafico",
+      role: "Grafico editoriale",
       location: "",
-      description: "",
+      description:
+        "Comunicazione GDO per Portobello. Stesso tipo di lavorazione: dalle liste prodotti alle pagine del volantino web, newsletter (brief, bozze, correzioni), POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920), con versioni di rete.",
       order: 1,
     },
     {
@@ -193,13 +195,27 @@ export const CV_DEFAULT = {
       name: "Pacchetto Adobe",
       description: "",
       items: [
-        { id: "skill-ps", name: "Adobe Photoshop", order: 0 },
-        { id: "skill-pr", name: "Adobe Premiere", order: 1 },
-        { id: "skill-lr", name: "Adobe Lightroom", order: 2 },
-        { id: "skill-ai", name: "Adobe Illustrator", order: 3 },
-        { id: "skill-id", name: "Adobe InDesign", order: 4 },
+        { id: "skill-id", name: "Adobe InDesign", order: 0 },
+        { id: "skill-ai", name: "Adobe Illustrator", order: 1 },
+        { id: "skill-ps", name: "Adobe Photoshop", order: 2 },
+        { id: "skill-pr", name: "Adobe Premiere Pro", order: 3 },
+        { id: "skill-ae", name: "Adobe After Effects", order: 4 },
+        { id: "skill-lr", name: "Adobe Lightroom", order: 5 },
       ],
       order: 0,
+    },
+    {
+      id: "skillcat-vibe",
+      name: "Vibe coding e nuove tecnologie",
+      description:
+        "Provo gli strumenti di AI e sviluppo quando escono. Costruisco interfacce e tool interni in vibe coding.",
+      items: [
+        { id: "skill-cursor", name: "Cursor", order: 0 },
+        { id: "skill-antigravity", name: "Antigravity", order: 1 },
+        { id: "skill-vibe", name: "Vibe coding", order: 2 },
+        { id: "skill-figma", name: "Figma", order: 3 },
+      ],
+      order: 1,
     },
     {
       id: "skillcat-office",
@@ -213,7 +229,7 @@ export const CV_DEFAULT = {
         { id: "skill-browser", name: "Utilizzo dei principali browser", order: 4 },
         { id: "skill-mail-office", name: "Posta elettronica", order: 5 },
       ],
-      order: 1,
+      order: 2,
     },
     {
       id: "skillcat-google",
@@ -228,7 +244,7 @@ export const CV_DEFAULT = {
         { id: "skill-class", name: "Google Classroom", order: 5 },
         { id: "skill-meet", name: "Google Meet", order: 6 },
       ],
-      order: 2,
+      order: 3,
     },
     {
       id: "skillcat-it",
@@ -249,12 +265,12 @@ export const CV_DEFAULT = {
         { id: "skill-web", name: "Navigazione internet", order: 3 },
         { id: "skill-social", name: "Social media", order: 4 },
       ],
-      order: 3,
+      order: 4,
     },
   ],
   drivingLicence: "B",
   hobbies:
-    "Tra i miei principali interessi ci sono lo sviluppo di progetti grafici creativi, utili a mantenere allenata la mente, l’utilizzo assiduo di Internet e l’aggiornamento sugli eventi di attualità. Partecipo inoltre a competizioni online basate sulla velocità di scrittura su tastiera.",
+    "Progetti grafici e tool digitali per tenermi allenato. Provo gli strumenti nuovi (vibe coding, Cursor, Antigravity) e li porto nel lavoro. Uso Internet tutti i giorni e seguo l’attualità. Partecipo a competizioni di velocità di scrittura su tastiera.",
   interpersonalSkills: [
     {
       id: "inter-coop",
@@ -263,6 +279,14 @@ export const CV_DEFAULT = {
         "Buona capacità di cooperazione, sia individuale sia in gruppo, con attitudine all’ascolto e alla proposta di idee in ambito lavorativo.",
       items: [],
       order: 0,
+    },
+    {
+      id: "inter-tech",
+      name: "Aggiornamento sulle nuove tecnologie",
+      description:
+        "Porto nel lavoro quotidiano strumenti nuovi come Cursor, Antigravity e il vibe coding. Dal volantino GDO ai tool interni come CUBOT.",
+      items: [],
+      order: 1,
     },
   ],
 }

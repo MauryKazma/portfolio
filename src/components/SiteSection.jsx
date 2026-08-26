@@ -6,6 +6,7 @@ export default function SiteSection({
   className = "",
   band = false,
   tone,
+  eager = false,
   children,
   ...rest
 }) {
@@ -18,7 +19,7 @@ export default function SiteSection({
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const inView = el.getBoundingClientRect().top < window.innerHeight * 0.88
 
-    if (reduce || inView) {
+    if (reduce || eager || inView) {
       el.classList.add("is-visible")
       return undefined
     }

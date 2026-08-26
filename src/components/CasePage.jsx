@@ -34,7 +34,9 @@ export default function CasePage({ project }) {
           Tutti i lavori
         </button>
 
-        <p className="site-eyebrow">{project.category}</p>
+        <p className="site-eyebrow">
+          {[project.client, project.category].filter(Boolean).join(" · ")}
+        </p>
         <h1 className="site-headline" id="case-title">
           {project.title}
         </h1>
@@ -50,7 +52,7 @@ export default function CasePage({ project }) {
               alt={
                 isPlaceholderImage(current.src) || !current.src
                   ? `Spazio riservato alla foto: ${current.caption}`
-                  : `${current.caption} — ${project.title}`
+                  : `${current.caption}, ${project.title}`
               }
             />
             {shots.length > 1 ? (

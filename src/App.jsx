@@ -20,7 +20,7 @@ import { applySeo } from "./utils/route"
 import { consumePendingScroll, scrollToId } from "./utils/scroll"
 import { useEffect, useLayoutEffect } from "react"
 
-const HOME_TITLE = "Maurizio Pecutari — Identità e editoria"
+const HOME_TITLE = "Maurizio Pecutari | GDO, brand, digitale"
 
 function DialogHost() {
   const { dialog: cvDialog, setDialog: setCvDialog } = useCV()
@@ -73,14 +73,14 @@ function AppShell() {
   useEffect(() => {
     if (route.name === "case" && project) {
       applySeo({
-        title: `${project.title} — Maurizio Pecutari`,
+        title: `${project.title} | Maurizio Pecutari`,
         path: `/lavori/${project.id}`,
       })
       return
     }
     if (route.name === "case" || route.name === "unknown") {
       applySeo({
-        title: "Pezzo non trovato — Maurizio Pecutari",
+        title: "Pezzo non trovato | Maurizio Pecutari",
         path: window.location.pathname.replace(/\/+$/, "") || "/",
       })
       return

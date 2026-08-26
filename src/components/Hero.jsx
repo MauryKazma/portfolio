@@ -318,6 +318,7 @@ export default function Hero() {
       className="scroll-mt-24"
       band
       tone="ink"
+      eager
       aria-labelledby="hero-title"
     >
       <div className="site-content">

@@ -23,7 +23,7 @@ export default function SiteTicker() {
               <Fragment key={`edit-${index}`}>
                 {index > 0 ? (
                   <li className="site-ticker-sep" aria-hidden="true">
-                    —
+                    ·
                   </li>
                 ) : null}
                 <li className="site-ticker-edit-item">
