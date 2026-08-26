@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import {
-  clampSkillLevel,
+  clampSkillPercent,
   cloneSite,
   emptySkillCraft,
   emptySkillTool,
@@ -250,7 +250,7 @@ export function SiteContentProvider({ children }) {
                   ...item,
                   [field]:
                     field === "level"
-                      ? clampSkillLevel(value)
+                      ? clampSkillPercent(value)
                       : field === "mark"
                         ? String(value).slice(0, 3)
                         : value,
@@ -279,7 +279,7 @@ export function SiteContentProvider({ children }) {
           if (!next.skills) next.skills = { tools: [], crafts: [] }
           next.skills.crafts = next.skills.crafts.map((item) =>
             item.id === id
-              ? { ...item, [field]: field === "level" ? clampSkillLevel(value) : value }
+              ? { ...item, [field]: field === "level" ? clampSkillPercent(value) : value }
               : item
           )
           return next

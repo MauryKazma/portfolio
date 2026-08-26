@@ -37,19 +37,19 @@ export const SITE_DEFAULT = {
     body: "Sostituisci i placeholder con i software e le competenze che vuoi mostrare prima dei lavori.",
     toolsEyebrow: "Software",
     tools: [
-      { id: "tool-1", mark: "Aa", name: "Strumento", level: 4 },
-      { id: "tool-2", mark: "Bb", name: "Strumento", level: 3 },
-      { id: "tool-3", mark: "Cc", name: "Strumento", level: 4 },
-      { id: "tool-4", mark: "Dd", name: "Strumento", level: 3 },
+      { id: "tool-1", mark: "Aa", name: "Strumento", level: 86 },
+      { id: "tool-2", mark: "Bb", name: "Strumento", level: 74 },
+      { id: "tool-3", mark: "Cc", name: "Strumento", level: 82 },
+      { id: "tool-4", mark: "Dd", name: "Strumento", level: 68 },
     ],
     craftsEyebrow: "Mestiere",
     crafts: [
-      { id: "craft-1", name: "Competenza", level: 4 },
-      { id: "craft-2", name: "Competenza", level: 4 },
-      { id: "craft-3", name: "Competenza", level: 3 },
-      { id: "craft-4", name: "Competenza", level: 3 },
-      { id: "craft-5", name: "Competenza", level: 4 },
-      { id: "craft-6", name: "Competenza", level: 3 },
+      { id: "craft-1", name: "Competenza", level: 84 },
+      { id: "craft-2", name: "Competenza", level: 78 },
+      { id: "craft-3", name: "Competenza", level: 70 },
+      { id: "craft-4", name: "Competenza", level: 76 },
+      { id: "craft-5", name: "Competenza", level: 88 },
+      { id: "craft-6", name: "Competenza", level: 64 },
     ],
   },
   chiSono: {
@@ -210,25 +210,28 @@ function uid(prefix) {
 }
 
 export function emptySkillTool() {
-  return { id: uid("tool"), mark: "Aa", name: "Strumento", level: 3 }
+  return { id: uid("tool"), mark: "Aa", name: "Strumento", level: 72 }
 }
 
 export function emptySkillCraft() {
-  return { id: uid("craft"), name: "Competenza", level: 3 }
+  return { id: uid("craft"), name: "Competenza", level: 72 }
 }
 
-export function clampSkillLevel(value) {
+export function clampSkillPercent(value) {
   const n = Number(value)
-  if (!Number.isFinite(n)) return 3
-  return Math.max(0, Math.min(5, Math.round(n)))
+  if (!Number.isFinite(n)) return 72
+  if (Number.isInteger(n) && n >= 0 && n <= 5) return n * 20
+  return Math.max(0, Math.min(100, Math.round(n)))
 }
+
+export const clampSkillLevel = clampSkillPercent
 
 function normalizeSkillItems(saved, fallback, kind) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
   return saved.map((item, index) => ({
     id: typeof item?.id === "string" && item.id ? item.id : `${kind}-${index + 1}`,
     name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
-    level: clampSkillLevel(item?.level),
+    level: clampSkillPercent(item?.level),
     ...(kind === "tool"
       ? { mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Aa" }
       : {}),

@@ -795,7 +795,7 @@ html[data-look="clean"] .toolkit-panel {
 }
 
 html[data-look="clean"] .skill-panel {
-  padding: 32px 28px 28px;
+  padding: 36px 32px 32px;
   background: #fff;
   border-radius: 24px;
   box-shadow: var(--soft-shadow);
@@ -806,8 +806,8 @@ html[data-look="clean"] .skill-intro {
 }
 
 html[data-look="clean"] .skill-block + .skill-block {
-  margin-top: 40px;
-  padding-top: 32px;
+  margin-top: 44px;
+  padding-top: 36px;
   border-top: 1px solid var(--hairline);
 }
 
@@ -819,31 +819,34 @@ html[data-look="clean"] .skill-ring-value {
   stroke: var(--spot-deep);
 }
 
-html[data-look="clean"] .skill-ring-mark,
+html[data-look="clean"] .skill-ring-mark {
+  color: var(--spot-deep);
+}
+
+html[data-look="clean"] .skill-ring-pct,
+html[data-look="clean"] .skill-bar-pct {
+  color: var(--paper-muted);
+}
+
 html[data-look="clean"] .skill-tool-name,
 html[data-look="clean"] .skill-craft-name {
   color: var(--ink);
 }
 
-html[data-look="clean"] .skill-ring-mark {
-  font-family: var(--font-mono);
-  color: var(--spot-deep);
+html[data-look="clean"] .skill-craft {
+  border-top-color: var(--hairline);
 }
 
-html[data-look="clean"] .skill-dot {
-  border-color: #d7e3f0;
+html[data-look="clean"] .skill-bar-track {
+  background: #e4ecf4;
 }
 
-html[data-look="clean"] .skill-dot.is-on {
+html[data-look="clean"] .skill-bar-fill {
   background: var(--spot-deep);
-  border-color: var(--spot-deep);
 }
 
-@media (hover: hover) {
-  html[data-look="clean"] button.skill-dot:hover {
-    border-color: var(--spot-deep);
-    transform: scale(1.12);
-  }
+html[data-look="clean"] .skill-pct-range {
+  accent-color: var(--spot-deep);
 }
 
 html[data-look="clean"] .skill-empty {
