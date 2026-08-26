@@ -1112,22 +1112,22 @@ main > .site-section:first-child {
 .skill-tools {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px 20px;
-  margin-top: 12px;
+  gap: 28px 16px;
+  margin-top: 16px;
 }
 
 .skill-tool {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-align: center;
 }
 
 .skill-ring {
   position: relative;
-  width: 108px;
-  height: 108px;
+  width: 100px;
+  height: 100px;
   transform: scale(0.84);
   opacity: 0.4;
 }
@@ -1146,7 +1146,7 @@ main > .site-section:first-child {
 .skill-ring-track,
 .skill-ring-value {
   fill: none;
-  stroke-width: 3.25;
+  stroke-width: 2.75;
 }
 
 .skill-ring-track {
@@ -1162,21 +1162,25 @@ main > .site-section:first-child {
 .skill-ring-core {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
+  display: grid;
+  place-items: center;
   pointer-events: none;
 }
 
-.skill-ring-mark {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.skill-ring-plate {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--wash);
   color: var(--spot-deep);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .skill-ring-pct,
@@ -1193,8 +1197,18 @@ main > .site-section:first-child {
 .skill-craft-name {
   margin: 0;
   color: var(--ink);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 400;
+}
+
+.skill-tools .skill-ring-pct {
+  margin: 0;
+}
+
+.skill-supports {
+  display: grid;
+  gap: 18px;
+  margin-top: 12px;
 }
 
 .skill-crafts {
@@ -1221,6 +1235,26 @@ main > .site-section:first-child {
   justify-content: space-between;
   gap: 16px;
   min-height: 1.4em;
+}
+
+.skill-craft-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.skill-grade {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+}
+
+.skill-craft.is-support {
+  border-top: 0;
+  padding: 4px 0 8px;
 }
 
 .skill-bar-track {
@@ -1361,6 +1395,11 @@ main > .site-section:first-child {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .skill-supports {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 40px;
+  }
+
   .skill-crafts {
     grid-template-columns: 1fr 1fr;
   }
@@ -1371,7 +1410,11 @@ main > .site-section:first-child {
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1100px) {
+  .skill-tools:not(.is-editing) {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
   .skill-tools.is-editing {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

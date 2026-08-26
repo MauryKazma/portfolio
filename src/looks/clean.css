@@ -819,12 +819,14 @@ html[data-look="clean"] .skill-ring-value {
   stroke: var(--spot-deep);
 }
 
-html[data-look="clean"] .skill-ring-mark {
+html[data-look="clean"] .skill-ring-plate {
+  background: var(--wash);
   color: var(--spot-deep);
 }
 
 html[data-look="clean"] .skill-ring-pct,
-html[data-look="clean"] .skill-bar-pct {
+html[data-look="clean"] .skill-bar-pct,
+html[data-look="clean"] .skill-grade {
   color: var(--paper-muted);
 }
 

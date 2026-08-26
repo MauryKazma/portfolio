@@ -3,6 +3,7 @@ import {
   clampSkillPercent,
   cloneSite,
   emptySkillCraft,
+  emptySkillSupport,
   emptySkillTool,
   hydrateSite,
   SITE_CONTENT_REVISION,
@@ -236,14 +237,14 @@ export function SiteContentProvider({ children }) {
       },
       setSkills(field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
           next.skills[field] = value
           return next
         })
       },
       setSkillTool(id, field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
           next.skills.tools = next.skills.tools.map((item) =>
             item.id === id
               ? {
@@ -262,7 +263,7 @@ export function SiteContentProvider({ children }) {
       },
       addSkillTool() {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
           next.skills.tools = [...next.skills.tools, emptySkillTool()]
           return next
         })
@@ -274,9 +275,34 @@ export function SiteContentProvider({ children }) {
           return next
         })
       },
+      setSkillSupport(id, field, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
+          next.skills.supports = (next.skills.supports ?? []).map((item) =>
+            item.id === id
+              ? { ...item, [field]: field === "level" ? clampSkillPercent(value) : value }
+              : item
+          )
+          return next
+        })
+      },
+      addSkillSupport() {
+        patch((next) => {
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
+          next.skills.supports = [...(next.skills.supports ?? []), emptySkillSupport()]
+          return next
+        })
+      },
+      removeSkillSupport(id) {
+        patch((next) => {
+          if (!next.skills) return next
+          next.skills.supports = (next.skills.supports ?? []).filter((item) => item.id !== id)
+          return next
+        })
+      },
       setSkillCraft(id, field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
           next.skills.crafts = next.skills.crafts.map((item) =>
             item.id === id
               ? { ...item, [field]: field === "level" ? clampSkillPercent(value) : value }
@@ -287,7 +313,7 @@ export function SiteContentProvider({ children }) {
       },
       addSkillCraft() {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], crafts: [] }
+          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
           next.skills.crafts = [...next.skills.crafts, emptySkillCraft()]
           return next
         })

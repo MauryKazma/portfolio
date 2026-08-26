@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 8
+export const SITE_CONTENT_REVISION = 9
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -34,22 +34,34 @@ export const SITE_DEFAULT = {
   skills: {
     eyebrow: "Skill",
     title: "Strumenti e mestiere.",
-    body: "Sostituisci i placeholder con i software e le competenze che vuoi mostrare prima dei lavori.",
+    body: "La suite con cui chiudo identità, volumi e pezzi di comunicazione — e le competenze che tengono il lavoro insieme.",
     toolsEyebrow: "Software",
     tools: [
-      { id: "tool-1", mark: "Aa", name: "Strumento", level: 86 },
-      { id: "tool-2", mark: "Bb", name: "Strumento", level: 74 },
-      { id: "tool-3", mark: "Cc", name: "Strumento", level: 82 },
-      { id: "tool-4", mark: "Dd", name: "Strumento", level: 68 },
+      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 88 },
+      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 94 },
+      { id: "tool-id", mark: "Id", name: "InDesign", level: 92 },
+      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 62 },
+      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 58 },
+      { id: "tool-fg", mark: "Fg", name: "Figma", level: 70 },
+      { id: "tool-lr", mark: "Lr", name: "Lightroom", level: 74 },
+      { id: "tool-ac", mark: "Ac", name: "Acrobat", level: 80 },
+    ],
+    supportsEyebrow: "Supporti",
+    supports: [
+      { id: "support-carta", name: "Carta", level: 92 },
+      { id: "support-schermo", name: "Schermo", level: 78 },
+      { id: "support-spazio", name: "Spazio", level: 72 },
     ],
     craftsEyebrow: "Mestiere",
     crafts: [
-      { id: "craft-1", name: "Competenza", level: 84 },
-      { id: "craft-2", name: "Competenza", level: 78 },
-      { id: "craft-3", name: "Competenza", level: 70 },
-      { id: "craft-4", name: "Competenza", level: 76 },
-      { id: "craft-5", name: "Competenza", level: 88 },
-      { id: "craft-6", name: "Competenza", level: 64 },
+      { id: "craft-identita", name: "Identità visiva", level: 90 },
+      { id: "craft-editoria", name: "Editoria", level: 88 },
+      { id: "craft-impaginazione", name: "Impaginazione", level: 86 },
+      { id: "craft-tipografia", name: "Tipografia", level: 84 },
+      { id: "craft-comunicazione", name: "Comunicazione", level: 82 },
+      { id: "craft-brand", name: "Brand", level: 80 },
+      { id: "craft-art", name: "Art direction", level: 76 },
+      { id: "craft-stampa", name: "Pre-stampa", level: 70 },
     ],
   },
   chiSono: {
@@ -210,11 +222,34 @@ function uid(prefix) {
 }
 
 export function emptySkillTool() {
-  return { id: uid("tool"), mark: "Aa", name: "Strumento", level: 72 }
+  return { id: uid("tool"), mark: "Ps", name: "Photoshop", level: 72 }
+}
+
+export function emptySkillSupport() {
+  return { id: uid("support"), name: "Supporto", level: 72 }
 }
 
 export function emptySkillCraft() {
   return { id: uid("craft"), name: "Competenza", level: 72 }
+}
+
+export function skillGrade(percent) {
+  const n = clampSkillPercent(percent)
+  if (n >= 88) return "Esperto"
+  if (n >= 75) return "Avanzato"
+  if (n >= 60) return "Solido"
+  return "In crescita"
+}
+
+function isPlaceholderSkills(skills) {
+  const tools = skills?.tools
+  if (!Array.isArray(tools) || tools.length === 0) return true
+  const generic = tools.filter((item) => {
+    const name = String(item?.name ?? "").trim()
+    const mark = String(item?.mark ?? "").trim()
+    return /^strumento$/i.test(name) || /^(aa|bb|cc|dd)$/i.test(mark)
+  })
+  return generic.length === tools.length
 }
 
 export function clampSkillPercent(value) {
@@ -233,7 +268,7 @@ function normalizeSkillItems(saved, fallback, kind) {
     name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
     level: clampSkillPercent(item?.level),
     ...(kind === "tool"
-      ? { mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Aa" }
+      ? { mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps" }
       : {}),
   }))
 }
@@ -346,12 +381,16 @@ export function hydrateSite(saved) {
             : base.ticker.items,
         },
     chiSono,
-    skills: {
-      ...base.skills,
-      ...saved.skills,
-      tools: normalizeSkillItems(saved.skills?.tools, base.skills.tools, "tool"),
-      crafts: normalizeSkillItems(saved.skills?.crafts, base.skills.crafts, "craft"),
-    },
+    skills:
+      needsMigration || isPlaceholderSkills(saved.skills)
+        ? base.skills
+        : {
+            ...base.skills,
+            ...saved.skills,
+            tools: normalizeSkillItems(saved.skills?.tools, base.skills.tools, "tool"),
+            supports: normalizeSkillItems(saved.skills?.supports, base.skills.supports, "support"),
+            crafts: normalizeSkillItems(saved.skills?.crafts, base.skills.crafts, "craft"),
+          },
     lavori: {
       ...(needsMigration ? base.lavori : { ...base.lavori, ...saved.lavori }),
       waitLabel:

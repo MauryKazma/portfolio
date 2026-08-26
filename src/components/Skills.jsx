@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { Plus, X } from "lucide-react"
-import { clampSkillPercent } from "../data/siteDefault"
+import { clampSkillPercent, skillGrade } from "../data/siteDefault"
 import { useSite } from "../context/SiteContentProvider"
 import { EditableText, InlineEdit } from "./EditableText"
 import SiteSection from "./SiteSection"
 
-const RING_RADIUS = 38
+const RING_RADIUS = 36
 const RING_LENGTH = 2 * Math.PI * RING_RADIUS
 
 function prefersReducedMotion() {
@@ -16,18 +16,25 @@ function randomBetween(min, max) {
   return min + Math.random() * (max - min)
 }
 
-function useSkillReveal(instant, tools, crafts) {
+function useSkillReveal(instant, counts) {
   const ref = useRef(null)
   const [hot, setHot] = useState(instant)
-  const [motion, setMotion] = useState({ tools: [], crafts: [] })
+  const [motion, setMotion] = useState({ tools: [], supports: [], crafts: [] })
+  const toolCount = counts.tools
+  const supportCount = counts.supports
+  const craftCount = counts.crafts
 
   useEffect(() => {
     const roll = () => ({
-      tools: tools.map(() => ({
-        delay: randomBetween(40, 380),
-        duration: randomBetween(880, 1420),
+      tools: Array.from({ length: toolCount }, () => ({
+        delay: randomBetween(40, 420),
+        duration: randomBetween(880, 1480),
       })),
-      crafts: crafts.map(() => ({
+      supports: Array.from({ length: supportCount }, () => ({
+        delay: randomBetween(80, 480),
+        duration: randomBetween(900, 1400),
+      })),
+      crafts: Array.from({ length: craftCount }, () => ({
         delay: randomBetween(140, 560),
         duration: randomBetween(920, 1480),
       })),
@@ -47,7 +54,7 @@ function useSkillReveal(instant, tools, crafts) {
       setHot(true)
     }
 
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.88) {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
       start()
       return undefined
     }
@@ -59,11 +66,11 @@ function useSkillReveal(instant, tools, crafts) {
         start()
         observer.disconnect()
       },
-      { threshold: 0.28, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" }
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [crafts.length, instant, tools.length])
+  }, [craftCount, instant, supportCount, toolCount])
 
   return [ref, hot, motion]
 }
@@ -140,16 +147,16 @@ function SkillRing({ mark, percent, hot, delay, duration, instant }) {
       className={`skill-ring${hot ? " is-hot" : ""}`}
       style={{ "--skill-delay": `${delay}ms`, "--skill-duration": `${duration}ms` }}
     >
-      <svg viewBox="0 0 108 108" className="skill-ring-svg" aria-hidden="true">
-        <circle className="skill-ring-track" cx="54" cy="54" r={RING_RADIUS} />
+      <svg viewBox="0 0 100 100" className="skill-ring-svg" aria-hidden="true">
+        <circle className="skill-ring-track" cx="50" cy="50" r={RING_RADIUS} />
         <circle
           className="skill-ring-value"
-          cx="54"
-          cy="54"
+          cx="50"
+          cy="50"
           r={RING_RADIUS}
           strokeDasharray={RING_LENGTH}
           strokeDashoffset={hot ? rest : RING_LENGTH}
-          transform="rotate(-90 54 54)"
+          transform="rotate(-90 50 50)"
           style={{
             transitionDelay: `${delay}ms`,
             transitionDuration: `${duration}ms`,
@@ -157,20 +164,21 @@ function SkillRing({ mark, percent, hot, delay, duration, instant }) {
         />
       </svg>
       <span className="skill-ring-core">
-        <span className="skill-ring-mark">{mark}</span>
-        <span className="skill-ring-pct">{shown}%</span>
+        <span className="skill-ring-plate">{mark}</span>
       </span>
+      <span className="sr-only">{shown}%</span>
     </div>
   )
 }
 
 function ToolCard({ tool, hot, delay, duration, editing, onMark, onName, onLevel, onRemove }) {
   const percent = clampSkillPercent(tool.level)
+  const shown = useCountUp(percent, hot, delay, duration, editing)
 
   return (
     <li className="skill-tool" aria-label={editing ? undefined : `${tool.name}: ${percent}%`}>
       <SkillRing
-        mark={tool.mark || "Aa"}
+        mark={tool.mark || "Ps"}
         percent={percent}
         hot={hot}
         delay={delay}
@@ -203,49 +211,66 @@ function ToolCard({ tool, hot, delay, duration, editing, onMark, onName, onLevel
           </button>
         </>
       ) : (
-        <p className="skill-tool-name">{tool.name}</p>
+        <>
+          <p className="skill-tool-name">{tool.name}</p>
+          <p className="skill-ring-pct">{shown}%</p>
+        </>
       )}
     </li>
   )
 }
 
-function CraftRow({ craft, hot, delay, duration, editing, onName, onLevel, onRemove }) {
-  const percent = clampSkillPercent(craft.level)
+function MeterRow({
+  item,
+  hot,
+  delay,
+  duration,
+  editing,
+  onName,
+  onLevel,
+  onRemove,
+  compact = false,
+}) {
+  const percent = clampSkillPercent(item.level)
   const shown = useCountUp(percent, hot, delay, duration, editing)
+  const grade = skillGrade(percent)
 
   return (
-    <li className="skill-craft">
+    <li className={`skill-craft${compact ? " is-support" : ""}`}>
       <div className="skill-craft-head">
         {editing ? (
           <InlineEdit
-            value={craft.name}
+            value={item.name}
             editing
             onChange={onName}
-            ariaLabel="Nome competenza"
+            ariaLabel={compact ? "Nome supporto" : "Nome competenza"}
           />
         ) : (
-          <span className="skill-craft-name">{craft.name}</span>
+          <span className="skill-craft-name">{item.name}</span>
         )}
         {editing ? (
           <button
             type="button"
             className="site-tag-remove"
-            aria-label={`Rimuovi ${craft.name || "competenza"}`}
+            aria-label={`Rimuovi ${item.name || (compact ? "supporto" : "competenza")}`}
             onClick={onRemove}
           >
             <X size={14} aria-hidden />
           </button>
         ) : (
-          <span className="skill-bar-pct">{shown}%</span>
+          <span className="skill-craft-meta">
+            {compact ? null : <span className="skill-grade">{grade}</span>}
+            <span className="skill-bar-pct">{shown}%</span>
+          </span>
         )}
       </div>
       {editing ? (
-        <SkillPercentField name={craft.name} value={percent} onChange={onLevel} />
+        <SkillPercentField name={item.name} value={percent} onChange={onLevel} />
       ) : (
         <div
           className={`skill-bar-track${hot ? " is-hot" : ""}`}
           role="progressbar"
-          aria-label={craft.name}
+          aria-label={item.name}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={shown}
@@ -272,18 +297,25 @@ export default function Skills() {
     setSkillTool,
     addSkillTool,
     removeSkillTool,
+    setSkillSupport,
+    addSkillSupport,
+    removeSkillSupport,
     setSkillCraft,
     addSkillCraft,
     removeSkillCraft,
   } = useSite()
-  const skills = display.skills ?? { tools: [], crafts: [] }
+  const skills = display.skills ?? { tools: [], supports: [], crafts: [] }
   const tools = skills.tools ?? []
+  const supports = skills.supports ?? []
   const crafts = skills.crafts ?? []
   const body = skills.body ?? ""
-  const [boardRef, hot, motion] = useSkillReveal(editing, tools, crafts)
+  const [boardRef, hot, motion] = useSkillReveal(editing, {
+    tools: tools.length,
+    supports: supports.length,
+    crafts: crafts.length,
+  })
 
-  const toolBeat = (index) => motion.tools[index] ?? { delay: 0, duration: 1000 }
-  const craftBeat = (index) => motion.crafts[index] ?? { delay: 0, duration: 1000 }
+  const beat = (group, index) => motion[group]?.[index] ?? { delay: 0, duration: 1000 }
 
   return (
     <SiteSection id="skill" className="scroll-mt-24" aria-labelledby="skill-title">
@@ -327,14 +359,14 @@ export default function Skills() {
             {tools.length ? (
               <ul className={`skill-tools${editing ? " is-editing" : ""}`}>
                 {tools.map((tool, index) => {
-                  const beat = toolBeat(index)
+                  const timing = beat("tools", index)
                   return (
                     <ToolCard
                       key={tool.id}
                       tool={tool}
                       hot={hot}
-                      delay={beat.delay}
-                      duration={beat.duration}
+                      delay={timing.delay}
+                      duration={timing.duration}
                       editing={editing}
                       onMark={(value) => setSkillTool(tool.id, "mark", value)}
                       onName={(value) => setSkillTool(tool.id, "name", value)}
@@ -358,6 +390,45 @@ export default function Skills() {
           <div className="skill-block">
             <EditableText
               className="site-eyebrow"
+              value={skills.supportsEyebrow}
+              editing={editing}
+              onChange={(value) => setSkills("supportsEyebrow", value)}
+              ariaLabel="Etichetta supporti"
+            />
+            {supports.length ? (
+              <ul className={`skill-supports${editing ? " is-editing" : ""}`}>
+                {supports.map((item, index) => {
+                  const timing = beat("supports", index)
+                  return (
+                    <MeterRow
+                      key={item.id}
+                      item={item}
+                      hot={hot}
+                      delay={timing.delay}
+                      duration={timing.duration}
+                      editing={editing}
+                      compact
+                      onName={(value) => setSkillSupport(item.id, "name", value)}
+                      onLevel={(value) => setSkillSupport(item.id, "level", value)}
+                      onRemove={() => removeSkillSupport(item.id)}
+                    />
+                  )
+                })}
+              </ul>
+            ) : (
+              <p className="skill-empty">Nessun supporto inserito.</p>
+            )}
+            {editing ? (
+              <button type="button" className="btn-secondary skill-add" onClick={addSkillSupport}>
+                <Plus size={16} aria-hidden />
+                Aggiungi supporto
+              </button>
+            ) : null}
+          </div>
+
+          <div className="skill-block">
+            <EditableText
+              className="site-eyebrow"
               value={skills.craftsEyebrow}
               editing={editing}
               onChange={(value) => setSkills("craftsEyebrow", value)}
@@ -366,14 +437,14 @@ export default function Skills() {
             {crafts.length ? (
               <ul className={`skill-crafts${editing ? " is-editing" : ""}`}>
                 {crafts.map((craft, index) => {
-                  const beat = craftBeat(index)
+                  const timing = beat("crafts", index)
                   return (
-                    <CraftRow
+                    <MeterRow
                       key={craft.id}
-                      craft={craft}
+                      item={craft}
                       hot={hot}
-                      delay={beat.delay}
-                      duration={beat.duration}
+                      delay={timing.delay}
+                      duration={timing.duration}
                       editing={editing}
                       onName={(value) => setSkillCraft(craft.id, "name", value)}
                       onLevel={(value) => setSkillCraft(craft.id, "level", value)}
