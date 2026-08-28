@@ -873,6 +873,36 @@ main > .site-section:first-child {
   margin-top: 24px;
 }
 
+.studio-list {
+  margin-top: 36px;
+}
+
+.studio-list > .site-eyebrow {
+  margin-bottom: 4px;
+}
+
+.studio-card {
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.studio-name {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.studio-meta {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
 .project-board {
   display: grid;
   gap: 48px;
@@ -1194,52 +1224,60 @@ main > .site-section:first-child {
 }
 
 .skill-meters {
-  gap: 16px;
-  margin-top: 10px;
+  gap: 0;
+  margin-top: 6px;
 }
 
-.skill-meter-head {
+.skill-meter {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
+  grid-template-columns: 2.1em minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 6px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 1px solid var(--hairline);
 }
 
-.skill-mark-plate {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: var(--wash);
-  color: var(--spot-deep);
+.skill-meter:first-child {
+  border-top: 0;
+  padding-top: 6px;
+}
+
+.skill-meter--edit {
+  display: block;
+  padding: 14px 0;
+}
+
+.skill-meter-sigla {
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.4;
 }
 
 .skill-meter-name {
   color: var(--ink);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 .skill-meter-pct {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
 }
 
 .skill-meter-track {
-  height: 4px;
-  margin-top: 8px;
-  border-radius: 999px;
+  grid-column: 2 / 3;
+  height: 2px;
+  margin: 0;
+  border-radius: 0;
   background: var(--hairline);
   overflow: hidden;
 }
@@ -1248,7 +1286,7 @@ main > .site-section:first-child {
   display: block;
   width: 0;
   height: 100%;
-  border-radius: inherit;
+  border-radius: 0;
   background: var(--spot-deep);
   transition: width 780ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--skill-delay, 0ms);
@@ -1256,6 +1294,12 @@ main > .site-section:first-child {
 
 .skill-meter-track.is-hot .skill-meter-fill {
   width: var(--skill-pct, 0%);
+}
+
+.skill-traits {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
 }
 
 .skill-meter-edit {

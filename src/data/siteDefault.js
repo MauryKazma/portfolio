@@ -39,6 +39,8 @@ export const SITE_DEFAULT = {
     body: "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.",
     craftEyebrow: "Mestiere",
     toolsEyebrow: "Software",
+    traitsEyebrow: "In studio",
+    traits: ["Curioso dei tool", "Ironia in corsia", "Provo subito", "Carta e schermo"],
     tools: [
       { id: "tool-id", mark: "Id", name: "InDesign", level: 94 },
       { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 92 },
@@ -78,27 +80,28 @@ export const SITE_DEFAULT = {
   },
   chiSono: {
     eyebrow: "Chi sono",
-    title: "Designer.",
+    title: "Fuori dal foglio.",
     body1:
-      "Formato come grafico pubblicitario. Dal 2023 sono in Mandarino Agency, su Risparmio Casa. Prima, in Stratego, ho seguito Portobello.",
+      "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief.",
     body2:
-      "Progetto identità visive, tra cui Tracina Beach, Landaway e Kitaku, e video per store e stadio. CUBOT è il gestionale del flusso volantini. Mi interessa sperimentare gli strumenti AI che stanno nascendo: li uso con Antigravity e Cursor.",
-    studiosEyebrow: "Studi",
-    studios: [
-      { name: "Mandarino Agency", role: "Grafico editoriale", period: "2023–oggi" },
-      { name: "Stratego", role: "Grafico editoriale", period: "2022–2023" },
+      "Fuori dall’orario resto attaccato a come le cose stanno nello spazio: carta, LED, store. In corsia preferisco una battuta a una call in più.",
+    notesEyebrow: "Cose che mi tengono acceso",
+    notes: [
+      {
+        title: "Tool nuovi",
+        body: "Li provo subito. Se reggono il flusso, restano. Altrimenti li lascio.",
+      },
+      {
+        title: "Ironia in corsia",
+        body: "Una battuta mentre si chiude un volantino vale più di una call in più.",
+      },
+      {
+        title: "Supporti veri",
+        body: "Carta, LED, store. Fuori dall’ufficio resto attaccato a come le cose stanno nello spazio.",
+      },
     ],
-    toolkitEyebrow: "Il mio mestiere",
-    toolkit: [
-      "Liste prodotti",
-      "Automazione",
-      "Volantini",
-      "POP",
-      "Video",
-      "Brand",
-      "Cursor",
-      "InDesign",
-    ],
+    toolkitEyebrow: "Fuori dall’orario",
+    toolkit: ["Tool nuovi", "Battute in studio", "Carta", "Schermo", "Prototipi"],
   },
   lavori: {
     eyebrow: "Portfolio",
@@ -513,6 +516,16 @@ function isStockProject(project) {
   )
 }
 
+function isLegacyChiSono(item) {
+  const toolkit = item?.toolkit ?? []
+  return (
+    item?.title === "Designer." ||
+    toolkit.includes("Liste prodotti") ||
+    toolkit.includes("Volantini") ||
+    /Mandarino Agency/.test(item?.body1 ?? "")
+  )
+}
+
 function isLegacyServizi(servizi) {
   const title = servizi?.title ?? ""
   const phases = servizi?.phases
@@ -543,22 +556,24 @@ export function hydrateSite(saved) {
     savedPortrait.endsWith("hero-portrait.svg")
 
   const replaceProjects = needsMigration || savedProjects.some(isStockProject)
+  const savedChiSono = saved.chiSono ?? {}
   const chiSono = {
     ...base.chiSono,
-    ...saved.chiSono,
-    toolkit: saved.chiSono?.toolkit ?? base.chiSono.toolkit,
-    studios: Array.isArray(saved.chiSono?.studios)
-      ? saved.chiSono.studios
-      : base.chiSono.studios,
+    ...savedChiSono,
+    notes:
+      Array.isArray(savedChiSono.notes) && savedChiSono.notes.length
+        ? savedChiSono.notes
+        : base.chiSono.notes,
+    toolkit: Array.isArray(savedChiSono.toolkit)
+      ? savedChiSono.toolkit
+      : base.chiSono.toolkit,
   }
-  if (needsMigration) {
+  if (needsMigration || isLegacyChiSono(savedChiSono)) {
     chiSono.title = base.chiSono.title
     chiSono.body1 = base.chiSono.body1
     chiSono.body2 = base.chiSono.body2
-    chiSono.studios = base.chiSono.studios
-    chiSono.studiosEyebrow = base.chiSono.studiosEyebrow
-  }
-  if (needsMigration || (Array.isArray(chiSono.toolkit) && chiSono.toolkit.length > 8)) {
+    chiSono.notes = base.chiSono.notes
+    chiSono.notesEyebrow = base.chiSono.notesEyebrow
     chiSono.toolkit = base.chiSono.toolkit
     chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
   }
@@ -612,6 +627,10 @@ export function hydrateSite(saved) {
           body: typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body,
           craftEyebrow: nonempty(saved.skills?.craftEyebrow, base.skills.craftEyebrow),
           toolsEyebrow: nonempty(saved.skills?.toolsEyebrow, base.skills.toolsEyebrow),
+          traitsEyebrow: nonempty(saved.skills?.traitsEyebrow, base.skills.traitsEyebrow),
+          traits: Array.isArray(saved.skills?.traits)
+            ? saved.skills.traits.filter((item) => typeof item === "string")
+            : base.skills.traits,
           tools: normalizeSkillTools(saved.skills?.tools, base.skills.tools),
           disciplines: normalizeDisciplines(saved.skills?.disciplines, base.skills.disciplines),
         },

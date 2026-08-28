@@ -207,9 +207,9 @@ export function SiteContentProvider({ children }) {
           return next
         })
       },
-      setStudio(index, field, value) {
+      setNote(index, field, value) {
         patch((next) => {
-          next.chiSono.studios = (next.chiSono.studios ?? []).map((item, i) =>
+          next.chiSono.notes = (next.chiSono.notes ?? []).map((item, i) =>
             i === index ? { ...item, [field]: value } : item
           )
           return next
@@ -270,6 +270,29 @@ export function SiteContentProvider({ children }) {
         patch((next) => {
           if (!next.skills) return next
           next.skills.tools = (next.skills.tools ?? []).filter((item) => item.id !== id)
+          return next
+        })
+      },
+      setSkillTrait(index, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { disciplines: [], tools: [], traits: [] }
+          next.skills.traits = (next.skills.traits ?? []).map((item, i) =>
+            i === index ? value : item
+          )
+          return next
+        })
+      },
+      addSkillTrait(label) {
+        patch((next) => {
+          if (!next.skills) next.skills = { disciplines: [], tools: [], traits: [] }
+          next.skills.traits = uniqueTag(next.skills.traits ?? [], label)
+          return next
+        })
+      },
+      removeSkillTrait(index) {
+        patch((next) => {
+          if (!next.skills) return next
+          next.skills.traits = (next.skills.traits ?? []).filter((_, i) => i !== index)
           return next
         })
       },

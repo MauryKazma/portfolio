@@ -7,7 +7,7 @@ export default function ChiSono() {
     display,
     editing,
     setChiSono,
-    setStudio,
+    setNote,
     setToolkitTag,
     addToolkitTag,
     removeToolkitTag,
@@ -53,38 +53,29 @@ export default function ChiSono() {
           <div className="studio-list">
             <EditableText
               className="site-eyebrow"
-              value={chiSono.studiosEyebrow}
+              value={chiSono.notesEyebrow}
               editing={editing}
-              onChange={(value) => setChiSono("studiosEyebrow", value)}
-              ariaLabel="Etichetta studi"
+              onChange={(value) => setChiSono("notesEyebrow", value)}
+              ariaLabel="Etichetta note Chi sono"
             />
-            {(chiSono.studios ?? []).map((studio, index) => (
-              <article className="studio-card" key={`${studio.name}-${index}`}>
+            {(chiSono.notes ?? []).map((note, index) => (
+              <article className="studio-card" key={`${note.title}-${index}`}>
                 <EditableText
                   as="h3"
                   className="studio-name"
-                  value={studio.name}
+                  value={note.title}
                   editing={editing}
-                  onChange={(value) => setStudio(index, "name", value)}
-                  ariaLabel={`Nome studio ${index + 1}`}
+                  onChange={(value) => setNote(index, "title", value)}
+                  ariaLabel={`Titolo nota ${index + 1}`}
                 />
-                <p className="studio-meta">
-                  <EditableText
-                    as="span"
-                    value={studio.role}
-                    editing={editing}
-                    onChange={(value) => setStudio(index, "role", value)}
-                    ariaLabel={`Ruolo studio ${index + 1}`}
-                  />
-                  <span aria-hidden="true"> · </span>
-                  <EditableText
-                    as="span"
-                    value={studio.period}
-                    editing={editing}
-                    onChange={(value) => setStudio(index, "period", value)}
-                    ariaLabel={`Periodo studio ${index + 1}`}
-                  />
-                </p>
+                <EditableText
+                  className="studio-meta"
+                  value={note.body}
+                  editing={editing}
+                  multiline
+                  onChange={(value) => setNote(index, "body", value)}
+                  ariaLabel={`Testo nota ${index + 1}`}
+                />
               </article>
             ))}
           </div>
@@ -96,13 +87,13 @@ export default function ChiSono() {
             value={chiSono.toolkitEyebrow}
             editing={editing}
             onChange={(value) => setChiSono("toolkitEyebrow", value)}
-            ariaLabel="Etichetta toolkit"
+            ariaLabel="Etichetta passioni"
           />
           <TagEditor
             tags={chiSono.toolkit}
             editing={editing}
             listClassName="toolkit-list"
-            addLabel="Nuovo tag toolkit"
+            addLabel="Nuovo tag passione"
             onRename={setToolkitTag}
             onAdd={addToolkitTag}
             onRemove={removeToolkitTag}

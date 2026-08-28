@@ -846,19 +846,17 @@ html[data-look="clean"] .skill-meter-name {
 }
 
 html[data-look="clean"] .skill-row,
-html[data-look="clean"] .skill-split-tools {
+html[data-look="clean"] .skill-meter,
+html[data-look="clean"] .skill-split-tools,
+html[data-look="clean"] .skill-traits {
   border-color: var(--hairline);
 }
 
 html[data-look="clean"] .skill-row-body,
 html[data-look="clean"] .skill-meter-pct,
+html[data-look="clean"] .skill-meter-sigla,
 html[data-look="clean"] .skill-empty {
   color: var(--muted);
-}
-
-html[data-look="clean"] .skill-mark-plate {
-  background: var(--wash);
-  color: var(--spot-deep);
 }
 
 html[data-look="clean"] .skill-meter-track {

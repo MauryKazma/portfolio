@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Plus, X } from "lucide-react"
 import { clampSkillPercent } from "../data/siteDefault"
 import { useSite } from "../context/SiteContentProvider"
-import { EditableText, InlineEdit } from "./EditableText"
+import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 
 function prefersReducedMotion() {
@@ -73,60 +73,58 @@ function SkillPercentField({ name, value, onChange }) {
 function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemove }) {
   const percent = clampSkillPercent(tool.level)
 
+  if (editing) {
+    return (
+      <li className="skill-meter skill-meter--edit">
+        <div className="skill-meter-edit">
+          <input
+            className="site-edit-field skill-mark-input"
+            value={tool.mark}
+            maxLength={3}
+            aria-label={`Sigla ${tool.name}`}
+            onChange={(event) => onMark(event.target.value)}
+          />
+          <input
+            className="site-edit-field"
+            value={tool.name}
+            aria-label={`Nome strumento ${tool.mark}`}
+            onChange={(event) => onName(event.target.value)}
+          />
+          <button
+            type="button"
+            className="site-tag-remove"
+            aria-label={`Rimuovi ${tool.name || "strumento"}`}
+            onClick={onRemove}
+          >
+            <X size={14} aria-hidden />
+          </button>
+        </div>
+        <SkillPercentField name={tool.name} value={percent} onChange={onLevel} />
+      </li>
+    )
+  }
+
   return (
     <li className="skill-meter">
-      {editing ? (
-        <>
-          <div className="skill-meter-edit">
-            <input
-              className="site-edit-field skill-mark-input"
-              value={tool.mark}
-              maxLength={3}
-              aria-label={`Sigla ${tool.name}`}
-              onChange={(event) => onMark(event.target.value)}
-            />
-            <input
-              className="site-edit-field"
-              value={tool.name}
-              aria-label={`Nome strumento ${tool.mark}`}
-              onChange={(event) => onName(event.target.value)}
-            />
-            <button
-              type="button"
-              className="site-tag-remove"
-              aria-label={`Rimuovi ${tool.name || "strumento"}`}
-              onClick={onRemove}
-            >
-              <X size={14} aria-hidden />
-            </button>
-          </div>
-          <SkillPercentField name={tool.name} value={percent} onChange={onLevel} />
-        </>
-      ) : (
-        <>
-          <div className="skill-meter-head">
-            <span className="skill-mark-plate">{tool.mark || "Ps"}</span>
-            <span className="skill-meter-name">{tool.name}</span>
-            <span className="skill-meter-pct">{percent}%</span>
-          </div>
-          <div
-            className={`skill-meter-track${hot ? " is-hot" : ""}`}
-            role="progressbar"
-            aria-label={tool.name}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={percent}
-          >
-            <span
-              className="skill-meter-fill"
-              style={{
-                "--skill-pct": `${percent}%`,
-                "--skill-delay": `${delay}ms`,
-              }}
-            />
-          </div>
-        </>
-      )}
+      <span className="skill-meter-sigla">{tool.mark || "—"}</span>
+      <span className="skill-meter-name">{tool.name}</span>
+      <span className="skill-meter-pct">{percent}%</span>
+      <div
+        className={`skill-meter-track${hot ? " is-hot" : ""}`}
+        role="progressbar"
+        aria-label={tool.name}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={percent}
+      >
+        <span
+          className="skill-meter-fill"
+          style={{
+            "--skill-pct": `${percent}%`,
+            "--skill-delay": `${delay}ms`,
+          }}
+        />
+      </div>
     </li>
   )
 }
@@ -140,10 +138,14 @@ export default function Skills() {
     setSkillTool,
     addSkillTool,
     removeSkillTool,
+    setSkillTrait,
+    addSkillTrait,
+    removeSkillTrait,
   } = useSite()
-  const skills = display.skills ?? { disciplines: [], tools: [] }
+  const skills = display.skills ?? { disciplines: [], tools: [], traits: [] }
   const disciplines = skills.disciplines ?? []
   const tools = skills.tools ?? []
+  const traits = skills.traits ?? []
   const body = skills.body ?? ""
   const [metersRef, hot] = useMeterReveal(editing)
 
@@ -250,6 +252,27 @@ export default function Skills() {
                 <Plus size={16} aria-hidden />
                 Aggiungi strumento
               </button>
+            ) : null}
+
+            {traits.length || editing ? (
+              <div className="skill-traits">
+                <EditableText
+                  className="site-eyebrow"
+                  value={skills.traitsEyebrow ?? "In studio"}
+                  editing={editing}
+                  onChange={(value) => setSkills("traitsEyebrow", value)}
+                  ariaLabel="Etichetta tratti"
+                />
+                <TagEditor
+                  tags={traits}
+                  editing={editing}
+                  listClassName="toolkit-list"
+                  addLabel="Nuovo tratto"
+                  onRename={setSkillTrait}
+                  onAdd={addSkillTrait}
+                  onRemove={removeSkillTrait}
+                />
+              </div>
             ) : null}
           </div>
         </div>
