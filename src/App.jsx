@@ -99,10 +99,10 @@ function AppShell() {
             <Hero />
             <SiteTicker />
             <Skills />
-            <LavoriRecenti />
-            <ChiSono />
             <Servizi />
             <Curriculum />
+            <LavoriRecenti />
+            <ChiSono />
           </>
         ) : project ? (
           <CasePage project={project} />

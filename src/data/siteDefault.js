@@ -6,10 +6,10 @@ export const SITE_DEFAULT = {
   skipLink: "Salta al contenuto",
   nav: [
     { id: "skill", label: "Skill" },
-    { id: "lavori", label: "Lavori" },
-    { id: "chi-sono", label: "Chi sono" },
     { id: "servizi", label: "Servizi" },
     { id: "curriculum", label: "CV" },
+    { id: "lavori", label: "Lavori" },
+    { id: "chi-sono", label: "Chi sono" },
     { id: "contatti", label: "Contatti" },
   ],
   hero: {
@@ -42,14 +42,14 @@ export const SITE_DEFAULT = {
     traitsEyebrow: "In studio",
     traits: ["Curioso dei tool", "Ironia in corsia", "Provo subito", "Carta e schermo"],
     tools: [
-      { id: "tool-id", mark: "Id", name: "InDesign", level: 94 },
-      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 92 },
-      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 90 },
-      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 80 },
-      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 78 },
-      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 74 },
-      { id: "tool-fg", mark: "Fg", name: "Figma", level: 70 },
-      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 68 },
+      { id: "tool-id", mark: "Id", name: "InDesign", level: 94, icon: "/icons/indesign.svg" },
+      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 92, icon: "/icons/illustrator.svg" },
+      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 90, icon: "/icons/photoshop.svg" },
+      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 80, icon: "/icons/premiere.svg" },
+      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 78, icon: "/icons/cursor.png" },
+      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 74, icon: "/icons/antigravity.png" },
+      { id: "tool-fg", mark: "Fg", name: "Figma", level: 70, icon: "/icons/figma.svg?v=10" },
+      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 68, icon: "/icons/after-effects.svg" },
     ],
     disciplines: [
       {
@@ -432,9 +432,10 @@ export const SITE_DEFAULT = {
     menuEyebrow: "Menu",
     menu: [
       { id: "skill", label: "Skill" },
-      { id: "lavori", label: "Lavori" },
       { id: "servizi", label: "Servizi" },
       { id: "curriculum", label: "Curriculum" },
+      { id: "lavori", label: "Lavori" },
+      { id: "chi-sono", label: "Chi sono" },
     ],
     socialEyebrow: "Social",
     social: [
@@ -457,7 +458,7 @@ function uid(prefix) {
 }
 
 export function emptySkillTool() {
-  return { id: uid("tool"), mark: "Ps", name: "Photoshop", level: 72 }
+  return { id: uid("tool"), mark: "Ps", name: "Photoshop", level: 72, icon: "" }
 }
 
 export function clampSkillPercent(value) {
@@ -469,12 +470,22 @@ export function clampSkillPercent(value) {
 
 function normalizeSkillTools(saved, fallback) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
-  return saved.map((item, index) => ({
-    id: typeof item?.id === "string" && item.id ? item.id : `tool-${index + 1}`,
-    name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
-    mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps",
-    level: clampSkillPercent(item?.level),
-  }))
+  const byId = new Map(fallback.map((item) => [item.id, item]))
+  return saved.map((item, index) => {
+    const base = (item?.id && byId.get(item.id)) || fallback[index]
+    const icon = base?.icon
+      ? base.icon
+      : typeof item?.icon === "string" && item.icon.trim()
+        ? item.icon.trim()
+        : ""
+    return {
+      id: typeof item?.id === "string" && item.id ? item.id : `tool-${index + 1}`,
+      name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
+      mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps",
+      icon,
+      level: clampSkillPercent(item?.level),
+    }
+  })
 }
 
 function normalizeDisciplines(saved, fallback) {

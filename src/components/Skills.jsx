@@ -70,6 +70,17 @@ function SkillPercentField({ name, value, onChange }) {
   )
 }
 
+function ToolIcon({ tool }) {
+  if (tool.icon) {
+    return (
+      <span className="skill-meter-icon">
+        <img src={tool.icon} alt="" width={36} height={36} decoding="async" />
+      </span>
+    )
+  }
+  return <span className="skill-meter-sigla">{tool.mark || "—"}</span>
+}
+
 function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemove }) {
   const percent = clampSkillPercent(tool.level)
 
@@ -77,6 +88,7 @@ function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemov
     return (
       <li className="skill-meter skill-meter--edit">
         <div className="skill-meter-edit">
+          <ToolIcon tool={tool} />
           <input
             className="site-edit-field skill-mark-input"
             value={tool.mark}
@@ -106,24 +118,28 @@ function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemov
 
   return (
     <li className="skill-meter">
-      <span className="skill-meter-sigla">{tool.mark || "—"}</span>
-      <span className="skill-meter-name">{tool.name}</span>
-      <span className="skill-meter-pct">{percent}%</span>
-      <div
-        className={`skill-meter-track${hot ? " is-hot" : ""}`}
-        role="progressbar"
-        aria-label={tool.name}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={percent}
-      >
-        <span
-          className="skill-meter-fill"
-          style={{
-            "--skill-pct": `${percent}%`,
-            "--skill-delay": `${delay}ms`,
-          }}
-        />
+      <ToolIcon tool={tool} />
+      <div className="skill-meter-copy">
+        <div className="skill-meter-head">
+          <span className="skill-meter-name">{tool.name}</span>
+          <span className="skill-meter-pct">{percent}%</span>
+        </div>
+        <div
+          className={`skill-meter-track${hot ? " is-hot" : ""}`}
+          role="progressbar"
+          aria-label={tool.name}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={percent}
+        >
+          <span
+            className="skill-meter-fill"
+            style={{
+              "--skill-pct": `${percent}%`,
+              "--skill-delay": `${delay}ms`,
+            }}
+          />
+        </div>
       </div>
     </li>
   )
