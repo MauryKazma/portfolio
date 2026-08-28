@@ -128,9 +128,9 @@ export function CaseNotFound() {
       <div className="site-content">
         <p className="site-eyebrow">Portfolio</p>
         <h1 className="site-headline" id="case-missing">
-          Pezzo non trovato.
+          Progetto non trovato.
         </h1>
-        <p className="site-body">Quel case non è in elenco. Torna ai lavori.</p>
+        <p className="site-body">Questo progetto non è in elenco. Torna ai lavori.</p>
         <div className="project-cta">
           <button type="button" className="btn-primary" onClick={() => navigateTo("/")}>
             Torna alla home

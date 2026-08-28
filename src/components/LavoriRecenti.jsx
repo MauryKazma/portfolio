@@ -112,7 +112,9 @@ export default function LavoriRecenti() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [shotIdx, setShotIdx] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [revealGen, setRevealGen] = useState(0)
   const holdingRef = useRef(false)
+  const skipFirstReveal = useRef(true)
   const reduceMotion = usePrefersReducedMotion()
   const visible =
     filter === "all" ? projects : projects.filter((project) => project.group === filter)
@@ -125,6 +127,11 @@ export default function LavoriRecenti() {
   useEffect(() => {
     setActiveIdx(0)
     setShotIdx(0)
+    if (skipFirstReveal.current) {
+      skipFirstReveal.current = false
+      return
+    }
+    setRevealGen((n) => n + 1)
   }, [filter])
 
   useEffect(() => {
@@ -185,6 +192,8 @@ export default function LavoriRecenti() {
   const teaser = active?.teaser || active?.description || ""
   const deck = deckSlice(visible, safeIdx)
   const slotNames = ["front", "mid", "back"]
+  const revealing = revealGen > 0 && !reduceMotion
+  const revealClass = revealing ? " is-revealing" : ""
 
   const openProject = (index) => {
     const project = visible[index]
@@ -259,11 +268,17 @@ export default function LavoriRecenti() {
             ) : null}
 
             {visible.length === 0 ? (
-              <p className="site-body work-empty">Nessun lavoro in questa categoria.</p>
+              <p key={`empty-${revealGen}`} className={`site-body work-empty${revealClass}`}>
+                Nessun lavoro in questa categoria.
+              </p>
             ) : (
-              <ul className="work-index" onKeyDown={onListKeyDown}>
+              <ul
+                key={`index-${filter}-${revealGen}`}
+                className={`work-index${revealClass}`}
+                onKeyDown={onListKeyDown}
+              >
                 {visible.map((project, index) => (
-                  <li key={project.id}>
+                  <li key={project.id} style={{ "--reveal-i": index }}>
                     <button
                       type="button"
                       aria-current={index === safeIdx ? true : undefined}
@@ -280,7 +295,7 @@ export default function LavoriRecenti() {
             )}
 
             {active ? (
-              <div className="work-cta">
+              <div key={`cta-${filter}-${revealGen}`} className={`work-cta${revealClass}`}>
                 <button type="button" className="btn-primary" onClick={openActive}>
                   <InlineEdit
                     value={display.lavori.cta}
@@ -295,7 +310,10 @@ export default function LavoriRecenti() {
           </div>
 
           {deck.length > 0 ? (
-            <div className="work-stage">
+            <div
+              key={`stage-${filter}-${revealGen}`}
+              className={`work-stage${revealClass}`}
+            >
               <div className="work-stage-glow" aria-hidden="true" />
               <div className="work-deck" aria-live="polite">
                 {deck.map((project, slot) => {
@@ -322,6 +340,7 @@ export default function LavoriRecenti() {
                         {missing ? (
                           <span className="project-shot-empty">
                             <span className="project-shot-empty-title">{project.category}</span>
+                            <span className="project-shot-empty-meta">Foto in arrivo</span>
                           </span>
                         ) : (
                           <img

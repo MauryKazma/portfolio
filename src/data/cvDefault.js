@@ -13,7 +13,7 @@ export const CV_DEFAULT = {
     address: "Via Ninfina 43, 04012, Cisterna di Latina, Italia",
   },
   presentation:
-    "Sono un grafico editoriale, formato come grafico pubblicitario. Lavoro sulla comunicazione per la GDO: volantini, POP, cartellonistica, newsletter, identità visiva e video, anche per maxischermo e girocampo dello Stadio Olimpico. In GDO seguo la lavorazione per intero: analisi delle liste prodotti, etichette con processi di automazione, composizione delle pagine del volantino, poi POP, cartellonistica e video. Progetto anche tool digitali in vibe coding, con Cursor e Antigravity. Ho ottime conoscenze informatiche, hardware e software.",
+    "Grafico editoriale, formato come grafico pubblicitario. Mi occupo di comunicazione per la GDO: volantini, POP, cartellonistica, newsletter e video, compreso maxischermo e girocampo LED dello Stadio Olimpico. Seguo la lavorazione dall’analisi delle liste prodotti alla chiusura della campagna. Progetto anche identità visive e tool interni, con Cursor e Antigravity.",
   experiences: [
     {
       id: "exp-mandarino",
@@ -24,7 +24,7 @@ export const CV_DEFAULT = {
       role: "Grafico editoriale",
       location: "",
       description:
-        "Editoria GDO per Risparmio Casa. Seguo la lavorazione per intero: dalle liste prodotti alle etichette con processi di automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Identità visive e sviluppo di CUBOT, workflow hub interno, in vibe coding con Cursor e Antigravity.",
+        "Editoria GDO per Risparmio Casa. Dalle liste prodotti alle etichette in automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Identità visive e CUBOT, gestionale interno del flusso volantini, con Cursor e Antigravity.",
       order: 0,
     },
     {
@@ -36,7 +36,7 @@ export const CV_DEFAULT = {
       role: "Grafico editoriale",
       location: "",
       description:
-        "Comunicazione GDO per Portobello. Stesso tipo di lavorazione: dalle liste prodotti alle pagine del volantino web, newsletter (brief, bozze, correzioni), POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920), con versioni di rete.",
+        "Comunicazione GDO per Portobello. Volantini web, newsletter, POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920), con versioni di rete.",
       order: 1,
     },
     {
@@ -206,13 +206,13 @@ export const CV_DEFAULT = {
     },
     {
       id: "skillcat-vibe",
-      name: "Vibe coding e nuove tecnologie",
+      name: "Sviluppo e prototipazione",
       description:
-        "Provo gli strumenti di AI e sviluppo quando escono. Costruisco interfacce e tool interni in vibe coding.",
+        "Costruisco tool interni e interfacce con Cursor e Antigravity.",
       items: [
         { id: "skill-cursor", name: "Cursor", order: 0 },
         { id: "skill-antigravity", name: "Antigravity", order: 1 },
-        { id: "skill-vibe", name: "Vibe coding", order: 2 },
+        { id: "skill-vibe", name: "Prototipazione", order: 2 },
         { id: "skill-figma", name: "Figma", order: 3 },
       ],
       order: 1,
@@ -270,7 +270,7 @@ export const CV_DEFAULT = {
   ],
   drivingLicence: "B",
   hobbies:
-    "Progetti grafici e tool digitali per tenermi allenato. Provo gli strumenti nuovi (vibe coding, Cursor, Antigravity) e li porto nel lavoro. Uso Internet tutti i giorni e seguo l’attualità. Partecipo a competizioni di velocità di scrittura su tastiera.",
+    "Progetti grafici e tool digitali. Uso Cursor e Antigravity nel lavoro quotidiano. Competizioni di velocità di scrittura su tastiera.",
   interpersonalSkills: [
     {
       id: "inter-coop",
@@ -284,7 +284,7 @@ export const CV_DEFAULT = {
       id: "inter-tech",
       name: "Aggiornamento sulle nuove tecnologie",
       description:
-        "Porto nel lavoro quotidiano strumenti nuovi come Cursor, Antigravity e il vibe coding. Dal volantino GDO ai tool interni come CUBOT.",
+        "Integro nel lavoro strumenti di sviluppo come Cursor e Antigravity. Dal volantino GDO ai tool interni come CUBOT.",
       items: [],
       order: 1,
     },
