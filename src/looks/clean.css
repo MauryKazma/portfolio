@@ -840,54 +840,37 @@ html[data-look="clean"] .skill-intro {
   color: var(--muted);
 }
 
-html[data-look="clean"] .skill-block + .skill-block {
-  margin-top: 44px;
-  padding-top: 36px;
-  border-top: 1px solid var(--hairline);
+html[data-look="clean"] .skill-row-title,
+html[data-look="clean"] .skill-meter-name {
+  color: var(--ink);
 }
 
-html[data-look="clean"] .skill-ring-track {
-  stroke: #e4ecf4;
+html[data-look="clean"] .skill-row,
+html[data-look="clean"] .skill-split-tools {
+  border-color: var(--hairline);
 }
 
-html[data-look="clean"] .skill-ring-value {
-  stroke: var(--spot-deep);
+html[data-look="clean"] .skill-row-body,
+html[data-look="clean"] .skill-meter-pct,
+html[data-look="clean"] .skill-empty {
+  color: var(--muted);
 }
 
-html[data-look="clean"] .skill-ring-plate {
+html[data-look="clean"] .skill-mark-plate {
   background: var(--wash);
   color: var(--spot-deep);
 }
 
-html[data-look="clean"] .skill-ring-pct,
-html[data-look="clean"] .skill-bar-pct,
-html[data-look="clean"] .skill-grade {
-  color: var(--paper-muted);
-}
-
-html[data-look="clean"] .skill-tool-name,
-html[data-look="clean"] .skill-craft-name {
-  color: var(--ink);
-}
-
-html[data-look="clean"] .skill-craft {
-  border-top-color: var(--hairline);
-}
-
-html[data-look="clean"] .skill-bar-track {
+html[data-look="clean"] .skill-meter-track {
   background: #e4ecf4;
 }
 
-html[data-look="clean"] .skill-bar-fill {
+html[data-look="clean"] .skill-meter-fill {
   background: var(--spot-deep);
 }
 
 html[data-look="clean"] .skill-pct-range {
   accent-color: var(--spot-deep);
-}
-
-html[data-look="clean"] .skill-empty {
-  color: var(--muted);
 }
 
 html[data-look="clean"] .cv-dialog-backdrop {

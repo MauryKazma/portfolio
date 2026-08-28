@@ -2,8 +2,6 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import {
   clampSkillPercent,
   cloneSite,
-  emptySkillCraft,
-  emptySkillSupport,
   emptySkillTool,
   hydrateSite,
   SITE_CONTENT_REVISION,
@@ -237,15 +235,15 @@ export function SiteContentProvider({ children }) {
       },
       setSkills(field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
+          if (!next.skills) next.skills = { disciplines: [], tools: [] }
           next.skills[field] = value
           return next
         })
       },
       setSkillTool(id, field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.tools = next.skills.tools.map((item) =>
+          if (!next.skills) next.skills = { disciplines: [], tools: [] }
+          next.skills.tools = (next.skills.tools ?? []).map((item) =>
             item.id === id
               ? {
                   ...item,
@@ -263,65 +261,57 @@ export function SiteContentProvider({ children }) {
       },
       addSkillTool() {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.tools = [...next.skills.tools, emptySkillTool()]
+          if (!next.skills) next.skills = { disciplines: [], tools: [] }
+          next.skills.tools = [...(next.skills.tools ?? []), emptySkillTool()]
           return next
         })
       },
       removeSkillTool(id) {
         patch((next) => {
           if (!next.skills) return next
-          next.skills.tools = next.skills.tools.filter((item) => item.id !== id)
+          next.skills.tools = (next.skills.tools ?? []).filter((item) => item.id !== id)
           return next
         })
       },
-      setSkillSupport(id, field, value) {
+      setSkillDiscipline(id, field, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.supports = (next.skills.supports ?? []).map((item) =>
-            item.id === id
-              ? { ...item, [field]: field === "level" ? clampSkillPercent(value) : value }
-              : item
+          if (!next.skills) next.skills = { disciplines: [], tools: [] }
+          next.skills.disciplines = (next.skills.disciplines ?? []).map((item) =>
+            item.id === id ? { ...item, [field]: value } : item
           )
           return next
         })
       },
-      addSkillSupport() {
+      setSkillDisciplineTool(id, index, value) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.supports = [...(next.skills.supports ?? []), emptySkillSupport()]
+          if (!next.skills?.disciplines) return next
+          next.skills.disciplines = next.skills.disciplines.map((item) => {
+            if (item.id !== id) return item
+            return {
+              ...item,
+              tools: (item.tools ?? []).map((tool, i) => (i === index ? value : tool)),
+            }
+          })
           return next
         })
       },
-      removeSkillSupport(id) {
+      addSkillDisciplineTool(id, label) {
         patch((next) => {
-          if (!next.skills) return next
-          next.skills.supports = (next.skills.supports ?? []).filter((item) => item.id !== id)
+          if (!next.skills?.disciplines) return next
+          next.skills.disciplines = next.skills.disciplines.map((item) => {
+            if (item.id !== id) return item
+            return { ...item, tools: uniqueTag(item.tools ?? [], label) }
+          })
           return next
         })
       },
-      setSkillCraft(id, field, value) {
+      removeSkillDisciplineTool(id, index) {
         patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.crafts = next.skills.crafts.map((item) =>
-            item.id === id
-              ? { ...item, [field]: field === "level" ? clampSkillPercent(value) : value }
-              : item
-          )
-          return next
-        })
-      },
-      addSkillCraft() {
-        patch((next) => {
-          if (!next.skills) next.skills = { tools: [], supports: [], crafts: [] }
-          next.skills.crafts = [...next.skills.crafts, emptySkillCraft()]
-          return next
-        })
-      },
-      removeSkillCraft(id) {
-        patch((next) => {
-          if (!next.skills) return next
-          next.skills.crafts = next.skills.crafts.filter((item) => item.id !== id)
+          if (!next.skills?.disciplines) return next
+          next.skills.disciplines = next.skills.disciplines.map((item) => {
+            if (item.id !== id) return item
+            return { ...item, tools: (item.tools ?? []).filter((_, i) => i !== index) }
+          })
           return next
         })
       },

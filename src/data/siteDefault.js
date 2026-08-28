@@ -37,6 +37,7 @@ export const SITE_DEFAULT = {
     eyebrow: "Skill",
     title: "Strumenti di lavoro.",
     body: "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.",
+    craftEyebrow: "Mestiere",
     toolsEyebrow: "Software",
     tools: [
       { id: "tool-id", mark: "Id", name: "InDesign", level: 94 },
@@ -48,22 +49,31 @@ export const SITE_DEFAULT = {
       { id: "tool-fg", mark: "Fg", name: "Figma", level: 70 },
       { id: "tool-ae", mark: "Ae", name: "After Effects", level: 68 },
     ],
-    supportsEyebrow: "Supporti",
-    supports: [
-      { id: "support-carta", name: "Carta", level: 94 },
-      { id: "support-schermo", name: "Schermo", level: 82 },
-      { id: "support-spazio", name: "Spazio / OOH", level: 80 },
-    ],
-    craftsEyebrow: "Mestiere",
-    crafts: [
-      { id: "craft-gdo", name: "Editoria GDO", level: 92 },
-      { id: "craft-impaginazione", name: "Impaginazione", level: 90 },
-      { id: "craft-identita", name: "Identità visiva", level: 88 },
-      { id: "craft-tipografia", name: "Tipografia", level: 84 },
-      { id: "craft-comunicazione", name: "Comunicazione", level: 82 },
-      { id: "craft-video", name: "Video", level: 80 },
-      { id: "craft-stampa", name: "Pre-stampa", level: 78 },
-      { id: "craft-vibe", name: "Prototipazione", level: 76 },
+    disciplines: [
+      {
+        id: "disc-gdo",
+        title: "Editoria GDO",
+        body: "InDesign sul foglio, Photoshop sulle immagini, pre-stampa prima della rete.",
+        tools: ["InDesign", "Photoshop", "Illustrator"],
+      },
+      {
+        id: "disc-identita",
+        title: "Identità visiva",
+        body: "Marchio, palette e tavole. Illustrator e InDesign tengono il sistema su carta e schermo.",
+        tools: ["Illustrator", "InDesign", "Figma"],
+      },
+      {
+        id: "disc-video",
+        title: "Video",
+        body: "Premiere e After Effects per lo store e lo stadio. Montaggio e adattamento al supporto.",
+        tools: ["Premiere Pro", "After Effects", "Photoshop"],
+      },
+      {
+        id: "disc-tools",
+        title: "Tool interni",
+        body: "Interfacce e gestionali di produzione, prototipati con Cursor e Antigravity.",
+        tools: ["Cursor", "Antigravity", "Figma"],
+      },
     ],
   },
   chiSono: {
@@ -447,33 +457,6 @@ export function emptySkillTool() {
   return { id: uid("tool"), mark: "Ps", name: "Photoshop", level: 72 }
 }
 
-export function emptySkillSupport() {
-  return { id: uid("support"), name: "Supporto", level: 72 }
-}
-
-export function emptySkillCraft() {
-  return { id: uid("craft"), name: "Competenza", level: 72 }
-}
-
-export function skillGrade(percent) {
-  const n = clampSkillPercent(percent)
-  if (n >= 88) return "Esperto"
-  if (n >= 75) return "Avanzato"
-  if (n >= 60) return "Solido"
-  return "In crescita"
-}
-
-function isPlaceholderSkills(skills) {
-  const tools = skills?.tools
-  if (!Array.isArray(tools) || tools.length === 0) return true
-  const generic = tools.filter((item) => {
-    const name = String(item?.name ?? "").trim()
-    const mark = String(item?.mark ?? "").trim()
-    return /^strumento$/i.test(name) || /^(aa|bb|cc|dd)$/i.test(mark)
-  })
-  return generic.length === tools.length
-}
-
 export function clampSkillPercent(value) {
   const n = Number(value)
   if (!Number.isFinite(n)) return 72
@@ -481,18 +464,32 @@ export function clampSkillPercent(value) {
   return Math.max(0, Math.min(100, Math.round(n)))
 }
 
-export const clampSkillLevel = clampSkillPercent
-
-function normalizeSkillItems(saved, fallback, kind) {
+function normalizeSkillTools(saved, fallback) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
   return saved.map((item, index) => ({
-    id: typeof item?.id === "string" && item.id ? item.id : `${kind}-${index + 1}`,
+    id: typeof item?.id === "string" && item.id ? item.id : `tool-${index + 1}`,
     name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
+    mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps",
     level: clampSkillPercent(item?.level),
-    ...(kind === "tool"
-      ? { mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps" }
-      : {}),
   }))
+}
+
+function normalizeDisciplines(saved, fallback) {
+  if (!Array.isArray(saved) || saved.length === 0) return fallback
+  const byId = new Map(saved.map((item) => [item.id, item]))
+  return fallback.map((item) => {
+    const extra = byId.get(item.id)
+    if (!extra || typeof extra !== "object") return item
+    const tools = Array.isArray(extra.tools)
+      ? extra.tools.filter((tool) => typeof tool === "string" && tool.trim())
+      : item.tools
+    return {
+      ...item,
+      title: nonempty(extra.title, item.title),
+      body: typeof extra.body === "string" ? extra.body : item.body,
+      tools: tools.length ? tools : item.tools,
+    }
+  })
 }
 
 function mergeById(saved, base) {
@@ -607,16 +604,17 @@ export function hydrateSite(saved) {
             : base.ticker.items,
         },
     chiSono,
-    skills:
-      needsMigration || isPlaceholderSkills(saved.skills)
-        ? base.skills
-        : {
-            ...base.skills,
-            ...saved.skills,
-            tools: normalizeSkillItems(saved.skills?.tools, base.skills.tools, "tool"),
-            supports: normalizeSkillItems(saved.skills?.supports, base.skills.supports, "support"),
-            crafts: normalizeSkillItems(saved.skills?.crafts, base.skills.crafts, "craft"),
-          },
+    skills: needsMigration
+      ? base.skills
+      : {
+          eyebrow: nonempty(saved.skills?.eyebrow, base.skills.eyebrow),
+          title: nonempty(saved.skills?.title, base.skills.title),
+          body: typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body,
+          craftEyebrow: nonempty(saved.skills?.craftEyebrow, base.skills.craftEyebrow),
+          toolsEyebrow: nonempty(saved.skills?.toolsEyebrow, base.skills.toolsEyebrow),
+          tools: normalizeSkillTools(saved.skills?.tools, base.skills.tools),
+          disciplines: normalizeDisciplines(saved.skills?.disciplines, base.skills.disciplines),
+        },
     lavori: {
       ...(needsMigration ? base.lavori : { ...base.lavori, ...saved.lavori }),
       waitLabel:
