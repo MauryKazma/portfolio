@@ -294,9 +294,11 @@ html[data-look="clean"] .site-section--band {
   border-bottom: 0;
 }
 
+html[data-look="clean"] .site-section--wash,
+html[data-look="clean"] #skill,
+html[data-look="clean"] #curriculum,
 html[data-look="clean"] #chi-sono,
-html[data-look="clean"] #contatti,
-html[data-look="clean"] #skill {
+html[data-look="clean"] #contatti {
   background: var(--wash);
 }
 

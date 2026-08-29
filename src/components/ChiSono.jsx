@@ -15,7 +15,7 @@ export default function ChiSono() {
   const { chiSono } = display
 
   return (
-    <SiteSection id="chi-sono" className="scroll-mt-24" aria-labelledby="chi-sono-title">
+    <SiteSection id="chi-sono" className="scroll-mt-24" wash aria-labelledby="chi-sono-title">
       <div className="site-content split-grid about-grid">
         <div className="about-copy">
           <EditableText

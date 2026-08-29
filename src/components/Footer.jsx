@@ -30,7 +30,7 @@ export default function Footer() {
   }
 
   return (
-    <SiteSection as="footer" id="contatti" className="scroll-mt-24" tone="ink">
+    <SiteSection as="footer" id="contatti" className="scroll-mt-24" wash tone="ink">
       <div className="site-content">
         <div className="footer-grid">
           <div className="contact-lead">

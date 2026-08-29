@@ -166,7 +166,7 @@ export default function Skills() {
   const [metersRef, hot] = useMeterReveal(editing)
 
   return (
-    <SiteSection id="skill" className="scroll-mt-24" aria-labelledby="skill-title">
+    <SiteSection id="skill" className="scroll-mt-24" wash aria-labelledby="skill-title">
       <div className="site-content skill-board">
         <EditableText
           className="site-eyebrow"
