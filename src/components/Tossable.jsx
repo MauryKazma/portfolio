@@ -188,29 +188,35 @@ export default function Tossable({
 
   const onClick = (event) => {
     event.preventDefault()
-    if (dragging) return
-    if (tossable) return
-    onActivate?.()
   }
+
+  const faceClass = `work-deck-face${tossable ? "" : " is-static"}`
+  const face = tossable ? (
+    <a
+      href={href}
+      className={faceClass}
+      aria-label={ariaLabel}
+      aria-current={ariaCurrent}
+      draggable={false}
+      onClick={onClick}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      onLostPointerCapture={endDrag}
+    >
+      {children}
+    </a>
+  ) : (
+    <div className={faceClass} aria-hidden="true">
+      {children}
+    </div>
+  )
 
   return (
     <div className={`${className}${dragging ? " is-dragging" : ""}`.trim()}>
       <div ref={moverRef} className="work-deck-toss">
-        <a
-          href={href}
-          className={`work-deck-face${tossable ? "" : " is-static"}`}
-          aria-label={ariaLabel}
-          aria-current={ariaCurrent}
-          draggable={false}
-          onClick={onClick}
-          onPointerDown={tossable ? onPointerDown : undefined}
-          onPointerMove={tossable ? onPointerMove : undefined}
-          onPointerUp={tossable ? endDrag : undefined}
-          onPointerCancel={tossable ? endDrag : undefined}
-          onLostPointerCapture={tossable ? endDrag : undefined}
-        >
-          {children}
-        </a>
+        {face}
       </div>
     </div>
   )

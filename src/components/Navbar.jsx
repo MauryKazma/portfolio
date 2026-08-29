@@ -217,7 +217,7 @@ export default function Navbar() {
             aria-controls="menu-mobile"
             aria-label={open ? "Chiudi menu" : "Apri menu"}
           >
-            {open ? <X size={16} aria-hidden /> : <Menu size={16} aria-hidden />}
+            {open ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
           </button>
         </div>
       </nav>
@@ -226,7 +226,7 @@ export default function Navbar() {
         <div
           ref={panelRef}
           id="menu-mobile"
-          className="site-nav-mobile md:hidden"
+          className="site-nav-mobile"
           role="dialog"
           aria-modal="true"
           aria-label="Menu"

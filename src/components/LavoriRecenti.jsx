@@ -146,8 +146,23 @@ export default function LavoriRecenti() {
     return () => window.clearInterval(timer)
   }, [paused, reduceMotion, editing, visible.length])
 
+  const openProject = (index) => {
+    const project = visible[index]
+    if (!project) return
+    if (editing) {
+      if (index === safeIdx) return
+      setActiveIdx(index)
+      setShotIdx(0)
+      return
+    }
+    navigateTo(`/lavori/${project.id}`)
+  }
+
   const selectProject = (index) => {
-    if (index === safeIdx) return
+    if (index === safeIdx) {
+      openProject(index)
+      return
+    }
     setActiveIdx(index)
     setShotIdx(0)
   }
@@ -195,16 +210,6 @@ export default function LavoriRecenti() {
   const revealing = revealGen > 0 && !reduceMotion
   const revealClass = revealing ? " is-revealing" : ""
 
-  const openProject = (index) => {
-    const project = visible[index]
-    if (!project) return
-    if (editing) {
-      selectProject(index)
-      return
-    }
-    navigateTo(`/lavori/${project.id}`)
-  }
-
   const openActive = () => {
     if (!active) return
     openProject(safeIdx)
@@ -250,7 +255,77 @@ export default function LavoriRecenti() {
               onChange={(value) => setLavori("body", value)}
               ariaLabel="Testo lavori"
             />
+          </div>
 
+          {deck.length > 0 ? (
+            <div
+              key={`stage-${filter}-${revealGen}`}
+              className={`work-stage${revealClass}`}
+            >
+              <div className="work-stage-glow" aria-hidden="true" />
+              <div className="work-deck" aria-hidden="true">
+                {deck.map((project, slot) => {
+                  const cover = project.image ?? ""
+                  const missing = !String(cover).trim() || isPlaceholderImage(cover)
+                  const index = visible.findIndex((item) => item.id === project.id)
+                  return (
+                    <Tossable
+                      key={project.id}
+                      href={`/lavori/${project.id}`}
+                      className={`work-deck-card is-${slotNames[slot] ?? "back"}`}
+                      ariaCurrent={index === safeIdx ? true : undefined}
+                      ariaLabel={`${project.title}${project.client ? `, ${project.client}` : ""}`}
+                      onEngage={() => {
+                        holdingRef.current = true
+                        setPaused(true)
+                      }}
+                      onRelease={() => {
+                        holdingRef.current = false
+                      }}
+                      onActivate={() => openProject(index)}
+                    >
+                      <span className="work-deck-frame">
+                        {missing ? (
+                          <span className="project-shot-empty">
+                            <span className="project-shot-empty-title">{project.category}</span>
+                            <span className="project-shot-empty-meta">Foto in arrivo</span>
+                          </span>
+                        ) : (
+                          <img
+                            src={cover}
+                            alt=""
+                            width={640}
+                            height={800}
+                            loading={slot === 0 ? "eager" : "lazy"}
+                            decoding="async"
+                            draggable={false}
+                          />
+                        )}
+                      </span>
+                      <span className="work-deck-caption">
+                        <span className="site-eyebrow">{project.category}</span>
+                        <span className="work-deck-title">{project.title}</span>
+                        <span className="work-deck-meta">
+                          {[project.client !== project.title ? project.client : null, project.year]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </span>
+                      </span>
+                    </Tossable>
+                  )
+                })}
+              </div>
+              {visible.length > 1 ? (
+                <p className="work-deck-count" aria-live="polite">
+                  {String(safeIdx + 1).padStart(2, "0")}
+                  <span aria-hidden="true"> · </span>
+                  {String(visible.length).padStart(2, "0")}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+
+          <div className="work-picker">
             {filters.length > 1 ? (
               <div className="project-filters" role="group" aria-label="Filtra i lavori">
                 {filters.map((item) => (
@@ -308,74 +383,6 @@ export default function LavoriRecenti() {
               </div>
             ) : null}
           </div>
-
-          {deck.length > 0 ? (
-            <div
-              key={`stage-${filter}-${revealGen}`}
-              className={`work-stage${revealClass}`}
-            >
-              <div className="work-stage-glow" aria-hidden="true" />
-              <div className="work-deck" aria-live="polite">
-                {deck.map((project, slot) => {
-                  const cover = project.image ?? ""
-                  const missing = !String(cover).trim() || isPlaceholderImage(cover)
-                  const index = visible.findIndex((item) => item.id === project.id)
-                  return (
-                    <Tossable
-                      key={project.id}
-                      href={`/lavori/${project.id}`}
-                      className={`work-deck-card is-${slotNames[slot] ?? "back"}`}
-                      ariaCurrent={index === safeIdx ? true : undefined}
-                      ariaLabel={`${project.title}${project.client ? `, ${project.client}` : ""}`}
-                      onEngage={() => {
-                        holdingRef.current = true
-                        setPaused(true)
-                      }}
-                      onRelease={() => {
-                        holdingRef.current = false
-                      }}
-                      onActivate={() => openProject(index)}
-                    >
-                      <span className="work-deck-frame">
-                        {missing ? (
-                          <span className="project-shot-empty">
-                            <span className="project-shot-empty-title">{project.category}</span>
-                            <span className="project-shot-empty-meta">Foto in arrivo</span>
-                          </span>
-                        ) : (
-                          <img
-                            src={cover}
-                            alt=""
-                            width={640}
-                            height={800}
-                            loading={slot === 0 ? "eager" : "lazy"}
-                            decoding="async"
-                            draggable={false}
-                          />
-                        )}
-                      </span>
-                      <span className="work-deck-caption">
-                        <span className="site-eyebrow">{project.category}</span>
-                        <span className="work-deck-title">{project.title}</span>
-                        <span className="work-deck-meta">
-                          {[project.client !== project.title ? project.client : null, project.year]
-                            .filter(Boolean)
-                            .join(" · ")}
-                        </span>
-                      </span>
-                    </Tossable>
-                  )
-                })}
-              </div>
-              {visible.length > 1 ? (
-                <p className="work-deck-count">
-                  {String(safeIdx + 1).padStart(2, "0")}
-                  <span aria-hidden="true"> · </span>
-                  {String(visible.length).padStart(2, "0")}
-                </p>
-              ) : null}
-            </div>
-          ) : null}
         </div>
 
         {editing && active ? (
