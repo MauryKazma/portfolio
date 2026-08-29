@@ -14,7 +14,7 @@ export const SITE_DEFAULT = {
   ],
   hero: {
     eyebrow: "Graphic designer",
-    title: "Impagino. Firmo. Gioco con l’AI.",
+    title: "Impagino. Progetto. Gioco con l’AI.",
     body: "Progetto identità visive e video. Sull’editoria GDO ho il mestiere: volantini, POP, cartellonistica, Stadio Olimpico. Dal 2023 in Mandarino Agency su Risparmio Casa, prima in Stratego su Portobello. Quando arriva uno strumento AI nuovo, lo provo. CUBOT e questo sito sono nati così, con Cursor e Antigravity.",
     cta: "Vedi i lavori",
     availability: "Disponibile per nuove collaborazioni.",
@@ -615,7 +615,10 @@ export function hydrateSite(saved) {
       eyebrow: needsMigration
         ? base.hero.eyebrow
         : nonempty(saved.hero?.eyebrow, base.hero.eyebrow),
-      title: needsMigration ? base.hero.title : nonempty(saved.hero?.title, base.hero.title),
+      title:
+        needsMigration || saved.hero?.title === "Impagino. Firmo. Gioco con l’AI."
+          ? base.hero.title
+          : nonempty(saved.hero?.title, base.hero.title),
       body: needsMigration ? base.hero.body : nonempty(saved.hero?.body, base.hero.body),
       cta: needsMigration ? base.hero.cta : nonempty(saved.hero?.cta, base.hero.cta),
       availability: needsMigration
