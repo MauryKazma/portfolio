@@ -37,6 +37,19 @@ html[data-look="clean"] .page {
   color: var(--ink);
 }
 
+html[data-look="clean"],
+html[data-look="clean"] body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+html[data-look="clean"] .page {
+  min-height: 100dvh;
+  max-width: 100%;
+}
+
 html[data-look="clean"] body {
   font-size: 1.0625rem;
   line-height: 1.7;
@@ -278,6 +291,41 @@ html[data-look="clean"] .atmosphere-dot--8 {
 
   html[data-look="clean"] .atmosphere-dot--8 {
     left: 6%;
+  }
+
+  html[data-look="clean"] .page::before {
+    right: 0;
+    width: min(56vw, 280px);
+    height: min(56vw, 280px);
+  }
+
+  html[data-look="clean"] .page::after {
+    left: 0;
+  }
+
+  html[data-look="clean"] .site-section--band,
+  html[data-look="clean"] #servizi,
+  html[data-look="clean"] .site-ticker,
+  html[data-look="clean"] .hero-portrait-stage,
+  html[data-look="clean"] .work-stage {
+    overflow-x: clip;
+  }
+
+  html[data-look="clean"] .site-section--band::before {
+    right: 4%;
+    width: min(42vw, 220px);
+    height: min(42vw, 220px);
+  }
+
+  html[data-look="clean"] #servizi::before {
+    right: 0;
+    width: min(72%, 280px);
+  }
+
+  html[data-look="clean"] .work-stage-glow,
+  html[data-look="clean"] .hero-portrait-glow {
+    width: min(100%, 280px);
+    left: 50%;
   }
 }
 
@@ -1376,6 +1424,12 @@ html[data-look="clean"] .work-empty {
     max-width: min(320px, 100%);
     justify-self: center;
     margin-inline: auto;
+    overflow-x: clip;
+  }
+
+  html[data-look="clean"] .work-stage-glow {
+    width: min(100%, 280px);
+    left: 50%;
   }
 
   html[data-look="clean"] .work-deck {
@@ -1962,6 +2016,10 @@ html[data-look="clean"] .back-to-top {
 
   html[data-look="clean"] .site-nav-inner {
     grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: 100%;
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
   }
 
   html[data-look="clean"] .site-section--band {
@@ -1987,6 +2045,10 @@ html[data-look="clean"] .back-to-top {
     max-width: 280px;
     justify-self: center;
     margin-inline: auto;
+  }
+
+  html[data-look="clean"] .back-to-top {
+    right: max(12px, env(safe-area-inset-right, 0px));
   }
 
   html[data-look="clean"] .site-ticker {
@@ -2103,5 +2165,44 @@ html[data-look="clean"] .back-to-top {
   html[data-look="clean"] .hero-portrait-glow,
   html[data-look="clean"] .site-ticker-track {
     opacity: 1;
+  }
+}
+
+/* Keep phone layout inside the visual viewport: blobs and glows must not widen the page. */
+@media (max-width: 899px) {
+  html[data-look="clean"] .site-section--band,
+  html[data-look="clean"] #servizi,
+  html[data-look="clean"] .site-ticker,
+  html[data-look="clean"] .hero-portrait-stage,
+  html[data-look="clean"] .work-stage,
+  html[data-look="clean"] .work-split {
+    overflow-x: clip;
+  }
+
+  html[data-look="clean"] .page::before {
+    right: 0;
+    width: min(56vw, 280px);
+    height: min(56vw, 280px);
+  }
+
+  html[data-look="clean"] .page::after {
+    left: 0;
+  }
+
+  html[data-look="clean"] .site-section--band::before {
+    right: 4%;
+    width: min(42vw, 220px);
+    height: min(42vw, 220px);
+  }
+
+  html[data-look="clean"] #servizi::before {
+    right: 0;
+    width: min(72%, 280px);
+  }
+
+  html[data-look="clean"] .work-stage-glow,
+  html[data-look="clean"] .hero-portrait-glow {
+    width: min(100%, 280px);
+    left: 50%;
   }
 }

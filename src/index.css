@@ -58,16 +58,20 @@
     scroll-behavior: smooth;
     scroll-padding-top: var(--nav-h);
     color-scheme: light;
+    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   html,
   body,
   #root {
     min-height: 100%;
+    max-width: 100%;
   }
 
   body {
     margin: 0;
+    width: 100%;
     background: var(--paper);
     color: var(--ink);
     font-family: var(--font-body);
@@ -76,6 +80,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   ::selection {
