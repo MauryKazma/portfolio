@@ -11,6 +11,7 @@ import Curriculum from "./components/cv/Curriculum"
 import Footer from "./components/Footer"
 import SiteTicker from "./components/SiteTicker"
 import BackToTop from "./components/BackToTop"
+import ContactDock from "./components/ContactDock"
 import Atmosphere from "./components/Atmosphere"
 import CasePage, { CaseNotFound } from "./components/CasePage"
 import EditorUnlockDialog from "./components/EditorUnlockDialog"
@@ -98,10 +99,10 @@ function AppShell() {
           <>
             <Hero />
             <SiteTicker />
+            <LavoriRecenti />
             <Skills />
             <Servizi />
             <Curriculum />
-            <LavoriRecenti />
             <ChiSono />
           </>
         ) : project ? (
@@ -111,6 +112,7 @@ function AppShell() {
         )}
       </main>
       <Footer />
+      <ContactDock />
       <BackToTop />
       <DialogHost />
       <EditorUnlockDialog />

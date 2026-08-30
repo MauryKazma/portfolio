@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Pause, Play } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage, readImageFile } from "../utils/image"
+import ShotImage from "./ShotImage"
 import { navigateTo } from "../utils/route"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 import Tossable from "./Tossable"
+
+function projectLead(project) {
+  const teaser = String(project?.teaser ?? "").trim()
+  if (teaser) return teaser
+  return String(project?.description ?? "").trim()
+}
 
 function deckSlice(list, start, size = 3) {
   if (!list.length) return []
@@ -68,15 +75,13 @@ export function ProjectShot({
           <span className="project-shot-empty-meta">Foto in arrivo</span>
         </div>
       ) : (
-        <img
+        <ShotImage
           src={src}
           alt={alt}
           width={lockRatio || frame !== "portrait" ? 800 : 600}
           height={lockRatio || frame !== "portrait" ? 600 : 800}
           sizes="(min-width: 900px) 640px, 100vw"
-          loading={eager ? "eager" : "lazy"}
-          fetchPriority={eager ? "high" : "auto"}
-          decoding="async"
+          eager={eager}
           onLoad={(event) => {
             if (placeholder || lockRatio) return
             const { naturalWidth: width, naturalHeight: height } = event.currentTarget
@@ -111,7 +116,8 @@ export default function LavoriRecenti() {
   const [filter, setFilter] = useState("all")
   const [activeIdx, setActiveIdx] = useState(0)
   const [shotIdx, setShotIdx] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const [userPaused, setUserPaused] = useState(false)
+  const [hoverPaused, setHoverPaused] = useState(false)
   const [revealGen, setRevealGen] = useState(0)
   const holdingRef = useRef(false)
   const skipFirstReveal = useRef(true)
@@ -139,12 +145,22 @@ export default function LavoriRecenti() {
   }, [active?.id])
 
   useEffect(() => {
-    if (paused || reduceMotion || editing || visible.length < 2) return
+    if (userPaused || hoverPaused || reduceMotion || editing || visible.length < 2) return
     const timer = window.setInterval(() => {
+      if (holdingRef.current) return
       setActiveIdx((current) => (current + 1) % visible.length)
     }, 8000)
     return () => window.clearInterval(timer)
-  }, [paused, reduceMotion, editing, visible.length])
+  }, [userPaused, hoverPaused, reduceMotion, editing, visible.length])
+
+  const pauseForHover = () => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return
+    setHoverPaused(true)
+  }
+
+  const resumeFromHover = () => {
+    if (!holdingRef.current) setHoverPaused(false)
+  }
 
   const openProject = (index) => {
     const project = visible[index]
@@ -204,7 +220,8 @@ export default function LavoriRecenti() {
   if (!projects.length) return null
 
   const extras = Array.isArray(active?.gallery) ? active.gallery : []
-  const teaser = active?.teaser || active?.description || ""
+  const teaser = projectLead(active)
+  const editTeaser = active?.teaser || active?.description || ""
   const deck = deckSlice(visible, safeIdx)
   const slotNames = ["front", "mid", "back"]
   const revealing = revealGen > 0 && !reduceMotion
@@ -220,14 +237,12 @@ export default function LavoriRecenti() {
       <div className="site-content">
         <div
           className="work-split"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => {
-            if (!holdingRef.current) setPaused(false)
-          }}
-          onFocus={() => setPaused(true)}
+          onMouseEnter={pauseForHover}
+          onMouseLeave={resumeFromHover}
+          onFocus={pauseForHover}
           onBlur={(event) => {
             if (event.currentTarget.contains(event.relatedTarget)) return
-            if (!holdingRef.current) setPaused(false)
+            resumeFromHover()
           }}
         >
           <div className="work-copy">
@@ -255,6 +270,9 @@ export default function LavoriRecenti() {
               onChange={(value) => setLavori("body", value)}
               ariaLabel="Testo lavori"
             />
+            {teaser ? (
+              <p className="work-teaser">{teaser}</p>
+            ) : null}
           </div>
 
           {deck.length > 0 ? (
@@ -277,7 +295,6 @@ export default function LavoriRecenti() {
                       ariaLabel={`${project.title}${project.client ? `, ${project.client}` : ""}`}
                       onEngage={() => {
                         holdingRef.current = true
-                        setPaused(true)
                       }}
                       onRelease={() => {
                         holdingRef.current = false
@@ -291,13 +308,13 @@ export default function LavoriRecenti() {
                             <span className="project-shot-empty-meta">Foto in arrivo</span>
                           </span>
                         ) : (
-                          <img
+                          <ShotImage
                             src={cover}
                             alt=""
                             width={640}
                             height={800}
-                            loading={slot === 0 ? "eager" : "lazy"}
-                            decoding="async"
+                            sizes="(min-width: 900px) 280px, 210px"
+                            eager={slot === 0}
                             draggable={false}
                           />
                         )}
@@ -316,11 +333,25 @@ export default function LavoriRecenti() {
                 })}
               </div>
               {visible.length > 1 ? (
-                <p className="work-deck-count" aria-live="polite">
-                  {String(safeIdx + 1).padStart(2, "0")}
-                  <span aria-hidden="true"> · </span>
-                  {String(visible.length).padStart(2, "0")}
-                </p>
+                <div className="work-deck-controls">
+                  <p className="work-deck-count" aria-live="polite">
+                    {String(safeIdx + 1).padStart(2, "0")}
+                    <span aria-hidden="true"> · </span>
+                    {String(visible.length).padStart(2, "0")}
+                  </p>
+                  {!reduceMotion && !editing ? (
+                    <button
+                      type="button"
+                      className="work-deck-pause"
+                      aria-pressed={userPaused}
+                      aria-label={userPaused ? "Riprendi il mazzo" : "Metti in pausa il mazzo"}
+                      onClick={() => setUserPaused((value) => !value)}
+                    >
+                      {userPaused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
+                      {userPaused ? "Riprendi" : "Pausa"}
+                    </button>
+                  ) : null}
+                </div>
               ) : null}
             </div>
           ) : null}
@@ -414,7 +445,13 @@ export default function LavoriRecenti() {
                       aria-label={`Mostra ${shot.caption || `immagine ${index + 1}`}`}
                     >
                       {String(shot.src ?? "").trim() ? (
-                        <img src={shot.src} alt="" width={240} height={180} decoding="async" />
+                        <ShotImage
+                          src={shot.src}
+                          alt=""
+                          width={240}
+                          height={180}
+                          sizes="120px"
+                        />
                       ) : (
                         <span className="project-gallery-empty">{shot.caption}</span>
                       )}
@@ -443,7 +480,7 @@ export default function LavoriRecenti() {
             />
             <EditableText
               className="site-body project-teaser"
-              value={teaser}
+              value={editTeaser}
               editing
               multiline
               onChange={(value) => setProject(active.id, "teaser", value)}

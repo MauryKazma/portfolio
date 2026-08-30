@@ -5,6 +5,7 @@ import { isPlaceholderImage } from "../utils/image"
 import { navigateTo } from "../utils/route"
 import { goToSection } from "../utils/scroll"
 import { ProjectShot, frameClass, projectShots } from "./LavoriRecenti"
+import ShotImage from "./ShotImage"
 import SiteSection from "./SiteSection"
 
 function isHttpHref(href) {
@@ -67,7 +68,13 @@ export default function CasePage({ project }) {
                       aria-label={`Mostra ${shot.caption || `immagine ${index + 1}`}`}
                     >
                       {String(shot.src ?? "").trim() ? (
-                        <img src={shot.src} alt="" width={240} height={180} decoding="async" />
+                        <ShotImage
+                          src={shot.src}
+                          alt=""
+                          width={240}
+                          height={180}
+                          sizes="120px"
+                        />
                       ) : (
                         <span className="project-gallery-empty">{shot.caption}</span>
                       )}

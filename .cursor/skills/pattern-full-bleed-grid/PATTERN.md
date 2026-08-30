@@ -47,7 +47,8 @@ design:
     ui: "220ms"
     rise: "780ms"
     ease: "cubic-bezier(0.22, 1, 0.36, 1)"
-  google_fonts_url: "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+  google_fonts_url: ""
+  fonts_css: "src/looks/fonts.css (self-hosted latin woff2: Instrument Serif italic 400, Geist 400/600, Geist Mono 400)"
   css_source: "src/looks/clean.css"
   html_flag: 'html[data-look="clean"]'
 ---

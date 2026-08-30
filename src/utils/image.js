@@ -1,4 +1,4 @@
-export function readImageFile(file, max = 1200, quality = 0.86) {
+export function readImageFile(file, max = 1280, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const img = new Image()
     const blobUrl = URL.createObjectURL(file)
@@ -9,7 +9,8 @@ export function readImageFile(file, max = 1200, quality = 0.86) {
       canvas.height = Math.max(1, Math.round(img.height * scale))
       canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height)
       URL.revokeObjectURL(blobUrl)
-      resolve(canvas.toDataURL("image/jpeg", quality))
+      const webp = canvas.toDataURL("image/webp", quality)
+      resolve(webp.startsWith("data:image/webp") ? webp : canvas.toDataURL("image/jpeg", quality))
     }
     img.onerror = () => {
       URL.revokeObjectURL(blobUrl)
@@ -22,4 +23,13 @@ export function readImageFile(file, max = 1200, quality = 0.86) {
 export function isPlaceholderImage(src) {
   const value = String(src ?? "")
   return !value.trim() || /\/work-(identita|editoria|comunicazione)\.svg$/.test(value)
+}
+
+export function rasterWebpSrc(src) {
+  const value = String(src ?? "").trim()
+  if (!value || value.startsWith("data:") || /\.svg($|\?)/i.test(value) || /\.webp($|\?)/i.test(value)) {
+    return ""
+  }
+  const next = value.replace(/\.(jpe?g|png)($|\?)/i, ".webp$2")
+  return next === value ? "" : next
 }

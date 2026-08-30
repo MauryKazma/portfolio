@@ -1,21 +1,21 @@
-export const SITE_CONTENT_REVISION = 19
+export const SITE_CONTENT_REVISION = 20
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
   logo: "Maurizio Pecutari",
   skipLink: "Salta al contenuto",
   nav: [
+    { id: "lavori", label: "Lavori" },
     { id: "skill", label: "Skill" },
     { id: "servizi", label: "Servizi" },
     { id: "curriculum", label: "CV" },
-    { id: "lavori", label: "Lavori" },
     { id: "chi-sono", label: "Chi sono" },
     { id: "contatti", label: "Contatti" },
   ],
   hero: {
     eyebrow: "Graphic designer",
     title: "Impagino. Progetto. Gioco con l’AI.",
-    body: "Progetto identità visive e video. Sull’editoria GDO ho il mestiere: volantini, POP, cartellonistica, Stadio Olimpico. Dal 2023 in Mandarino Agency su Risparmio Casa, prima in Stratego su Portobello. Quando arriva uno strumento AI nuovo, lo provo. CUBOT e questo sito sono nati così, con Cursor e Antigravity.",
+    body: "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.",
     cta: "Vedi i lavori",
     availability: "Disponibile per nuove collaborazioni.",
     portraitName: "Maurizio Pecutari",
@@ -23,14 +23,12 @@ export const SITE_DEFAULT = {
   },
   ticker: {
     items: [
+      "STUDIO DEI PROCESSI",
       "Editoria GDO",
-      "Volantini",
-      "POP",
-      "Identità visiva",
-      "Video",
-      "Cartellonistica",
+      "Identità visive",
+      "montaggio video",
       "Strumenti AI",
-      "CUBOT",
+      "Vibe coding",
     ],
   },
   skills: {
@@ -431,10 +429,10 @@ export const SITE_DEFAULT = {
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
     menu: [
+      { id: "lavori", label: "Lavori" },
       { id: "skill", label: "Skill" },
       { id: "servizi", label: "Servizi" },
       { id: "curriculum", label: "Curriculum" },
-      { id: "lavori", label: "Lavori" },
       { id: "chi-sono", label: "Chi sono" },
     ],
     socialEyebrow: "Social",

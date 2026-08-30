@@ -5,6 +5,7 @@ import { readImageFile } from "../utils/image"
 import { goToSection } from "../utils/scroll"
 import { useSite } from "../context/SiteContentProvider"
 import { EditableText, InlineEdit } from "./EditableText"
+import ShotImage from "./ShotImage"
 import SiteSection from "./SiteSection"
 
 function reduceMotion() {
@@ -255,14 +256,14 @@ function HeroPortrait() {
         >
           <div className="hero-portrait-frame">
             {portraitSrc ? (
-              <img
+              <ShotImage
                 src={portraitSrc}
                 alt={hero.portraitName || "Ritratto"}
                 width={360}
                 height={480}
+                sizes="(min-width: 900px) 360px, 280px"
+                eager
                 draggable={false}
-                decoding="async"
-                fetchPriority="high"
               />
             ) : (
               <div className="hero-portrait-add is-idle">

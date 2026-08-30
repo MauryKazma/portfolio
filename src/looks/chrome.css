@@ -17,6 +17,6 @@
 @media (max-width: 767px) {
   .back-to-top {
     right: max(12px, env(safe-area-inset-right, 0px));
-    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--dock-h, 16px) + 12px);
   }
 }
