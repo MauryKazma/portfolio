@@ -6,6 +6,7 @@ export default function SiteSection({
   className = "",
   band = false,
   wash = false,
+  field = false,
   tone,
   eager = false,
   children,
@@ -44,6 +45,7 @@ export default function SiteSection({
     "reveal",
     band ? "site-section--band" : "",
     wash ? "site-section--wash" : "",
+    field ? "site-section--field" : "",
     tone ? `site-section--${tone}` : "",
     className,
   ]

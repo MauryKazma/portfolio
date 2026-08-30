@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
+import { glueItalianWrap } from "../utils/typography"
 
 export function EditableText({
   as = "p",
@@ -16,7 +17,7 @@ export function EditableText({
   if (!editing) {
     return (
       <Tag id={id} className={className}>
-        {value}
+        {glueItalianWrap(value)}
       </Tag>
     )
   }
@@ -48,7 +49,7 @@ export function InlineEdit({ value, onChange, editing, className = "", as = "spa
   }, [value])
 
   if (!editing) {
-    return <Tag className={className}>{value}</Tag>
+    return <Tag className={className}>{glueItalianWrap(value)}</Tag>
   }
 
   return (

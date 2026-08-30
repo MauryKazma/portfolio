@@ -233,7 +233,7 @@ export default function LavoriRecenti() {
   }
 
   return (
-    <SiteSection id="lavori" className="scroll-mt-24" tone="ink" aria-labelledby="lavori-title">
+    <SiteSection id="lavori" className="scroll-mt-24" wash aria-labelledby="lavori-title">
       <div className="site-content">
         <div
           className="work-split"

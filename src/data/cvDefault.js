@@ -92,7 +92,7 @@ export const CV_DEFAULT = {
       role: "Media Planner",
       location: "Latina",
       description:
-        "Gestione social, web design, graphic design e video making.",
+        "Gestione dei social, web design, graphic design e video making.",
       order: 6,
     },
     {
@@ -124,7 +124,7 @@ export const CV_DEFAULT = {
       startDate: "2018-09-09",
       endDate: "2020-06-12",
       title:
-        "Diploma di maturità professionale operatore grafico pubblicitario",
+        "Diploma di maturità professionale di operatore grafico pubblicitario",
       institute: "Istituto Einaudi",
       location: "Latina, Italia",
       description:
@@ -137,7 +137,7 @@ export const CV_DEFAULT = {
       id: "edu-lfl",
       startDate: "2016-10-05",
       endDate: "2018-06-16",
-      title: "Attestato professionale grafico pubblicitario",
+      title: "Attestato professionale di grafico pubblicitario",
       institute: "Latina Formazione Lavoro",
       location: "Latina, Italia",
       description:
@@ -151,11 +151,11 @@ export const CV_DEFAULT = {
     {
       id: "lang-it",
       name: "Italiano",
-      listening: "Madre lingua",
-      reading: "Madre lingua",
-      speaking: "Madre lingua",
-      interaction: "Madre lingua",
-      writing: "Madre lingua",
+        listening: "Madrelingua",
+        reading: "Madrelingua",
+        speaking: "Madrelingua",
+        interaction: "Madrelingua",
+        writing: "Madrelingua",
       order: 0,
     },
     {

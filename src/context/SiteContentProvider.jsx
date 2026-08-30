@@ -296,6 +296,29 @@ export function SiteContentProvider({ children }) {
           return next
         })
       },
+      setSkillUseful(index, value) {
+        patch((next) => {
+          if (!next.skills) next.skills = { disciplines: [], tools: [], useful: [] }
+          next.skills.useful = (next.skills.useful ?? []).map((item, i) =>
+            i === index ? value : item
+          )
+          return next
+        })
+      },
+      addSkillUseful(label) {
+        patch((next) => {
+          if (!next.skills) next.skills = { disciplines: [], tools: [], useful: [] }
+          next.skills.useful = uniqueTag(next.skills.useful ?? [], label)
+          return next
+        })
+      },
+      removeSkillUseful(index) {
+        patch((next) => {
+          if (!next.skills) return next
+          next.skills.useful = (next.skills.useful ?? []).filter((_, i) => i !== index)
+          return next
+        })
+      },
       setSkillDiscipline(id, field, value) {
         patch((next) => {
           if (!next.skills) next.skills = { disciplines: [], tools: [] }

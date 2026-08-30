@@ -2,6 +2,7 @@ import { useLayoutEffect, useState } from "react"
 import { ArrowLeft } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage } from "../utils/image"
+import { glueItalianWrap } from "../utils/typography"
 import { navigateTo } from "../utils/route"
 import { goToSection } from "../utils/scroll"
 import { ProjectShot, frameClass, projectShots } from "./LavoriRecenti"
@@ -100,7 +101,7 @@ export default function CasePage({ project }) {
                 <dd>{project.deliverable}</dd>
               </div>
             </dl>
-            <p className="site-body project-case">{project.description}</p>
+            <p className="site-body project-case">{glueItalianWrap(project.description)}</p>
             {Array.isArray(project.tags) && project.tags.length > 0 ? (
               <ul className="chip-list">
                 {project.tags.map((tag) => (

@@ -1,4 +1,5 @@
 import { useCV } from "../../context/CVProvider"
+import { glueItalianWrap } from "../../utils/typography"
 import { CVTextarea } from "./cvUi"
 
 export default function CVPresentation() {
@@ -19,7 +20,7 @@ export default function CVPresentation() {
           onChange={updatePresentation}
         />
       ) : display.presentation ? (
-        <p className="cv-prose">{display.presentation}</p>
+        <p className="cv-prose">{glueItalianWrap(display.presentation)}</p>
       ) : (
         <p className="cv-empty">Nessuna presentazione inserita.</p>
       )}

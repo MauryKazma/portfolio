@@ -5,9 +5,9 @@ export const SITE_DEFAULT = {
   logo: "Maurizio Pecutari",
   skipLink: "Salta al contenuto",
   nav: [
-    { id: "lavori", label: "Lavori" },
     { id: "skill", label: "Skill" },
     { id: "servizi", label: "Servizi" },
+    { id: "lavori", label: "Lavori" },
     { id: "curriculum", label: "CV" },
     { id: "chi-sono", label: "Chi sono" },
     { id: "contatti", label: "Contatti" },
@@ -34,44 +34,47 @@ export const SITE_DEFAULT = {
   skills: {
     eyebrow: "Skill",
     title: "Strumenti di lavoro.",
-    body: "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.",
+    body: "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
     craftEyebrow: "Mestiere",
     toolsEyebrow: "Software",
-    traitsEyebrow: "In studio",
-    traits: ["Curioso dei tool", "Ironia in corsia", "Provo subito", "Carta e schermo"],
+    traitsEyebrow: "Attitudine al lavoro",
+    traits: ["Curioso dei tool", "Ironia al primo posto", "Massimo impegno"],
+    usefulEyebrow: "Competenze utili",
+    useful: ["Pacchetto Office", "Conoscenza hardware", "Integrazione di strumenti AI", "Canva"],
     tools: [
-      { id: "tool-id", mark: "Id", name: "InDesign", level: 94, icon: "/icons/indesign.svg" },
-      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 92, icon: "/icons/illustrator.svg" },
-      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 90, icon: "/icons/photoshop.svg" },
-      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 80, icon: "/icons/premiere.svg" },
-      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 78, icon: "/icons/cursor.png" },
-      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 74, icon: "/icons/antigravity.png" },
-      { id: "tool-fg", mark: "Fg", name: "Figma", level: 70, icon: "/icons/figma.svg?v=10" },
-      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 68, icon: "/icons/after-effects.svg" },
+      { id: "tool-id", mark: "Id", name: "InDesign", level: 90, icon: "/icons/indesign.svg" },
+      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 75, icon: "/icons/illustrator.svg" },
+      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 75, icon: "/icons/photoshop.svg" },
+      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 70, icon: "/icons/premiere.svg" },
+      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 50, icon: "/icons/after-effects.svg" },
+      { id: "tool-fg", mark: "Fg", name: "Figma", level: 60, icon: "/icons/figma.svg?v=12" },
+      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 80, icon: "/icons/cursor.png" },
+      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 70, icon: "/icons/antigravity.png" },
+      { id: "tool-genai", mark: "AI", name: "Intelligenza Artificiale", level: 85, icon: "/icons/ai.svg?v=2" },
     ],
     disciplines: [
       {
         id: "disc-gdo",
-        title: "Editoria GDO",
-        body: "InDesign sul foglio, Photoshop sulle immagini, pre-stampa prima della rete.",
+        title: "Impaginatore editoriale & GDO",
+        body: "Anni di esperienza in produzioni frenetiche e complesse: leggo la struttura di una lavorazione, organizzo gli elementi con criterio e progetto processi che ottimizzano tempi e qualità. So lavorare in team su progetti di grande scala, coordinandomi con altre figure creative e tecniche per mantenere coerenza, efficienza e rispetto delle scadenze anche in contesti ad alta pressione.",
         tools: ["InDesign", "Photoshop", "Illustrator"],
       },
       {
         id: "disc-identita",
         title: "Identità visiva",
-        body: "Marchio, palette e tavole. Illustrator e InDesign tengono il sistema su carta e schermo.",
+        body: "Ascolto l’idea e gli obiettivi del cliente per costruire identità visive coerenti con i valori, la personalità e la direzione del brand. Traduco questa visione in un sistema grafico riconoscibile e funzionale, supportando l’attività con materiali di comunicazione grafici e video pensati per raccontare il brand in modo efficace.",
         tools: ["Illustrator", "InDesign", "Figma"],
       },
       {
         id: "disc-video",
-        title: "Video",
-        body: "Premiere e After Effects per lo store e lo stadio. Montaggio e adattamento al supporto.",
+        title: "Montaggio video",
+        body: "Do vita alle tue idee attraverso il montaggio video: lavoro principalmente su Adobe Premiere per strutturare ritmi, narrazione e coerenza visiva dei tuoi contenuti. Mi muovo con flessibilità nell’ecosistema Adobe, integrando quando serve effetti e animazioni per completare il progetto in modo coerente e professionale.",
         tools: ["Premiere Pro", "After Effects", "Photoshop"],
       },
       {
         id: "disc-tools",
-        title: "Tool interni",
-        body: "Interfacce e gestionali di produzione, prototipati con Cursor e Antigravity.",
+        title: "Tool alternativi",
+        body: "Sviluppo e adozione di strumenti innovativi per gestire e ottimizzare flussi di produzione complessi. Creazione di interfacce, gestionali e micro-applicativi con Cursor e Antigravity per automatizzare attività e costruire soluzioni personalizzate che migliorano efficienza e qualità del lavoro.",
         tools: ["Cursor", "Antigravity", "Figma"],
       },
     ],
@@ -146,7 +149,7 @@ export const SITE_DEFAULT = {
         teaser:
           "Locandine 70×100, stopper e A4 a scaffale.",
         description:
-          "Materiale POP da corsia, allineato al volantino: locandina 70×100, stopper, A4. Tre versioni, Rete, PRZ+BSS e ANC+BSS.",
+          "Materiale POP da corsia, allineato al volantino: locandina 70×100, stopper, A4. Tre versioni: Rete, PRZ+BSS e ANC+BSS.",
         tags: ["Locandina", "Stopper", "A4"],
         href: "",
         image: "",
@@ -295,7 +298,7 @@ export const SITE_DEFAULT = {
         teaser:
           "Natale di rete e ranking scuola. Packshot e prezzo.",
         description:
-          "Video prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
+          "Video di prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
         tags: ["Packshot", "Rete", "Premiere"],
         href: "",
         image: "",
@@ -338,7 +341,7 @@ export const SITE_DEFAULT = {
         teaser:
           "Tavola tipografica. Griglia stretta, parole in nero.",
         description:
-          "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipo.",
+          "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
         tags: ["Tipografia", "Tavola"],
         href: "",
         image: "",
@@ -392,20 +395,20 @@ export const SITE_DEFAULT = {
       {
         id: "gdo",
         number: "01",
-        title: "Lavorazione GDO",
-        body: "Seguo una lavorazione GDO per intero. Analisi delle liste prodotti, etichette in automazione, composizione delle pagine del volantino, poi POP, cartellonistica e video.",
+        title: "Impaginazione",
+        body: "È il processo di organizzazione di testi, immagini e elementi grafici all’interno di una o più pagine, per rendere il contenuto chiaro, leggibile ed esteticamente coerente. Definisce gerarchie visive, allineamenti, spaziature e griglie, guidando l’occhio del lettore e valorizzando il messaggio. È fondamentale nella produzione editoriale, nei cataloghi, nei volantini e in qualsiasi materiale destinato alla stampa o al digitale.",
       },
       {
         id: "identita",
         number: "02",
         title: "Identità visiva",
-        body: "Marchio, palette, tipografia e tavole. Un sistema applicabile su carta e schermo.",
+        body: "È l’insieme coordinato di elementi grafici (logo, colori, tipografia, icone, immagini) che definiscono e rendono riconoscibile un brand. Traduce i valori, la personalità e il posizionamento del brand in un sistema visivo coerente, applicato su tutti i touchpoint: sito, social, stampa, packaging, video e materiali di comunicazione.",
       },
       {
         id: "video",
         number: "03",
-        title: "Video",
-        body: "Punto vendita, stories e, per Risparmio Casa, maxischermo e girocampo LED dello Stadio Olimpico. Il messaggio del volantino, nel formato del supporto.",
+        title: "Montaggio video",
+        body: "È il processo di selezione, organizzazione e assemblaggio di riprese, audio ed effetti per dare ritmo, narrazione e coerenza a un contenuto video. Si applica a qualsiasi formato e scala: dai video brevi per social e web, fino a produzioni complesse come maxischermi, girocampo da stadio e contenuti per grandi eventi.",
       },
       {
         id: "digitale",
@@ -429,9 +432,9 @@ export const SITE_DEFAULT = {
     email: "mauriziopecutari98@gmail.com",
     menuEyebrow: "Menu",
     menu: [
-      { id: "lavori", label: "Lavori" },
       { id: "skill", label: "Skill" },
       { id: "servizi", label: "Servizi" },
+      { id: "lavori", label: "Lavori" },
       { id: "curriculum", label: "Curriculum" },
       { id: "chi-sono", label: "Chi sono" },
     ],
@@ -468,22 +471,34 @@ export function clampSkillPercent(value) {
 
 function normalizeSkillTools(saved, fallback) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
-  const byId = new Map(fallback.map((item) => [item.id, item]))
-  return saved.map((item, index) => {
-    const base = (item?.id && byId.get(item.id)) || fallback[index]
-    const icon = base?.icon
+  const bySaved = new Map(saved.filter((item) => item?.id).map((item) => [item.id, item]))
+  const known = new Set(fallback.map((item) => item.id))
+  const merged = fallback.map((base) => {
+    const item = bySaved.get(base.id)
+    const icon = base.icon
       ? base.icon
       : typeof item?.icon === "string" && item.icon.trim()
         ? item.icon.trim()
         : ""
     return {
-      id: typeof item?.id === "string" && item.id ? item.id : `tool-${index + 1}`,
-      name: typeof item?.name === "string" ? item.name : fallback[0]?.name ?? "",
-      mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps",
+      id: base.id,
+      name: typeof item?.name === "string" ? item.name : base.name,
+      mark: typeof item?.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : base.mark,
       icon,
-      level: clampSkillPercent(item?.level),
+      level: clampSkillPercent(item?.level ?? base.level),
     }
   })
+  saved.forEach((item) => {
+    if (!item?.id || known.has(item.id)) return
+    merged.push({
+      id: item.id,
+      name: typeof item.name === "string" ? item.name : "",
+      mark: typeof item.mark === "string" && item.mark.trim() ? item.mark.slice(0, 3) : "Ps",
+      icon: typeof item.icon === "string" ? item.icon : "",
+      level: clampSkillPercent(item.level),
+    })
+  })
+  return merged
 }
 
 function normalizeDisciplines(saved, fallback) {
@@ -497,8 +512,8 @@ function normalizeDisciplines(saved, fallback) {
       : item.tools
     return {
       ...item,
-      title: nonempty(extra.title, item.title),
-      body: typeof extra.body === "string" ? extra.body : item.body,
+      title: polishCopy(nonempty(extra.title, item.title)).trim(),
+      body: polishDisciplineBody(typeof extra.body === "string" ? extra.body : item.body),
       tools: tools.length ? tools : item.tools,
     }
   })
@@ -549,6 +564,46 @@ function nonempty(value, fallback) {
   return typeof value === "string" && value.trim() ? value : fallback
 }
 
+const COPY_FIXES = {
+  "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.":
+    "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
+  "Tool Alternativi": "Tool alternativi",
+  "Dall'impaginazione editoriale al pensiero creativo il passo è breve!":
+    "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
+  "Dall’impaginazione editoriale al pensiero creativo il passo è breve!":
+    "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
+  "Integrazione strumenti AI": "Integrazione di strumenti AI",
+  "Materiale POP da corsia, allineato al volantino: locandina 70×100, stopper, A4. Tre versioni, Rete, PRZ+BSS e ANC+BSS.":
+    "Materiale POP da corsia, allineato al volantino: locandina 70×100, stopper, A4. Tre versioni: Rete, PRZ+BSS e ANC+BSS.",
+  "Video prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.":
+    "Video di prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
+  "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipo.":
+    "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
+}
+
+function polishCopy(value) {
+  if (typeof value !== "string") return value
+  return COPY_FIXES[value] ?? value
+}
+
+function polishDisciplineBody(value) {
+  const next = polishCopy(value)
+  return typeof next === "string" ? next.replace(", e sperimento", " e sperimento") : next
+}
+
+function polishPhaseBody(value) {
+  if (typeof value !== "string") return value
+  let next = value.replace(/\s*\n\s*/g, " ").trim()
+  if (/^l[’']insieme/i.test(next)) {
+    next = `È ${next.charAt(0).toLowerCase()}${next.slice(1)}`
+  } else if (/^Processo di /i.test(next)) {
+    next = `È il ${next.charAt(0).toLowerCase()}${next.slice(1)}`
+  } else if (/^Il montaggio video è /i.test(next)) {
+    next = `È ${next.slice("Il montaggio video è ".length)}`
+  }
+  return polishCopy(next)
+}
+
 export function hydrateSite(saved) {
   const base = cloneSite(SITE_DEFAULT)
   if (!saved || typeof saved !== "object") return base
@@ -591,7 +646,11 @@ export function hydrateSite(saved) {
     : {
         ...base.servizi,
         ...saved.servizi,
-        phases: saved.servizi?.phases ?? base.servizi.phases,
+        phases: (saved.servizi?.phases ?? base.servizi.phases).map((phase) => ({
+          ...phase,
+          title: typeof phase?.title === "string" ? phase.title.trim() : phase?.title,
+          body: polishPhaseBody(phase?.body),
+        })),
       }
 
   const footerPrivacy =
@@ -627,13 +686,17 @@ export function hydrateSite(saved) {
     skills: {
       eyebrow: nonempty(saved.skills?.eyebrow, base.skills.eyebrow),
       title: nonempty(saved.skills?.title, base.skills.title),
-      body: typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body,
+      body: polishCopy(typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body),
       craftEyebrow: nonempty(saved.skills?.craftEyebrow, base.skills.craftEyebrow),
       toolsEyebrow: nonempty(saved.skills?.toolsEyebrow, base.skills.toolsEyebrow),
-      traitsEyebrow: nonempty(saved.skills?.traitsEyebrow, base.skills.traitsEyebrow),
+      traitsEyebrow: polishCopy(nonempty(saved.skills?.traitsEyebrow, base.skills.traitsEyebrow)),
       traits: Array.isArray(saved.skills?.traits)
         ? saved.skills.traits.filter((item) => typeof item === "string")
         : base.skills.traits,
+      usefulEyebrow: nonempty(saved.skills?.usefulEyebrow, base.skills.usefulEyebrow),
+      useful: Array.isArray(saved.skills?.useful)
+        ? saved.skills.useful.filter((item) => typeof item === "string").map(polishCopy)
+        : base.skills.useful,
       tools: normalizeSkillTools(saved.skills?.tools, base.skills.tools),
       disciplines: normalizeDisciplines(saved.skills?.disciplines, base.skills.disciplines),
     },
@@ -661,6 +724,7 @@ export function hydrateSite(saved) {
               group: project.group || fallback?.group || "",
               client: project.client || fallback?.client || "",
               teaser: project.teaser || fallback?.teaser || "",
+              description: polishCopy(project.description || fallback?.description || ""),
               frame: project.frame || fallback?.frame || "landscape",
             }
           }),

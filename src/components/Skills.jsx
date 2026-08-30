@@ -145,6 +145,42 @@ function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemov
   )
 }
 
+function SkillTagGroup({
+  eyebrow,
+  tags,
+  editing,
+  onEyebrow,
+  onRename,
+  onAdd,
+  onRemove,
+  eyebrowLabel,
+  addLabel,
+  alwaysShow,
+}) {
+  if (!tags.length && !editing && !alwaysShow) return null
+
+  return (
+    <div className="skill-traits">
+      <EditableText
+        className="site-eyebrow"
+        value={eyebrow}
+        editing={editing}
+        onChange={onEyebrow}
+        ariaLabel={eyebrowLabel}
+      />
+      <TagEditor
+        tags={tags}
+        editing={editing}
+        listClassName="toolkit-list"
+        addLabel={addLabel}
+        onRename={onRename}
+        onAdd={onAdd}
+        onRemove={onRemove}
+      />
+    </div>
+  )
+}
+
 export default function Skills() {
   const {
     display,
@@ -157,11 +193,15 @@ export default function Skills() {
     setSkillTrait,
     addSkillTrait,
     removeSkillTrait,
+    setSkillUseful,
+    addSkillUseful,
+    removeSkillUseful,
   } = useSite()
-  const skills = display.skills ?? { disciplines: [], tools: [], traits: [] }
+  const skills = display.skills ?? { disciplines: [], tools: [], traits: [], useful: [] }
   const disciplines = skills.disciplines ?? []
   const tools = skills.tools ?? []
   const traits = skills.traits ?? []
+  const useful = skills.useful ?? []
   const body = skills.body ?? ""
   const [metersRef, hot] = useMeterReveal(editing)
 
@@ -270,26 +310,30 @@ export default function Skills() {
               </button>
             ) : null}
 
-            {traits.length || editing ? (
-              <div className="skill-traits">
-                <EditableText
-                  className="site-eyebrow"
-                  value={skills.traitsEyebrow ?? "In studio"}
-                  editing={editing}
-                  onChange={(value) => setSkills("traitsEyebrow", value)}
-                  ariaLabel="Etichetta tratti"
-                />
-                <TagEditor
-                  tags={traits}
-                  editing={editing}
-                  listClassName="toolkit-list"
-                  addLabel="Nuovo tratto"
-                  onRename={setSkillTrait}
-                  onAdd={addSkillTrait}
-                  onRemove={removeSkillTrait}
-                />
-              </div>
-            ) : null}
+            <SkillTagGroup
+              eyebrow={skills.usefulEyebrow ?? "Competenze utili"}
+              tags={useful}
+              editing={editing}
+              alwaysShow
+              onEyebrow={(value) => setSkills("usefulEyebrow", value)}
+              onRename={setSkillUseful}
+              onAdd={addSkillUseful}
+              onRemove={removeSkillUseful}
+              eyebrowLabel="Etichetta competenze utili"
+              addLabel="Nuova competenza"
+            />
+
+            <SkillTagGroup
+              eyebrow={skills.traitsEyebrow ?? "Attitudine al lavoro"}
+              tags={traits}
+              editing={editing}
+              onEyebrow={(value) => setSkills("traitsEyebrow", value)}
+              onRename={setSkillTrait}
+              onAdd={addSkillTrait}
+              onRemove={removeSkillTrait}
+              eyebrowLabel="Etichetta attitudine"
+              addLabel="Nuovo tratto"
+            />
           </div>
         </div>
       </div>

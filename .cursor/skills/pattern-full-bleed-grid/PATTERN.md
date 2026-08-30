@@ -78,7 +78,7 @@ The previous **Inchiostro** look has been removed. Do not add Inchiostro styles.
 
 - Full-bleed page, content column `1200px`, inline padding `clamp(20px, 4vw, 32px)`.
 - No 6-column hairline overlay.
-- Section rhythm: white (`#lavori`, `#curriculum`, hero) vs wash `#f5f8fb` (`#chi-sono`, `#servizi`, `#contatti`).
+- Section rhythm: paper + organic blobs on hero, `#servizi`, `#curriculum`, `#contatti`; wash `#f5f8fb` on `#skill`, `#lavori`, `#chi-sono`.
 - Hero is a min-height viewport band with two organic blobs (page `::before`/`::after` + hero radial). Align copy and portrait vertically.
 
 #### Navigation

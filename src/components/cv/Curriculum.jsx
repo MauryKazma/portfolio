@@ -51,7 +51,7 @@ export default function Curriculum() {
     <SiteSection
       id="curriculum"
       className="cv-section scroll-mt-24"
-      wash
+      field
       aria-labelledby="cv-title"
     >
       <div className="site-content">

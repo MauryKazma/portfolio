@@ -156,6 +156,54 @@ html[data-look="clean"] .atmosphere-orb--b {
   animation: atmo-drift-b 40s ease-in-out infinite;
 }
 
+html[data-look="clean"] .atmosphere-orb--c {
+  width: min(42vw, 380px);
+  height: min(42vw, 380px);
+  top: 48%;
+  left: -12%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--spot) 18%, white) 0%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  animation: atmo-orb 52s ease-in-out infinite;
+}
+
+html[data-look="clean"] .atmosphere-smear {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(18px);
+  will-change: transform;
+}
+
+html[data-look="clean"] .atmosphere-smear--a {
+  width: min(36vw, 320px);
+  height: min(22vw, 200px);
+  top: 8%;
+  left: 18%;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--spot) 16%, white) 0%,
+    transparent 72%
+  );
+  animation: atmo-drift-b 46s ease-in-out infinite reverse;
+}
+
+html[data-look="clean"] .atmosphere-smear--b {
+  width: min(28vw, 260px);
+  height: min(28vw, 260px);
+  bottom: 6%;
+  left: 38%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--spot-deep) 7%, white) 0%,
+    transparent 74%
+  );
+  animation: atmo-orb 58s ease-in-out infinite;
+}
+
 html[data-look="clean"] .atmosphere-dot {
   background: var(--spot-deep);
 }
@@ -235,6 +283,90 @@ html[data-look="clean"] .atmosphere-dot--8 {
   animation: atmo-drift-a 24s linear infinite reverse;
 }
 
+html[data-look="clean"] .atmosphere-dot--9 {
+  width: 7px;
+  height: 7px;
+  top: 32%;
+  left: 22%;
+  opacity: 0.22;
+  background: var(--spot);
+  animation: atmo-drift-b 29s linear infinite;
+}
+
+html[data-look="clean"] .atmosphere-dot--10 {
+  width: 13px;
+  height: 13px;
+  top: 54%;
+  left: 8%;
+  opacity: 0.2;
+  animation: atmo-drift-a 33s linear infinite reverse;
+}
+
+html[data-look="clean"] .atmosphere-dot--11 {
+  width: 9px;
+  height: 9px;
+  bottom: 28%;
+  right: 18%;
+  opacity: 0.28;
+  background: var(--spot);
+  animation: atmo-drift-b 27s linear infinite alternate;
+}
+
+html[data-look="clean"] .atmosphere-dot--12 {
+  width: 6px;
+  height: 6px;
+  top: 70%;
+  right: 12%;
+  opacity: 0.32;
+  animation: atmo-drift-a 21s linear infinite;
+}
+
+html[data-look="clean"] .atmosphere-speck {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--spot-deep) 45%, var(--spot));
+  opacity: 0.18;
+  will-change: transform;
+}
+
+html[data-look="clean"] .atmosphere-speck--1 {
+  top: 24%;
+  left: 48%;
+  animation: atmo-drift-a 34s linear infinite;
+}
+
+html[data-look="clean"] .atmosphere-speck--2 {
+  top: 41%;
+  left: 62%;
+  animation: atmo-drift-b 38s linear infinite reverse;
+}
+
+html[data-look="clean"] .atmosphere-speck--3 {
+  top: 58%;
+  left: 28%;
+  animation: atmo-drift-a 31s linear infinite alternate;
+}
+
+html[data-look="clean"] .atmosphere-speck--4 {
+  top: 12%;
+  left: 72%;
+  animation: atmo-drift-b 26s linear infinite;
+}
+
+html[data-look="clean"] .atmosphere-speck--5 {
+  bottom: 16%;
+  left: 52%;
+  animation: atmo-drift-a 36s linear infinite reverse;
+}
+
+html[data-look="clean"] .atmosphere-speck--6 {
+  bottom: 36%;
+  left: 14%;
+  animation: atmo-drift-b 41s linear infinite;
+}
+
 @keyframes atmo-drift-a {
   0% {
     transform: translate(0, 0);
@@ -283,9 +415,17 @@ html[data-look="clean"] .atmosphere-dot--8 {
 
 @media (max-width: 899px) {
   html[data-look="clean"] .atmosphere-orb--a,
+  html[data-look="clean"] .atmosphere-orb--c,
+  html[data-look="clean"] .atmosphere-smear,
   html[data-look="clean"] .atmosphere-dot--2,
   html[data-look="clean"] .atmosphere-dot--3,
-  html[data-look="clean"] .atmosphere-dot--4 {
+  html[data-look="clean"] .atmosphere-dot--4,
+  html[data-look="clean"] .atmosphere-dot--9,
+  html[data-look="clean"] .atmosphere-dot--10,
+  html[data-look="clean"] .atmosphere-dot--11,
+  html[data-look="clean"] .atmosphere-speck--2,
+  html[data-look="clean"] .atmosphere-speck--4,
+  html[data-look="clean"] .atmosphere-speck--6 {
     display: none;
   }
 
@@ -304,6 +444,7 @@ html[data-look="clean"] .atmosphere-dot--8 {
   }
 
   html[data-look="clean"] .site-section--band,
+  html[data-look="clean"] .site-section--field,
   html[data-look="clean"] #servizi,
   html[data-look="clean"] .site-ticker,
   html[data-look="clean"] .hero-portrait-stage,
@@ -343,12 +484,56 @@ html[data-look="clean"] .site-section--band {
   border-bottom: 0;
 }
 
-html[data-look="clean"] .site-section--wash,
-html[data-look="clean"] #skill,
-html[data-look="clean"] #curriculum,
-html[data-look="clean"] #chi-sono,
-html[data-look="clean"] #contatti {
+html[data-look="clean"] .site-section--wash {
   background: var(--wash);
+}
+
+html[data-look="clean"] .site-section--field {
+  position: relative;
+  isolation: isolate;
+  background: var(--paper);
+}
+
+html[data-look="clean"] .site-section--field::before,
+html[data-look="clean"] .site-section--field::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(10px);
+}
+
+html[data-look="clean"] .site-section--field::before {
+  width: min(42vw, 340px);
+  height: min(42vw, 340px);
+  top: 8%;
+  right: -8%;
+  background: radial-gradient(
+    circle at 36% 40%,
+    color-mix(in srgb, var(--spot) 22%, white),
+    transparent 68%
+  );
+  animation: atmo-orb 50s ease-in-out infinite;
+}
+
+html[data-look="clean"] .site-section--field::after {
+  width: min(28vw, 220px);
+  height: min(28vw, 220px);
+  bottom: 6%;
+  left: -6%;
+  opacity: 0.7;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--spot-deep) 9%, white),
+    transparent 72%
+  );
+  animation: atmo-orb 44s ease-in-out infinite reverse;
+}
+
+html[data-look="clean"] .site-section--field > * {
+  position: relative;
+  z-index: 1;
 }
 
 html[data-look="clean"] #chi-sono {
@@ -356,7 +541,7 @@ html[data-look="clean"] #chi-sono {
 }
 
 html[data-look="clean"] #servizi {
-  background: transparent;
+  background: var(--paper);
 }
 
 html[data-look="clean"] .site-section--band {
@@ -422,6 +607,7 @@ html[data-look="clean"] .site-body {
   color: var(--muted);
   font-size: 1.0625rem;
   line-height: 1.75;
+  text-wrap: pretty;
 }
 
 html[data-look="clean"] .btn-primary,
@@ -912,11 +1098,24 @@ html[data-look="clean"] .skill-traits {
   border-color: var(--hairline);
 }
 
-html[data-look="clean"] .skill-row-body,
+html[data-look="clean"] .skill-row-body {
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
 html[data-look="clean"] .skill-meter-pct,
 html[data-look="clean"] .skill-meter-sigla,
 html[data-look="clean"] .skill-empty {
   color: var(--muted);
+}
+
+html[data-look="clean"] .skill-meter-icon {
+  background: transparent;
+}
+
+html[data-look="clean"] .skill-meter-icon img {
+  object-fit: cover;
+  object-position: center;
 }
 
 html[data-look="clean"] .skill-meter-track {
@@ -2253,6 +2452,24 @@ html.is-lite .work-deck-toss {
   transform: none;
 }
 
+html.is-lite .atmosphere-orb--c,
+html.is-lite .atmosphere-smear,
+html.is-lite .atmosphere-dot--9,
+html.is-lite .atmosphere-dot--10,
+html.is-lite .atmosphere-dot--11,
+html.is-lite .atmosphere-dot--12,
+html.is-lite .atmosphere-speck {
+  display: none;
+}
+
+html.is-lite .atmosphere-orb,
+html.is-lite .atmosphere-dot,
+html.is-lite .site-section--field::before,
+html.is-lite .site-section--field::after {
+  animation: none !important;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html[data-look="clean"] .reveal.is-pending,
   html[data-look="clean"] .reveal.is-visible,
@@ -2260,9 +2477,13 @@ html.is-lite .work-deck-toss {
   html[data-look="clean"] .site-ticker-track,
   html[data-look="clean"] .atmosphere-orb,
   html[data-look="clean"] .atmosphere-dot,
+  html[data-look="clean"] .atmosphere-smear,
+  html[data-look="clean"] .atmosphere-speck,
   html[data-look="clean"] .page::before,
   html[data-look="clean"] .page::after,
   html[data-look="clean"] .site-section--band::before,
+  html[data-look="clean"] .site-section--field::before,
+  html[data-look="clean"] .site-section--field::after,
   html[data-look="clean"] .work-deck-toss {
     animation: none !important;
     transform: none;
@@ -2279,6 +2500,7 @@ html.is-lite .work-deck-toss {
 /* Keep phone layout inside the visual viewport: blobs and glows must not widen the page. */
 @media (max-width: 899px) {
   html[data-look="clean"] .site-section--band,
+  html[data-look="clean"] .site-section--field,
   html[data-look="clean"] #servizi,
   html[data-look="clean"] .site-ticker,
   html[data-look="clean"] .hero-portrait-stage,

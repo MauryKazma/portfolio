@@ -7,7 +7,7 @@ export default function Servizi() {
   const phases = display.servizi.phases
 
   return (
-    <SiteSection id="servizi" className="scroll-mt-24" tone="spot" aria-labelledby="servizi-title">
+    <SiteSection id="servizi" className="scroll-mt-24" field aria-labelledby="servizi-title">
       <div className="site-content service-board">
         <EditableText
           className="site-eyebrow"

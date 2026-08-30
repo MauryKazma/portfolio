@@ -246,6 +246,7 @@ main > .site-section:first-child {
   font-weight: 400;
   line-height: 1.55;
   color: var(--muted);
+  text-wrap: pretty;
 }
 
 .btn-primary,
@@ -1225,7 +1226,8 @@ main > .site-section:first-child {
 
 .skill-row-body {
   margin-top: 8px;
-  max-width: 38ch;
+  max-width: none;
+  text-wrap: pretty;
 }
 
 .skill-meters {
@@ -1413,7 +1415,7 @@ main > .site-section:first-child {
 
 @media (min-width: 768px) {
   .skill-split {
-    grid-template-columns: minmax(0, 1.08fr) minmax(240px, 0.92fr);
+    grid-template-columns: minmax(0, 1.22fr) minmax(240px, 0.78fr);
     gap: 28px 40px;
     align-items: start;
   }

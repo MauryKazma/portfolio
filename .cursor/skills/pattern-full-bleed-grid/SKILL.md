@@ -27,11 +27,11 @@ Do not reintroduce neon `#00df8f`, Inter, Space Grotesk, or process yellow `#f0c
 | Token | Hex | Use |
 |-------|-----|-----|
 | `--paper` | `#ffffff` | Default page |
-| `--wash` | `#f5f8fb` | Chi sono, Servizi, Contatti |
+| `--wash` | `#f5f8fb` | Skill, Lavori, Chi sono |
 | `--ink` | `#1b2430` | Text |
 | `--muted` | `#66707c` | Body |
 
-Hero + ticker + lavori + CV sit on white. Organic sky blobs are decoration only.
+Hero + ticker sit on white with organic blobs. Alternate wash on Skill / Lavori / Chi sono; white + blobs on Servizi / CV / Contatti. Sky is atmosphere only.
 
 ## Type
 

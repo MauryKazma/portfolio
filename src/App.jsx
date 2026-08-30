@@ -99,9 +99,9 @@ function AppShell() {
           <>
             <Hero />
             <SiteTicker />
-            <LavoriRecenti />
             <Skills />
             <Servizi />
+            <LavoriRecenti />
             <Curriculum />
             <ChiSono />
           </>
