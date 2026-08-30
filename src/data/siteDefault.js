@@ -553,7 +553,6 @@ export function hydrateSite(saved) {
   const base = cloneSite(SITE_DEFAULT)
   if (!saved || typeof saved !== "object") return base
 
-  const needsMigration = saved.contentRevision !== SITE_CONTENT_REVISION
   const savedProjects = Array.isArray(saved.lavori?.projects)
     ? saved.lavori.projects
     : base.lavori.projects
@@ -564,7 +563,7 @@ export function hydrateSite(saved) {
     !savedPortrait.trim() ||
     savedPortrait.endsWith("hero-portrait.svg")
 
-  const replaceProjects = needsMigration || savedProjects.some(isStockProject)
+  const replaceProjects = savedProjects.some(isStockProject)
   const savedChiSono = saved.chiSono ?? {}
   const chiSono = {
     ...base.chiSono,
@@ -577,7 +576,7 @@ export function hydrateSite(saved) {
       ? savedChiSono.toolkit
       : base.chiSono.toolkit,
   }
-  if (needsMigration || isLegacyChiSono(savedChiSono)) {
+  if (isLegacyChiSono(savedChiSono)) {
     chiSono.title = base.chiSono.title
     chiSono.body1 = base.chiSono.body1
     chiSono.body2 = base.chiSono.body2
@@ -587,7 +586,7 @@ export function hydrateSite(saved) {
     chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
   }
 
-  const servizi = isLegacyServizi(saved.servizi) || needsMigration
+  const servizi = isLegacyServizi(saved.servizi)
     ? base.servizi
     : {
         ...base.servizi,
@@ -610,48 +609,38 @@ export function hydrateSite(saved) {
       ...base.hero,
       ...saved.hero,
       portraitSrc: placeholderPortrait ? "" : savedPortrait,
-      eyebrow: needsMigration
-        ? base.hero.eyebrow
-        : nonempty(saved.hero?.eyebrow, base.hero.eyebrow),
+      eyebrow: nonempty(saved.hero?.eyebrow, base.hero.eyebrow),
       title:
-        needsMigration || saved.hero?.title === "Impagino. Firmo. Gioco con l’AI."
+        saved.hero?.title === "Impagino. Firmo. Gioco con l’AI."
           ? base.hero.title
           : nonempty(saved.hero?.title, base.hero.title),
-      body: needsMigration ? base.hero.body : nonempty(saved.hero?.body, base.hero.body),
-      cta: needsMigration ? base.hero.cta : nonempty(saved.hero?.cta, base.hero.cta),
-      availability: needsMigration
-        ? base.hero.availability
-        : nonempty(saved.hero?.availability, base.hero.availability),
+      body: nonempty(saved.hero?.body, base.hero.body),
+      cta: nonempty(saved.hero?.cta, base.hero.cta),
+      availability: nonempty(saved.hero?.availability, base.hero.availability),
     },
-    ticker: needsMigration
-      ? base.ticker
-      : {
-          items: Array.isArray(saved.ticker?.items)
-            ? saved.ticker.items.filter((item) => typeof item === "string")
-            : base.ticker.items,
-        },
+    ticker: {
+      items: Array.isArray(saved.ticker?.items) && saved.ticker.items.length
+        ? saved.ticker.items.filter((item) => typeof item === "string")
+        : base.ticker.items,
+    },
     chiSono,
-    skills: needsMigration
-      ? base.skills
-      : {
-          eyebrow: nonempty(saved.skills?.eyebrow, base.skills.eyebrow),
-          title: nonempty(saved.skills?.title, base.skills.title),
-          body: typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body,
-          craftEyebrow: nonempty(saved.skills?.craftEyebrow, base.skills.craftEyebrow),
-          toolsEyebrow: nonempty(saved.skills?.toolsEyebrow, base.skills.toolsEyebrow),
-          traitsEyebrow: nonempty(saved.skills?.traitsEyebrow, base.skills.traitsEyebrow),
-          traits: Array.isArray(saved.skills?.traits)
-            ? saved.skills.traits.filter((item) => typeof item === "string")
-            : base.skills.traits,
-          tools: normalizeSkillTools(saved.skills?.tools, base.skills.tools),
-          disciplines: normalizeDisciplines(saved.skills?.disciplines, base.skills.disciplines),
-        },
+    skills: {
+      eyebrow: nonempty(saved.skills?.eyebrow, base.skills.eyebrow),
+      title: nonempty(saved.skills?.title, base.skills.title),
+      body: typeof saved.skills?.body === "string" ? saved.skills.body : base.skills.body,
+      craftEyebrow: nonempty(saved.skills?.craftEyebrow, base.skills.craftEyebrow),
+      toolsEyebrow: nonempty(saved.skills?.toolsEyebrow, base.skills.toolsEyebrow),
+      traitsEyebrow: nonempty(saved.skills?.traitsEyebrow, base.skills.traitsEyebrow),
+      traits: Array.isArray(saved.skills?.traits)
+        ? saved.skills.traits.filter((item) => typeof item === "string")
+        : base.skills.traits,
+      tools: normalizeSkillTools(saved.skills?.tools, base.skills.tools),
+      disciplines: normalizeDisciplines(saved.skills?.disciplines, base.skills.disciplines),
+    },
     lavori: {
-      ...(needsMigration ? base.lavori : { ...base.lavori, ...saved.lavori }),
-      waitLabel:
-        needsMigration || !saved.lavori?.waitLabel
-          ? base.lavori.waitLabel
-          : saved.lavori.waitLabel,
+      ...base.lavori,
+      ...saved.lavori,
+      waitLabel: saved.lavori?.waitLabel || base.lavori.waitLabel,
       projects: replaceProjects
         ? base.lavori.projects
         : savedProjects
@@ -680,22 +669,14 @@ export function hydrateSite(saved) {
     cv: {
       ...base.cv,
       ...saved.cv,
-      ...(needsMigration
-        ? { title: base.cv.title, eyebrow: base.cv.eyebrow }
-        : {}),
     },
-    footer: needsMigration
-      ? {
-          ...base.footer,
-          email: saved.footer?.email ?? base.footer.email,
-        }
-      : {
-          ...base.footer,
-          ...saved.footer,
-          menu: mergeById(saved.footer?.menu, base.footer.menu),
-          social: saved.footer?.social ?? base.footer.social,
-          privacy: footerPrivacy,
-          cookie: footerCookie,
-        },
+    footer: {
+      ...base.footer,
+      ...saved.footer,
+      menu: mergeById(saved.footer?.menu, base.footer.menu),
+      social: saved.footer?.social ?? base.footer.social,
+      privacy: footerPrivacy,
+      cookie: footerCookie,
+    },
   }
 }
