@@ -1368,40 +1368,44 @@ html[data-look="clean"] .work-empty {
 }
 
 @media (max-width: 899px) {
+  html[data-look="clean"] .work-split {
+    overflow-x: clip;
+  }
+
   html[data-look="clean"] .work-stage {
-    max-width: 340px;
+    max-width: min(320px, 100%);
     justify-self: center;
     margin-inline: auto;
   }
 
   html[data-look="clean"] .work-deck {
-    min-height: 440px;
+    min-height: 460px;
   }
 
   html[data-look="clean"] .work-deck-count {
-    margin-top: 16px;
+    margin-top: 20px;
   }
 
   html[data-look="clean"] .work-deck-card {
-    width: min(228px, 70%);
+    width: min(210px, 66%);
     pointer-events: none;
   }
 
   html[data-look="clean"] .work-deck-card.is-front {
-    left: 16%;
+    left: 18%;
     transform: rotate(-2deg);
   }
 
   html[data-look="clean"] .work-deck-card.is-mid {
     display: block;
-    left: -2%;
-    transform: rotate(-10deg) translate(-2px, 26px) scale(0.9);
+    left: 2%;
+    transform: rotate(-9deg) translate(0, 22px) scale(0.9);
   }
 
   html[data-look="clean"] .work-deck-card.is-back {
     display: block;
-    left: 36%;
-    transform: rotate(8.5deg) translate(6px, 30px) scale(0.88);
+    left: 32%;
+    transform: rotate(7.5deg) translate(4px, 26px) scale(0.88);
   }
 
   html[data-look="clean"] .work-deck-toss {
@@ -1981,6 +1985,21 @@ html[data-look="clean"] .back-to-top {
 
   html[data-look="clean"] .hero-portrait-stage {
     max-width: 280px;
+    justify-self: center;
+    margin-inline: auto;
+  }
+
+  html[data-look="clean"] .site-ticker {
+    padding: 16px 0 28px;
+  }
+
+  html[data-look="clean"] .site-ticker-track {
+    gap: 0.25rem 0.9rem;
+  }
+
+  html[data-look="clean"] .work-picker .project-filters {
+    margin-top: 4px;
+    gap: 8px;
   }
 
   html[data-look="clean"] .hero-cta .btn-primary,
