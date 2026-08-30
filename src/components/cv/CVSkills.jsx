@@ -1,5 +1,6 @@
 import { useCV } from "../../context/CVProvider"
 import { byOrder } from "../../utils/cv"
+import { glueItalianWrap } from "../../utils/typography"
 import { AddButton, CVField, IconButton, ListToolbar, useSortable } from "./cvUi"
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react"
 
@@ -143,6 +144,9 @@ export default function CVSkills() {
           {categories.map((category) => (
             <div key={category.id} className="cv-skill-group">
               <h4 className="cv-entry-title">{category.name}</h4>
+              {category.description ? (
+                <p className="cv-body">{glueItalianWrap(category.description)}</p>
+              ) : null}
               {byOrder(category.items).length ? (
                 <ul className="cv-chip-list">
                   {byOrder(category.items).map((item) => (

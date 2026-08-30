@@ -1,7 +1,10 @@
 /** @typedef {import('../utils/cv.js').CVData} CVData */
 
+export const CV_CONTENT_REVISION = 1
+
 /** @type {CVData} */
 export const CV_DEFAULT = {
+  contentRevision: CV_CONTENT_REVISION,
   personalInfo: {
     fullName: "Maurizio Pecutari",
     birthDate: "1998-10-05",
@@ -10,7 +13,7 @@ export const CV_DEFAULT = {
     phone: "+39 3396007752",
     whatsapp: "3396007752",
     email: "mauriziopecutari98@gmail.com",
-    address: "Via Ninfina 43, 04012, Cisterna di Latina, Italia",
+    address: "Doganella di Ninfa",
   },
   presentation:
     "Grafico editoriale, formato come grafico pubblicitario. Mi occupo di comunicazione per la GDO: volantini, POP, cartellonistica, newsletter e video, compreso maxischermo e girocampo LED dello Stadio Olimpico. Seguo la lavorazione dall’analisi delle liste prodotti alla chiusura della campagna. Progetto anche identità visive e tool interni, con Cursor e Antigravity.",
@@ -22,9 +25,18 @@ export const CV_DEFAULT = {
       current: true,
       company: "Mandarino Agency",
       role: "Grafico editoriale",
-      location: "",
+      location: "Latina",
       description:
-        "Editoria GDO per Risparmio Casa. Dalle liste prodotti alle etichette in automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Identità visive e CUBOT, gestionale interno del flusso volantini, con Cursor e Antigravity.",
+        "Editoria GDO per Risparmio Casa: dalle liste prodotti alle etichette in automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Seguo la campagna dalla versione di rete alla chiusura, con scadenze strette. Progetto anche identità visive e CUBOT, il gestionale interno del flusso volantini, con Cursor e Antigravity.",
+      tags: [
+        "InDesign",
+        "Photoshop",
+        "Illustrator",
+        "Premiere Pro",
+        "After Effects",
+        "Cursor",
+        "Antigravity",
+      ],
       order: 0,
     },
     {
@@ -34,9 +46,10 @@ export const CV_DEFAULT = {
       current: false,
       company: "Stratego",
       role: "Grafico editoriale",
-      location: "",
+      location: "Latina",
       description:
-        "Comunicazione GDO per Portobello. Volantini web, newsletter, POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920), con versioni di rete.",
+        "Comunicazione GDO per Portobello: volantini web, newsletter, materiali POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920). Preparavo le versioni di rete e rispettavo il calendario promozionale.",
+      tags: ["InDesign", "Photoshop", "Premiere Pro", "Illustrator"],
       order: 1,
     },
     {
@@ -47,7 +60,9 @@ export const CV_DEFAULT = {
       company: "Karti",
       role: "Addetto alle affissioni pubblicitarie",
       location: "Latina",
-      description: "Stampa, modifica e affissione di stampe.",
+      description:
+        "Stampa, modifica e affissione di materiali pubblicitari: adattavo i file al formato, stampavo e seguivo il montaggio sui punti affissione.",
+      tags: ["Photoshop", "Illustrator", "InDesign"],
       order: 2,
     },
     {
@@ -58,7 +73,9 @@ export const CV_DEFAULT = {
       company: "Doganella di Ninfa",
       role: "Graphic Designer",
       location: "",
-      description: "Ritocco e modifica fotografica per prodotti commerciali.",
+      description:
+        "Ritocco e postproduzione fotografica di prodotti commerciali: pulizia delle immagini e file pronti per la comunicazione del punto vendita.",
+      tags: ["Photoshop"],
       order: 3,
     },
     {
@@ -69,7 +86,9 @@ export const CV_DEFAULT = {
       company: "Karti",
       role: "Addetto alle affissioni pubblicitarie",
       location: "Latina",
-      description: "Stampa, modifica e affissione di stampe.",
+      description:
+        "Stampa, modifica e affissione di materiali pubblicitari: adattavo i file al formato, stampavo e seguivo il montaggio sui punti affissione.",
+      tags: ["Photoshop", "Illustrator", "InDesign"],
       order: 4,
     },
     {
@@ -80,7 +99,9 @@ export const CV_DEFAULT = {
       company: "Zigo Zago Outlet Grandi Marche 0-16",
       role: "Graphic Designer",
       location: "Latina",
-      description: "Ritocco e modifica fotografica per prodotti commerciali.",
+      description:
+        "Ritocco fotografico di capi per l’e-commerce dell’outlet: pulizia delle immagini e file pronti per la scheda prodotto.",
+      tags: ["Photoshop"],
       order: 5,
     },
     {
@@ -89,10 +110,11 @@ export const CV_DEFAULT = {
       endDate: "2018-01-14",
       current: false,
       company: "INBRAND",
-      role: "Media Planner",
+      role: "Videomaker / grafico",
       location: "Latina",
       description:
-        "Gestione dei social, web design, graphic design e video making.",
+        "Creazione di contenuti video modificando template in After Effects, gestione delle pagine social con testi brevi e impaginazione dei cataloghi per le campagne.",
+      tags: ["After Effects", "InDesign", "Photoshop"],
       order: 6,
     },
     {
@@ -103,7 +125,9 @@ export const CV_DEFAULT = {
       company: "Tipografia Monti",
       role: "Graphic Designer",
       location: "Cisterna di Latina",
-      description: "Grafico pubblicitario.",
+      description:
+        "Creazione di manifesti pubblicitari, cataloghi e locandine: dal file di stampa all’impaginazione dei materiali per la tipografia.",
+      tags: ["InDesign", "Illustrator", "Photoshop"],
       order: 7,
     },
     {
@@ -114,7 +138,9 @@ export const CV_DEFAULT = {
       company: "Milanese Oriana",
       role: "Graphic Designer",
       location: "Latina",
-      description: "Grafico pubblicitario.",
+      description:
+        "Creazione e adattamento di elementi grafici per la stampa su magliette.",
+      tags: ["Illustrator", "Photoshop", "InDesign"],
       order: 8,
     },
   ],
@@ -123,14 +149,13 @@ export const CV_DEFAULT = {
       id: "edu-einaudi",
       startDate: "2018-09-09",
       endDate: "2020-06-12",
-      title:
-        "Diploma di maturità professionale di operatore grafico pubblicitario",
+      title: "Diploma di maturità professionale di operatore grafico pubblicitario",
       institute: "Istituto Einaudi",
       location: "Latina, Italia",
-      description:
-        "Marketing e commercio; studio di tecniche visive e comunicative; grafica.",
+      description: "Diploma di maturità come grafico pubblicitario.",
       fieldOfStudy: "Grafico pubblicitario",
       link: "http://www.mattei-einaudi.it/",
+      tags: [],
       order: 0,
     },
     {
@@ -139,11 +164,12 @@ export const CV_DEFAULT = {
       endDate: "2018-06-16",
       title: "Attestato professionale di grafico pubblicitario",
       institute: "Latina Formazione Lavoro",
-      location: "Latina, Italia",
+      location: "Latina",
       description:
-        "Tecnologie dell’informazione e della comunicazione (TIC).",
-      fieldOfStudy: "",
+        "Percorso professionale a Latina Formazione Lavoro: basi del mestiere, con esercitazioni grafiche e video di base.",
+      fieldOfStudy: "Grafico pubblicitario",
       link: "https://www.latinaformazione.it/",
+      tags: [],
       order: 1,
     },
   ],
@@ -151,11 +177,11 @@ export const CV_DEFAULT = {
     {
       id: "lang-it",
       name: "Italiano",
-        listening: "Madrelingua",
-        reading: "Madrelingua",
-        speaking: "Madrelingua",
-        interaction: "Madrelingua",
-        writing: "Madrelingua",
+      listening: "Madrelingua",
+      reading: "Madrelingua",
+      speaking: "Madrelingua",
+      interaction: "Madrelingua",
+      writing: "Madrelingua",
       order: 0,
     },
     {
@@ -178,16 +204,6 @@ export const CV_DEFAULT = {
       writing: "B1",
       order: 2,
     },
-    {
-      id: "lang-fr",
-      name: "Francese",
-      listening: "A2",
-      reading: "A2",
-      speaking: "A2",
-      interaction: "A2",
-      writing: "A2",
-      order: 3,
-    },
   ],
   digitalSkills: [
     {
@@ -195,25 +211,25 @@ export const CV_DEFAULT = {
       name: "Pacchetto Adobe",
       description: "",
       items: [
-        { id: "skill-id", name: "Adobe InDesign", order: 0 },
-        { id: "skill-ai", name: "Adobe Illustrator", order: 1 },
-        { id: "skill-ps", name: "Adobe Photoshop", order: 2 },
-        { id: "skill-pr", name: "Adobe Premiere Pro", order: 3 },
-        { id: "skill-ae", name: "Adobe After Effects", order: 4 },
-        { id: "skill-lr", name: "Adobe Lightroom", order: 5 },
+        { id: "skill-id", name: "InDesign", order: 0 },
+        { id: "skill-ai", name: "Illustrator", order: 1 },
+        { id: "skill-ps", name: "Photoshop", order: 2 },
+        { id: "skill-pr", name: "Premiere Pro", order: 3 },
+        { id: "skill-ae", name: "After Effects", order: 4 },
       ],
       order: 0,
     },
     {
       id: "skillcat-vibe",
       name: "Sviluppo e prototipazione",
-      description:
-        "Costruisco tool interni e interfacce con Cursor e Antigravity.",
+      description: "Costruisco tool interni e interfacce con Cursor e Antigravity.",
       items: [
         { id: "skill-cursor", name: "Cursor", order: 0 },
         { id: "skill-antigravity", name: "Antigravity", order: 1 },
-        { id: "skill-vibe", name: "Prototipazione", order: 2 },
-        { id: "skill-figma", name: "Figma", order: 3 },
+        { id: "skill-figma", name: "Figma", order: 2 },
+        { id: "skill-vibe", name: "Prototipazione", order: 3 },
+        { id: "skill-canva", name: "Canva", order: 4 },
+        { id: "skill-genai", name: "Intelligenza artificiale", order: 5 },
       ],
       order: 1,
     },
@@ -222,12 +238,9 @@ export const CV_DEFAULT = {
       name: "Pacchetto Office",
       description: "",
       items: [
-        { id: "skill-word", name: "Microsoft Word", order: 0 },
-        { id: "skill-ppt", name: "Microsoft PowerPoint", order: 1 },
-        { id: "skill-xls", name: "Microsoft Excel", order: 2 },
-        { id: "skill-pc", name: "Utilizzo del PC", order: 3 },
-        { id: "skill-browser", name: "Utilizzo dei principali browser", order: 4 },
-        { id: "skill-mail-office", name: "Posta elettronica", order: 5 },
+        { id: "skill-word", name: "Word", order: 0 },
+        { id: "skill-xls", name: "Excel", order: 1 },
+        { id: "skill-ppt", name: "PowerPoint", order: 2 },
       ],
       order: 2,
     },
@@ -236,13 +249,11 @@ export const CV_DEFAULT = {
       name: "Strumenti Google",
       description: "",
       items: [
-        { id: "skill-chrome", name: "Google Chrome", order: 0 },
-        { id: "skill-ff", name: "Mozilla Firefox", order: 1 },
-        { id: "skill-edge", name: "Microsoft Edge", order: 2 },
-        { id: "skill-drive", name: "Google Drive", order: 3 },
-        { id: "skill-docs", name: "Google Docs", order: 4 },
-        { id: "skill-class", name: "Google Classroom", order: 5 },
-        { id: "skill-meet", name: "Google Meet", order: 6 },
+        { id: "skill-chrome", name: "Chrome", order: 0 },
+        { id: "skill-drive", name: "Drive", order: 1 },
+        { id: "skill-docs", name: "Docs", order: 2 },
+        { id: "skill-class", name: "Classroom", order: 3 },
+        { id: "skill-meet", name: "Meet", order: 4 },
       ],
       order: 3,
     },
@@ -251,32 +262,23 @@ export const CV_DEFAULT = {
       name: "Conoscenze informatiche",
       description: "",
       items: [
-        {
-          id: "skill-hwsw-fix",
-          name: "Risoluzione di problemi software e hardware",
-          order: 0,
-        },
-        {
-          id: "skill-hwsw",
-          name: "Conoscenza hardware e software",
-          order: 1,
-        },
-        { id: "skill-mail-it", name: "Posta elettronica", order: 2 },
-        { id: "skill-web", name: "Navigazione internet", order: 3 },
+        { id: "skill-hwsw", name: "Hardware e software", order: 0 },
+        { id: "skill-hwsw-fix", name: "Assistenza tecnica", order: 1 },
+        { id: "skill-web", name: "Browser", order: 2 },
+        { id: "skill-mail-it", name: "Posta elettronica", order: 3 },
         { id: "skill-social", name: "Social media", order: 4 },
       ],
       order: 4,
     },
   ],
   drivingLicence: "B",
-  hobbies:
-    "Progetti grafici e tool digitali. Uso Cursor e Antigravity nel lavoro quotidiano. Competizioni di velocità di scrittura su tastiera.",
+  hobbies: "",
   interpersonalSkills: [
     {
       id: "inter-coop",
       name: "Gestione lavorativa e cooperazione",
       description:
-        "Buona capacità di cooperazione, sia individuale sia in gruppo, con attitudine all’ascolto e alla proposta di idee in ambito lavorativo.",
+        "Ottima capacità di lavorare in team, anche sotto pressione: disponibile all’ascolto e aperto a nuove soluzioni. So sdrammatizzare e ironizzare durante le sessioni più intense.",
       items: [],
       order: 0,
     },
@@ -284,7 +286,7 @@ export const CV_DEFAULT = {
       id: "inter-tech",
       name: "Aggiornamento sulle nuove tecnologie",
       description:
-        "Integro nel lavoro strumenti di sviluppo come Cursor e Antigravity. Dal volantino GDO ai tool interni come CUBOT.",
+        "Mi tengo aggiornato sulle tecnologie nuove e su quelle sperimentali, e le applico nel lavoro di ogni giorno per ottimizzare i processi.",
       items: [],
       order: 1,
     },

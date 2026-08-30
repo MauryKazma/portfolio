@@ -1993,7 +1993,8 @@ input.stat-value.site-edit-field {
 }
 
 .toolkit-list li:has(.site-tag-input),
-.chip-list li:has(.site-tag-input) {
+.chip-list li:has(.site-tag-input),
+.cv-chip-list li:has(.site-tag-input) {
   display: inline-flex;
   align-items: center;
   gap: 6px;

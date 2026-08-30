@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 20
+export const SITE_CONTENT_REVISION = 21
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -40,7 +40,7 @@ export const SITE_DEFAULT = {
     traitsEyebrow: "Attitudine al lavoro",
     traits: ["Curioso dei tool", "Ironia al primo posto", "Massimo impegno"],
     usefulEyebrow: "Competenze utili",
-    useful: ["Pacchetto Office", "Conoscenza hardware", "Integrazione di strumenti AI", "Canva"],
+    useful: ["Pacchetto Office", "Canva", "Google Workspace", "Conoscenza hardware", "Integrazione di strumenti AI"],
     tools: [
       { id: "tool-id", mark: "Id", name: "InDesign", level: 90, icon: "/icons/indesign.svg" },
       { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 75, icon: "/icons/illustrator.svg" },
@@ -607,6 +607,17 @@ function polishPhaseBody(value) {
 export function hydrateSite(saved) {
   const base = cloneSite(SITE_DEFAULT)
   if (!saved || typeof saved !== "object") return base
+
+  const savedRevision = Number(saved.contentRevision) || 0
+  if (savedRevision < SITE_CONTENT_REVISION) {
+    const savedPortrait = saved.hero?.portraitSrc
+    const keepPortrait =
+      typeof savedPortrait === "string" &&
+      savedPortrait.trim() &&
+      !savedPortrait.endsWith("hero-portrait.svg")
+    if (keepPortrait) base.hero.portraitSrc = savedPortrait
+    return base
+  }
 
   const savedProjects = Array.isArray(saved.lavori?.projects)
     ? saved.lavori.projects

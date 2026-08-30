@@ -1,5 +1,6 @@
 import { useCV } from "../../context/CVProvider"
 import { byOrder } from "../../utils/cv"
+import { glueItalianWrap } from "../../utils/typography"
 import { AddButton, CVField, CVTextarea, ListToolbar, useSortable } from "./cvUi"
 
 function InterpersonalEdit({ item, index, total }) {
@@ -77,26 +78,6 @@ export default function CVOther() {
         )}
       </section>
 
-      <section className="cv-block" aria-labelledby="cv-hobbies-title">
-        <h3 id="cv-hobbies-title" className="cv-block-title">
-          Hobby e interessi
-        </h3>
-        {editing ? (
-          <CVTextarea
-            id="cv-hobbies"
-            label="Testo"
-            optional
-            rows={5}
-            value={display.hobbies}
-            onChange={(value) => updateSimple("hobbies", value)}
-          />
-        ) : display.hobbies ? (
-          <p className="cv-prose">{display.hobbies}</p>
-        ) : (
-          <p className="cv-empty">Nessun interesse indicato.</p>
-        )}
-      </section>
-
       <section className="cv-block" aria-labelledby="cv-inter-title">
         <div className="cv-block-head">
           <h3 id="cv-inter-title" className="cv-block-title">
@@ -124,7 +105,9 @@ export default function CVOther() {
             {items.map((item) => (
               <article key={item.id} className="cv-entry">
                 <h4 className="cv-entry-title">{item.name}</h4>
-                {item.description ? <p className="cv-prose">{item.description}</p> : null}
+                {item.description ? (
+                  <p className="cv-prose">{glueItalianWrap(item.description)}</p>
+                ) : null}
               </article>
             ))}
           </div>

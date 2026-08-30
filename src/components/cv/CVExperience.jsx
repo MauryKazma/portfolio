@@ -1,5 +1,7 @@
 import { useCV } from "../../context/CVProvider"
 import { byOrder, formatPeriod } from "../../utils/cv"
+import { glueItalianWrap } from "../../utils/typography"
+import { TagEditor } from "../EditableText"
 import {
   AddButton,
   CVCheckbox,
@@ -10,6 +12,8 @@ import {
 } from "./cvUi"
 
 function ExperienceView({ item }) {
+  const tags = (item.tags ?? []).filter((tag) => String(tag).trim())
+
   return (
     <article className="cv-entry">
       <p className="cv-eyebrow">
@@ -19,14 +23,31 @@ function ExperienceView({ item }) {
       <p className="cv-entry-meta">
         {[item.company, item.location].filter(Boolean).join(" · ")}
       </p>
-      {item.description ? <p className="cv-body">{item.description}</p> : null}
+      {item.description ? (
+        <p className="cv-body">{glueItalianWrap(item.description)}</p>
+      ) : null}
+      {tags.length ? (
+        <ul className="cv-chip-list" aria-label="Programmi usati">
+          {tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+      ) : null}
     </article>
   )
 }
 
 function ExperienceEdit({ item, index, total }) {
-  const { errors, updateExperience, removeExperience, moveExperience, setDialog } =
-    useCV()
+  const {
+    errors,
+    updateExperience,
+    removeExperience,
+    moveExperience,
+    setExperienceTag,
+    addExperienceTag,
+    removeExperienceTag,
+    setDialog,
+  } = useCV()
   const sortable = useSortable(index, moveExperience)
   const err = (field) => errors[`experiences.${item.id}.${field}`]
 
@@ -111,12 +132,27 @@ function ExperienceEdit({ item, index, total }) {
       </div>
       <CVTextarea
         id={`${item.id}-desc`}
-        label="Descrizione"
+        label="Mansione svolta"
         optional
-        placeholder="Descrivi le attività svolte. Lascia vuoto se non vuoi indicarle."
+        placeholder="Indica cosa hai fatto in questo posto. Lascia vuoto se non vuoi indicarlo."
         value={item.description}
         onChange={(value) => updateExperience(item.id, "description", value)}
       />
+      <div className="cv-field">
+        <p className="cv-label" id={`${item.id}-tags-label`}>
+          Programmi usati
+          <span className="cv-optional"> opzionale</span>
+        </p>
+        <TagEditor
+          tags={item.tags ?? []}
+          editing
+          onRename={(tagIndex, value) => setExperienceTag(item.id, tagIndex, value)}
+          onAdd={(label) => addExperienceTag(item.id, label)}
+          onRemove={(tagIndex) => removeExperienceTag(item.id, tagIndex)}
+          listClassName="cv-chip-list"
+          addLabel="Aggiungi programma"
+        />
+      </div>
     </article>
   )
 }

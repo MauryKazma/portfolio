@@ -1204,7 +1204,8 @@ html[data-look="clean"] .studio-meta {
 }
 
 html[data-look="clean"] .toolkit-list li,
-html[data-look="clean"] .chip-list li {
+html[data-look="clean"] .chip-list li,
+html[data-look="clean"] .cv-chip-list li {
   border-color: #d7e3f0;
   color: var(--spot-deep);
   background: #fff;
@@ -1220,7 +1221,8 @@ html[data-look="clean"] .chip-list li {
     transform: translateY(-1px);
   }
 
-  html[data-look="clean"] .chip-list li:hover {
+  html[data-look="clean"] .chip-list li:hover,
+  html[data-look="clean"] .cv-chip-list li:hover {
     background: color-mix(in srgb, var(--spot) 18%, white);
     border-color: var(--spot);
     color: var(--ink);

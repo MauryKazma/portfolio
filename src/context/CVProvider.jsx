@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
-import { CV_DEFAULT } from "../data/cvDefault"
+import { CV_CONTENT_REVISION, CV_DEFAULT } from "../data/cvDefault"
 import { cvStorage } from "../data/cvStorage"
-import { EDITOR_GRANTED, isEditorSession } from "../utils/editorSession"
+import { isEditorSession } from "../utils/editorSession"
 import {
   byOrder,
   cloneCV,
@@ -10,8 +10,10 @@ import {
   emptyLanguage,
   emptySkillCategory,
   emptySkillItem,
+  hydrateCV,
   moveItem,
   reindex,
+  uniqueTag,
   validateCV,
 } from "../utils/cv"
 
@@ -23,7 +25,7 @@ function insertFirst(list, item) {
 
 export function CVProvider({ children }) {
   const [data, setData] = useState(() =>
-    (isEditorSession() ? cvStorage.load() : null) ?? cloneCV(CV_DEFAULT)
+    isEditorSession() ? hydrateCV(cvStorage.load(), CV_DEFAULT) : cloneCV(CV_DEFAULT)
   )
   const [draft, setDraft] = useState(null)
   const [errors, setErrors] = useState({})
@@ -35,6 +37,8 @@ export function CVProvider({ children }) {
   const editing = draft !== null
   const display = draft ?? data
   const dirty = editing && JSON.stringify(draft) !== JSON.stringify(data)
+  const dataRef = useRef(data)
+  dataRef.current = data
 
   const patch = useCallback((updater) => {
     setDraft((current) => {
@@ -55,10 +59,10 @@ export function CVProvider({ children }) {
 
   const startEdit = useCallback(() => {
     setExpanded(true)
-    setDraft(cloneCV(data))
+    setDraft(cloneCV(dataRef.current))
     setErrors({})
     setStatus("")
-  }, [data])
+  }, [])
 
   const cancelEdit = useCallback(() => {
     setDraft(null)
@@ -132,13 +136,11 @@ export function CVProvider({ children }) {
   useEffect(() => () => clearTimeout(savedMessageTimer.current), [])
 
   useEffect(() => {
-    const onGrant = () => {
-      const loaded = cvStorage.load()
-      if (loaded) setData(cloneCV(loaded))
-    }
-    window.addEventListener(EDITOR_GRANTED, onGrant)
-    return () => window.removeEventListener(EDITOR_GRANTED, onGrant)
-  }, [])
+    if (!isEditorSession()) return
+    const loaded = cvStorage.load()
+    if (!loaded || loaded.contentRevision === CV_CONTENT_REVISION) return
+    cvStorage.save(data)
+  }, [data])
 
   const guardNavigation = useCallback(
     (proceed) => {
@@ -225,6 +227,35 @@ export function CVProvider({ children }) {
           return next
         })
       },
+      setExperienceTag(id, index, value) {
+        patch((next) => {
+          next.experiences = next.experiences.map((item) => {
+            if (item.id !== id) return item
+            const tags = [...(item.tags ?? [])]
+            tags[index] = value
+            return { ...item, tags }
+          })
+          return next
+        })
+      },
+      addExperienceTag(id, label) {
+        patch((next) => {
+          next.experiences = next.experiences.map((item) =>
+            item.id === id ? { ...item, tags: uniqueTag(item.tags ?? [], label) } : item
+          )
+          return next
+        })
+      },
+      removeExperienceTag(id, index) {
+        patch((next) => {
+          next.experiences = next.experiences.map((item) =>
+            item.id === id
+              ? { ...item, tags: (item.tags ?? []).filter((_, i) => i !== index) }
+              : item
+          )
+          return next
+        })
+      },
       addEducation() {
         patch((next) => {
           next.education = insertFirst(byOrder(next.education), emptyEducation())
@@ -248,6 +279,35 @@ export function CVProvider({ children }) {
       moveEducation(from, to) {
         patch((next) => {
           next.education = moveItem(byOrder(next.education), from, to)
+          return next
+        })
+      },
+      setEducationTag(id, index, value) {
+        patch((next) => {
+          next.education = next.education.map((item) => {
+            if (item.id !== id) return item
+            const tags = [...(item.tags ?? [])]
+            tags[index] = value
+            return { ...item, tags }
+          })
+          return next
+        })
+      },
+      addEducationTag(id, label) {
+        patch((next) => {
+          next.education = next.education.map((item) =>
+            item.id === id ? { ...item, tags: uniqueTag(item.tags ?? [], label) } : item
+          )
+          return next
+        })
+      },
+      removeEducationTag(id, index) {
+        patch((next) => {
+          next.education = next.education.map((item) =>
+            item.id === id
+              ? { ...item, tags: (item.tags ?? []).filter((_, i) => i !== index) }
+              : item
+          )
           return next
         })
       },

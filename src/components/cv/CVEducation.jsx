@@ -1,8 +1,12 @@
 import { useCV } from "../../context/CVProvider"
 import { byOrder, formatPeriod } from "../../utils/cv"
+import { glueItalianWrap } from "../../utils/typography"
+import { TagEditor } from "../EditableText"
 import { AddButton, CVField, CVTextarea, ListToolbar, useSortable } from "./cvUi"
 
 function EducationView({ item }) {
+  const tags = (item.tags ?? []).filter((tag) => String(tag).trim())
+
   return (
     <article className="cv-entry">
       <p className="cv-eyebrow">{formatPeriod(item.startDate, item.endDate, false)}</p>
@@ -13,7 +17,7 @@ function EducationView({ item }) {
       {item.fieldOfStudy ? (
         <p className="cv-body">Campo di studio: {item.fieldOfStudy}</p>
       ) : null}
-      {item.description ? <p className="cv-body">{item.description}</p> : null}
+      {item.description ? <p className="cv-body">{glueItalianWrap(item.description)}</p> : null}
       {item.link ? (
         <p className="cv-body">
           <a href={item.link} target="_blank" rel="noreferrer">
@@ -21,12 +25,28 @@ function EducationView({ item }) {
           </a>
         </p>
       ) : null}
+      {tags.length ? (
+        <ul className="cv-chip-list" aria-label="Programmi usati">
+          {tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+      ) : null}
     </article>
   )
 }
 
 function EducationEdit({ item, index, total }) {
-  const { errors, updateEducation, removeEducation, moveEducation, setDialog } = useCV()
+  const {
+    errors,
+    updateEducation,
+    removeEducation,
+    moveEducation,
+    setEducationTag,
+    addEducationTag,
+    removeEducationTag,
+    setDialog,
+  } = useCV()
   const sortable = useSortable(index, moveEducation)
   const err = (field) => errors[`education.${item.id}.${field}`]
 
@@ -117,6 +137,21 @@ function EducationEdit({ item, index, total }) {
         value={item.description}
         onChange={(value) => updateEducation(item.id, "description", value)}
       />
+      <div className="cv-field">
+        <p className="cv-label" id={`${item.id}-tags-label`}>
+          Programmi usati
+          <span className="cv-optional"> opzionale</span>
+        </p>
+        <TagEditor
+          tags={item.tags ?? []}
+          editing
+          onRename={(tagIndex, value) => setEducationTag(item.id, tagIndex, value)}
+          onAdd={(label) => addEducationTag(item.id, label)}
+          onRemove={(tagIndex) => removeEducationTag(item.id, tagIndex)}
+          listClassName="cv-chip-list"
+          addLabel="Aggiungi programma"
+        />
+      </div>
     </article>
   )
 }

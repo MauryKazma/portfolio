@@ -30,6 +30,8 @@ export function SiteContentProvider({ children }) {
   const editing = draft !== null
   const display = draft ?? data
   const dirty = editing && JSON.stringify(draft) !== JSON.stringify(data)
+  const dataRef = useRef(data)
+  dataRef.current = data
 
   useEffect(() => {
     if (!isEditorSession()) return
@@ -40,9 +42,7 @@ export function SiteContentProvider({ children }) {
 
   useEffect(() => {
     const onGrant = () => {
-      const loaded = hydrateSite(siteStorage.load())
-      setData(loaded)
-      setDraft(cloneSite(loaded))
+      setDraft(cloneSite(dataRef.current))
       setStatus("")
     }
     window.addEventListener(EDITOR_GRANTED, onGrant)
@@ -61,9 +61,9 @@ export function SiteContentProvider({ children }) {
   )
 
   const startEdit = useCallback(() => {
-    setDraft(cloneSite(data))
+    setDraft(cloneSite(dataRef.current))
     setStatus("")
-  }, [data])
+  }, [])
 
   const cancelEdit = useCallback(() => {
     setDraft(null)

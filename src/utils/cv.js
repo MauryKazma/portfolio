@@ -18,6 +18,7 @@
  * @property {string} role
  * @property {string} location
  * @property {string} description
+ * @property {string[]} [tags]
  * @property {number} order
  *
  * @typedef {object} EducationItem
@@ -30,6 +31,7 @@
  * @property {string} description
  * @property {string} fieldOfStudy
  * @property {string} link
+ * @property {string[]} [tags]
  * @property {number} order
  *
  * @typedef {object} LanguageSkill
@@ -55,6 +57,7 @@
  * @property {number} order
  *
  * @typedef {object} CVData
+ * @property {number} [contentRevision]
  * @property {PersonalInfo} personalInfo
  * @property {string} presentation
  * @property {WorkExperience[]} experiences
@@ -68,6 +71,69 @@
 
 export function cloneCV(data) {
   return JSON.parse(JSON.stringify(data))
+}
+
+export function uniqueTag(list, label) {
+  const next = String(label ?? "").trim()
+  if (!next) return list
+  if ((list ?? []).some((item) => String(item).toLowerCase() === next.toLowerCase())) return list
+  return [...(list ?? []), next]
+}
+
+function mergeTaggedEntries(saved, fallback, emptyItem) {
+  if (!Array.isArray(saved) || saved.length === 0) return fallback
+  const byId = new Map(fallback.map((item) => [item.id, item]))
+  return saved.map((item, index) => {
+    const base = (item?.id && byId.get(item.id)) || fallback[index] || emptyItem()
+    const savedTags = Array.isArray(item?.tags)
+      ? item.tags.filter((tag) => typeof tag === "string" && tag.trim())
+      : []
+    const tags = savedTags.length ? savedTags : Array.isArray(base.tags) ? base.tags : []
+    return {
+      ...base,
+      ...item,
+      tags,
+    }
+  })
+}
+
+function digitalSkillsNeedRefresh(saved) {
+  const names = (saved ?? [])
+    .flatMap((category) => category.items ?? [])
+    .map((item) => String(item.name ?? "").toLowerCase())
+  return names.some(
+    (name) =>
+      name.includes("firefox") ||
+      name.includes("microsoft edge") ||
+      name.includes("utilizzo del pc") ||
+      name.includes("lightroom")
+  )
+}
+
+export function hydrateCV(saved, fallback) {
+  const base = cloneCV(fallback)
+  if (!saved || typeof saved !== "object") return base
+  const savedRevision = Number(saved.contentRevision) || 0
+  const currentRevision = Number(fallback.contentRevision) || 0
+  if (savedRevision < currentRevision) return base
+  return {
+    ...base,
+    ...saved,
+    contentRevision: currentRevision,
+    personalInfo: { ...base.personalInfo, ...(saved.personalInfo ?? {}) },
+    experiences: mergeTaggedEntries(saved.experiences, base.experiences, emptyExperience),
+    education: mergeTaggedEntries(saved.education, base.education, emptyEducation),
+    languages: Array.isArray(saved.languages) && saved.languages.length ? saved.languages : base.languages,
+    digitalSkills: digitalSkillsNeedRefresh(saved.digitalSkills)
+      ? base.digitalSkills
+      : Array.isArray(saved.digitalSkills) && saved.digitalSkills.length
+        ? saved.digitalSkills
+        : base.digitalSkills,
+    interpersonalSkills:
+      Array.isArray(saved.interpersonalSkills) && saved.interpersonalSkills.length
+        ? saved.interpersonalSkills
+        : base.interpersonalSkills,
+  }
 }
 
 export function createId(prefix) {
@@ -239,6 +305,7 @@ export function emptyExperience() {
     role: "",
     location: "",
     description: "",
+    tags: [],
     order: 0,
   }
 }
@@ -254,6 +321,7 @@ export function emptyEducation() {
     description: "",
     fieldOfStudy: "",
     link: "",
+    tags: [],
     order: 0,
   }
 }

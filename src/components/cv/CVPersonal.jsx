@@ -46,7 +46,7 @@ export default function CVPersonal() {
           <InfoRow label="Email">
             {info.email ? <a href={`mailto:${info.email}`}>{info.email}</a> : null}
           </InfoRow>
-          <InfoRow label="Indirizzo">{info.address}</InfoRow>
+          <InfoRow label="Residenza">{info.address}</InfoRow>
         </dl>
       </section>
     )
@@ -115,7 +115,7 @@ export default function CVPersonal() {
         />
         <CVField
           id="cv-address"
-          label="Indirizzo"
+          label="Residenza"
           optional
           value={info.address}
           onChange={(value) => updatePersonal("address", value)}

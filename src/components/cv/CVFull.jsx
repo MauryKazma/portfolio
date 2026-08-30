@@ -1,5 +1,4 @@
 import CVPersonal from "./CVPersonal"
-import CVPresentation from "./CVPresentation"
 import CVExperience from "./CVExperience"
 import CVEducation from "./CVEducation"
 import CVLanguages from "./CVLanguages"
@@ -10,7 +9,6 @@ export default function CVFull() {
   return (
     <>
       <CVPersonal />
-      <CVPresentation />
       <CVExperience />
       <CVEducation />
       <CVLanguages />
