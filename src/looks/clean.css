@@ -17,9 +17,15 @@ html[data-look="clean"] {
   --soft-shadow: 0 20px 50px rgba(30, 58, 138, 0.07);
   --soft-shadow-lg: 0 28px 64px rgba(30, 58, 138, 0.12);
   --wash: #f5f8fb;
-  --eyebrow: #5b6570;
+  --eyebrow: #8b95a3;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-bounce: cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+@property --about-neon {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
 }
 
 @media (min-width: 768px) {
@@ -611,6 +617,7 @@ html[data-look="clean"] .site-body {
 }
 
 html[data-look="clean"] .btn-primary,
+html[data-look="clean"] .cv-btn-primary,
 html[data-look="clean"] .btn-secondary {
   border-radius: 999px;
   padding: 13px 26px;
@@ -619,7 +626,8 @@ html[data-look="clean"] .btn-secondary {
     border-color 220ms var(--ease-out);
 }
 
-html[data-look="clean"] .btn-primary {
+html[data-look="clean"] .btn-primary,
+html[data-look="clean"] .cv-btn-primary {
   box-shadow: 0 12px 28px rgba(30, 58, 138, 0.16);
 }
 
@@ -629,7 +637,8 @@ html[data-look="clean"] .btn-secondary {
 }
 
 @media (hover: hover) {
-  html[data-look="clean"] .btn-primary:hover {
+  html[data-look="clean"] .btn-primary:hover,
+  html[data-look="clean"] .cv-btn-primary:hover {
     background-color: var(--spot-deep);
     border-color: var(--spot-deep);
     color: var(--paper);
@@ -642,6 +651,12 @@ html[data-look="clean"] .btn-secondary {
     border-color: var(--spot-deep);
     color: var(--spot-deep);
   }
+}
+
+html[data-look="clean"] .btn-primary:active,
+html[data-look="clean"] .cv-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 8px 18px rgba(30, 58, 138, 0.16);
 }
 
 html[data-look="clean"] .site-nav .btn-primary,
@@ -692,13 +707,16 @@ html[data-look="clean"] .site-nav.is-scrolled {
 }
 
 html[data-look="clean"] .site-nav-inner {
+  width: 100%;
+  max-width: var(--content-max, 1200px);
+  margin-inline: auto;
   height: var(--nav-h);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 16px;
-  padding-left: max(24px, env(safe-area-inset-left, 0px));
-  padding-right: max(24px, env(safe-area-inset-right, 0px));
+  padding-left: max(clamp(20px, 4vw, 32px), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(20px, 4vw, 32px), env(safe-area-inset-right, 0px));
 }
 
 html[data-look="clean"] .site-nav-brand {
@@ -795,6 +813,16 @@ html[data-look="clean"] .site-nav-toggle {
 
 html[data-look="clean"] .site-nav-status {
   color: var(--muted);
+  max-width: 16rem;
+  line-height: 1.35;
+}
+
+html[data-look="clean"] .site-nav-status.is-error {
+  color: #9b1c1c;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
 }
 
 html[data-look="clean"] .site-nav .btn-secondary {
@@ -1016,6 +1044,12 @@ html[data-look="clean"] .hero-portrait-change {
   html[data-look="clean"] .hero-portrait-mover {
     transform: none !important;
   }
+
+  html[data-look="clean"] .about-play-mallet {
+    width: 52px;
+    height: 52px;
+    margin: -44px 0 0 -26px;
+  }
 }
 
 html[data-look="clean"] .site-ticker {
@@ -1068,6 +1102,50 @@ html[data-look="clean"] .about-grid {
   gap: 56px;
 }
 
+html[data-look="clean"] .about-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "hero"
+    "fold"
+    "play";
+  gap: 56px;
+  margin-top: 0;
+  overflow: visible;
+}
+
+html[data-look="clean"] .about-main {
+  display: contents;
+}
+
+html[data-look="clean"] .about-hero {
+  grid-area: hero;
+}
+
+html[data-look="clean"] .about-fold {
+  grid-area: fold;
+  min-width: 0;
+}
+
+html[data-look="clean"] .about-hobby {
+  grid-area: play;
+}
+
+@media (min-width: 900px) {
+  html[data-look="clean"] .about-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "hero play"
+      "fold play";
+    column-gap: 56px;
+    row-gap: 0;
+  }
+}
+
+html[data-look="clean"] #chi-sono {
+  overflow: visible;
+}
+
 html[data-look="clean"] .toolkit-panel {
   padding: 28px 24px 24px;
   background: #fff;
@@ -1083,6 +1161,7 @@ html[data-look="clean"] .skill-panel {
 }
 
 html[data-look="clean"] .skill-intro {
+  max-width: 38em;
   color: var(--muted);
 }
 
@@ -2217,6 +2296,539 @@ html[data-look="clean"] .site-section--spot .site-tag-add-input {
   border-color: var(--hairline);
 }
 
+html[data-look="clean"] .cv-fold-peek,
+html[data-look="clean"] .cv-fold-full,
+html[data-look="clean"] .about-fold-peek,
+html[data-look="clean"] .about-fold-full {
+  display: grid;
+  transition: grid-template-rows 680ms var(--ease-out);
+}
+
+html[data-look="clean"] .cv-fold-peek,
+html[data-look="clean"] .about-fold-peek {
+  grid-template-rows: 1fr;
+}
+
+html[data-look="clean"] .cv-fold-full,
+html[data-look="clean"] .about-fold-full {
+  grid-template-rows: 0fr;
+  pointer-events: none;
+}
+
+html[data-look="clean"] .cv-fold.is-open .cv-fold-peek,
+html[data-look="clean"] .about-fold.is-open .about-fold-peek {
+  grid-template-rows: 0fr;
+  pointer-events: none;
+}
+
+html[data-look="clean"] .cv-fold.is-open .cv-fold-full,
+html[data-look="clean"] .about-fold.is-open .about-fold-full {
+  grid-template-rows: 1fr;
+  pointer-events: auto;
+}
+
+html[data-look="clean"] .cv-fold-clip,
+html[data-look="clean"] .about-fold-clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+html[data-look="clean"] .cv-fold-peek .cv-summary,
+html[data-look="clean"] .about-peek {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 680ms var(--ease-out);
+}
+
+html[data-look="clean"] .cv-fold.is-open .cv-fold-peek .cv-summary,
+html[data-look="clean"] .about-fold.is-open .about-peek {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+html[data-look="clean"] .about-fold-inner,
+html[data-look="clean"] .cv-fold-inner {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 480ms var(--ease-out) 70ms,
+    transform 680ms var(--ease-out);
+}
+
+html[data-look="clean"] .about-copy .site-body {
+  max-width: 38em;
+}
+
+html[data-look="clean"] .cv-fold.is-open .cv-fold-inner,
+html[data-look="clean"] .about-fold.is-open .about-fold-inner {
+  opacity: 1;
+  transform: none;
+}
+
+html[data-look="clean"] .cv-fold-fallback {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+html[data-look="clean"] .about-hero {
+  padding-bottom: 28px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+html[data-look="clean"] .about-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+html[data-look="clean"] .about-peek {
+  padding: 20px 0 8px;
+  margin-top: 0;
+}
+
+html[data-look="clean"] .about-peek-line {
+  margin: 0 0 18px;
+  max-width: 36em;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1.7;
+}
+
+html[data-look="clean"] .about-peek-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+html[data-look="clean"] .about-peek-chip {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid #d7e3f0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--spot-deep);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+html[data-look="clean"] .about-hobby-copy {
+  margin-top: 12px;
+}
+
+html[data-look="clean"] .about-hobby.toolkit-panel {
+  position: relative;
+  z-index: 2;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: visible;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html[data-look="clean"] .about-hobby-frame {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow:
+    0 12px 28px rgba(30, 58, 138, 0.07),
+    0 0 16px rgba(56, 189, 248, 0.16);
+}
+
+html[data-look="clean"] .about-hobby-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--about-neon),
+    #1e3a8a 0%,
+    #38bdf8 32%,
+    #ffffff 50%,
+    #38bdf8 68%,
+    #1e3a8a 100%
+  );
+  pointer-events: none;
+  animation: about-neon-spin 7s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.28));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+html[data-look="clean"] .about-play {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+  flex: 1 1 auto;
+  min-height: 280px;
+  overflow: hidden;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html[data-look="clean"] .about-play.is-frozen {
+  flex: 0 0 auto;
+}
+
+@keyframes about-neon-spin {
+  to {
+    --about-neon: 360deg;
+  }
+}
+
+html[data-look="clean"] .about-play-blob {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(12px);
+}
+
+html[data-look="clean"] .about-play-blob--a {
+  width: 58%;
+  height: 70%;
+  top: -22%;
+  right: -18%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 72%);
+  animation: about-play-drift 9s ease-in-out infinite;
+}
+
+html[data-look="clean"] .about-play-blob--b {
+  width: 46%;
+  height: 54%;
+  bottom: -24%;
+  left: -14%;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.12) 0%, transparent 74%);
+  animation: about-play-drift 11s ease-in-out infinite reverse;
+}
+
+html[data-look="clean"] .about-play-blob--c {
+  width: 28%;
+  height: 34%;
+  top: 38%;
+  left: 42%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
+  animation: about-play-drift 7.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes about-play-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(6%, -8%) scale(1.08);
+  }
+}
+
+html[data-look="clean"] .about-play-spark {
+  position: absolute;
+  z-index: 1;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #38bdf8;
+  pointer-events: none;
+  opacity: 0.35;
+  animation: about-play-twinkle 2.4s ease-in-out infinite;
+}
+
+html[data-look="clean"] .about-play-spark:nth-child(odd) {
+  width: 3px;
+  height: 3px;
+  background: #1e3a8a;
+}
+
+@keyframes about-play-twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+html[data-look="clean"] .about-play-score {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 5;
+  color: var(--spot-deep);
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+html[data-look="clean"] .about-play-gain {
+  position: absolute;
+  z-index: 5;
+  color: var(--spot-deep);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-style: italic;
+  pointer-events: none;
+  animation: about-play-gain 560ms var(--ease-out) forwards;
+}
+
+@keyframes about-play-gain {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -20%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -120%);
+  }
+}
+
+html[data-look="clean"] .about-play-dot {
+  position: absolute;
+  z-index: 4;
+  width: 7px;
+  height: 7px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #1e3a8a;
+  pointer-events: none;
+  animation: about-play-dot 540ms var(--ease-out) forwards;
+}
+
+html[data-look="clean"] .about-play-dot.is-sky {
+  background: #38bdf8;
+}
+
+@keyframes about-play-dot {
+  to {
+    opacity: 0;
+    transform: rotate(var(--a, 0deg)) translateY(-68px);
+  }
+}
+
+html[data-look="clean"] .about-hobby-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  pointer-events: none;
+  transition: grid-template-rows 680ms var(--ease-out);
+}
+
+html[data-look="clean"] .about-hobby-fold.is-open {
+  grid-template-rows: 1fr;
+  pointer-events: auto;
+}
+
+html[data-look="clean"] .about-hobby-fold-clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+html[data-look="clean"] .about-play.has-mallet,
+html[data-look="clean"] .about-play.has-mallet .about-play-face {
+  cursor: none;
+}
+
+html[data-look="clean"] .about-play-mallet {
+  position: absolute;
+  z-index: 8;
+  width: 44px;
+  height: 44px;
+  margin: -10px 0 0 -22px;
+  pointer-events: none;
+  transform: rotate(-28deg);
+  filter: drop-shadow(0 6px 10px rgba(30, 58, 138, 0.22));
+  transition: transform 160ms var(--ease-bounce);
+}
+
+html[data-look="clean"] .about-play-mallet.is-swing {
+  transform: rotate(22deg) translate(6px, 10px);
+}
+
+html[data-look="clean"] .about-play-mallet-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+html[data-look="clean"] .about-play-face {
+  position: absolute;
+  z-index: 3;
+  width: min(34%, 104px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 10px 16px rgba(30, 58, 138, 0.18));
+  transform: translate(-50%, -56%) rotate(-6deg);
+  transition:
+    left 160ms var(--ease-out),
+    top 240ms var(--ease-bounce),
+    transform 320ms var(--ease-bounce);
+}
+
+html[data-look="clean"] .about-play-face.is-up {
+  transform: translate(-50%, -50%) rotate(-4deg);
+  animation: about-play-wiggle 1.35s var(--ease-out) infinite;
+}
+
+html[data-look="clean"] .about-play-face.is-hit {
+  animation: about-play-pop 420ms var(--ease-bounce);
+}
+
+html[data-look="clean"] .about-play-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+html[data-look="clean"] .about-play-glasses {
+  transform-origin: 64px 52px;
+  transition: transform 240ms var(--ease-bounce);
+}
+
+html[data-look="clean"] .about-play-face.is-hit .about-play-glasses {
+  transform: rotate(-8deg) translateY(2px);
+}
+
+html[data-look="clean"] .about-hobby-sheet {
+  position: relative;
+  z-index: 3;
+  padding: 22px 22px 24px;
+  border-top: 1px solid var(--hairline);
+  background: #fff;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 480ms var(--ease-out) 70ms,
+    transform 680ms var(--ease-out);
+}
+
+html[data-look="clean"] .about-hobby-fold.is-open .about-hobby-sheet {
+  opacity: 1;
+  transform: none;
+}
+
+html[data-look="clean"] .about-hobby-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+html[data-look="clean"] .about-hobby-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+html[data-look="clean"] .about-hobby-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d7e3f0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--spot-deep);
+}
+
+html[data-look="clean"] .about-hobby-label {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+html[data-look="clean"] .about-hobby .toolkit-list {
+  margin-top: 20px;
+}
+
+html[data-look="clean"] .about-hobby .toolkit-list li {
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+@keyframes about-play-wiggle {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-4deg);
+  }
+  25% {
+    transform: translate(calc(-50% - 7px), -53%) rotate(-10deg);
+  }
+  80% {
+    transform: translate(calc(-50% + 8px), -47%) rotate(2deg);
+  }
+}
+
+@keyframes about-play-pop {
+  0% {
+    transform: translate(-50%, -50%) rotate(-4deg) scale(1);
+  }
+  40% {
+    transform: translate(-50%, -60%) rotate(-12deg) scale(1.14);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-4deg) scale(1);
+  }
+}
+
 html[data-look="clean"] .cv-block,
 html[data-look="clean"] .cv-hero {
   border-bottom-color: var(--hairline);
@@ -2247,8 +2859,14 @@ html[data-look="clean"] .cv-summary .cv-entry-title {
 }
 
 html[data-look="clean"] .cv-toolbar .btn-primary,
-html[data-look="clean"] .cv-toolbar button {
+html[data-look="clean"] .cv-toolbar button,
+html[data-look="clean"] .about-toolbar .btn-primary,
+html[data-look="clean"] .about-toolbar button {
   border-radius: 999px;
+}
+
+html[data-look="clean"] .cv-toolbar {
+  overflow: visible;
 }
 
 html[data-look="clean"] .contact-dock {
@@ -2269,7 +2887,6 @@ html[data-look="clean"] .back-to-top {
 /* Phone: one column, shared markup. Deck motion lives at 899px. */
 @media (max-width: 767px) {
   html[data-look="clean"] {
-    --section-y: 64px;
     --dock-h: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
@@ -2409,8 +3026,21 @@ html[data-look="clean"] .back-to-top {
     -webkit-backdrop-filter: blur(14px);
   }
 
+  html[data-look="clean"] .about-toolbar {
+    position: sticky;
+    top: var(--nav-offset);
+    z-index: 8;
+    margin-inline: -4px;
+    padding: 10px 4px;
+    background: color-mix(in srgb, var(--wash) 88%, white);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
   html[data-look="clean"] .cv-toolbar .btn-primary,
-  html[data-look="clean"] .cv-toolbar button {
+  html[data-look="clean"] .cv-toolbar button,
+  html[data-look="clean"] .about-toolbar .btn-primary,
+  html[data-look="clean"] .about-toolbar button {
     min-height: 44px;
     flex: 1 1 auto;
   }
@@ -2421,8 +3051,82 @@ html[data-look="clean"] .back-to-top {
     grid-template-columns: 1fr;
   }
 
-  html[data-look="clean"] .about-grid {
-    gap: 32px;
+  html[data-look="clean"] .about-grid,
+  html[data-look="clean"] .about-layout {
+    gap: 24px;
+  }
+
+  html[data-look="clean"] .about-hero {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+  }
+
+  html[data-look="clean"] .about-toolbar {
+    margin-top: 20px;
+  }
+
+  html[data-look="clean"] .about-peek {
+    padding: 16px 0 4px;
+  }
+
+  html[data-look="clean"] .about-peek-line {
+    margin-bottom: 14px;
+    font-size: 1rem;
+  }
+
+  html[data-look="clean"] .about-peek-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 1.05rem;
+  }
+
+  html[data-look="clean"] .about-hobby-frame {
+    border-radius: 20px;
+  }
+
+  html[data-look="clean"] .about-play {
+    min-height: 220px;
+  }
+
+  html[data-look="clean"] .about-play-face {
+    width: min(28%, 84px);
+  }
+
+  html[data-look="clean"] .about-play-mallet {
+    width: 52px;
+    height: 52px;
+    margin: -44px 0 0 -26px;
+  }
+
+  html[data-look="clean"] .about-play-score {
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+  }
+
+  html[data-look="clean"] .about-hobby-sheet {
+    padding: 16px 16px 18px;
+  }
+
+  html[data-look="clean"] .about-hobby-list {
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  html[data-look="clean"] .about-hobby-list li {
+    min-height: 44px;
+  }
+
+  html[data-look="clean"] .about-hobby-mark {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  html[data-look="clean"] .about-hobby-label {
+    font-size: 1.125rem;
   }
 
   html[data-look="clean"] .contact-email {
@@ -2467,7 +3171,11 @@ html.is-lite .atmosphere-speck {
 html.is-lite .atmosphere-orb,
 html.is-lite .atmosphere-dot,
 html.is-lite .site-section--field::before,
-html.is-lite .site-section--field::after {
+html.is-lite .site-section--field::after,
+html.is-lite .about-hobby-frame::before,
+html.is-lite .about-play-blob,
+html.is-lite .about-play-spark,
+html.is-lite .about-play-mallet {
   animation: none !important;
   transform: none;
 }
@@ -2496,6 +3204,48 @@ html.is-lite .site-section--field::after {
   html[data-look="clean"] .hero-portrait-glow,
   html[data-look="clean"] .site-ticker-track {
     opacity: 1;
+  }
+
+  html[data-look="clean"] .cv-fold-peek,
+  html[data-look="clean"] .cv-fold-full,
+  html[data-look="clean"] .cv-fold-peek .cv-summary,
+  html[data-look="clean"] .cv-fold-inner,
+  html[data-look="clean"] .about-fold-peek,
+  html[data-look="clean"] .about-fold-full,
+  html[data-look="clean"] .about-peek,
+  html[data-look="clean"] .about-fold-inner,
+  html[data-look="clean"] .about-hobby-fold,
+  html[data-look="clean"] .about-hobby-sheet {
+    transition: none !important;
+  }
+
+  html[data-look="clean"] .cv-fold-inner,
+  html[data-look="clean"] .about-fold-inner,
+  html[data-look="clean"] .about-hobby-fold.is-open .about-hobby-sheet {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  html[data-look="clean"] .about-hobby-frame::before,
+  html[data-look="clean"] .about-play-blob,
+  html[data-look="clean"] .about-play-spark,
+  html[data-look="clean"] .about-play-face.is-up {
+    animation: none;
+  }
+
+  html[data-look="clean"] .about-play-face {
+    transition: none;
+    transform: translate(-50%, -50%);
+  }
+
+  html[data-look="clean"] .about-play-mallet {
+    display: none;
+  }
+
+  html[data-look="clean"] .about-play.has-mallet,
+  html[data-look="clean"] .about-play.has-mallet .about-play-face {
+    cursor: pointer;
   }
 }
 
@@ -2536,5 +3286,35 @@ html.is-lite .site-section--field::after {
   html[data-look="clean"] .hero-portrait-glow {
     width: min(100%, 280px);
     left: 50%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 899px) {
+  html[data-look="clean"] .about-layout {
+    gap: 28px;
+  }
+
+  html[data-look="clean"] .about-play {
+    min-height: 240px;
+  }
+
+  html[data-look="clean"] .about-play-face {
+    width: min(30%, 92px);
+  }
+
+  html[data-look="clean"] .about-peek-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  html[data-look="clean"] .about-hobby-list li {
+    min-height: 44px;
+  }
+
+  html[data-look="clean"] .about-hobby-mark {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
   }
 }

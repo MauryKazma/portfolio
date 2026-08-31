@@ -1,5 +1,9 @@
 const STORAGE_KEY = "portfolio-site-content"
 
+function isQuotaError(error) {
+  return error?.name === "QuotaExceededError" || error?.code === 22 || error?.code === 1014
+}
+
 export const siteStorage = {
   key: STORAGE_KEY,
 
@@ -17,6 +21,11 @@ export const siteStorage = {
   },
 
   save(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+      return { ok: true }
+    } catch (error) {
+      return { ok: false, quota: isQuotaError(error) }
+    }
   },
 }

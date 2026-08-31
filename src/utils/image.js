@@ -1,4 +1,4 @@
-export function readImageFile(file, max = 1280, quality = 0.8) {
+export function readImageFile(file, max = 1024, quality = 0.72) {
   return new Promise((resolve, reject) => {
     const img = new Image()
     const blobUrl = URL.createObjectURL(file)

@@ -1,5 +1,9 @@
 const STORAGE_KEY = "portfolio-cv-data"
 
+function isQuotaError(error) {
+  return error?.name === "QuotaExceededError" || error?.code === 22 || error?.code === 1014
+}
+
 export const cvStorage = {
   key: STORAGE_KEY,
 
@@ -17,7 +21,12 @@ export const cvStorage = {
   },
 
   save(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+      return { ok: true }
+    } catch (error) {
+      return { ok: false, quota: isQuotaError(error) }
+    }
   },
 
   clear() {

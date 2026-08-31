@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 21
+export const SITE_CONTENT_REVISION = 25
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -9,7 +9,7 @@ export const SITE_DEFAULT = {
     { id: "servizi", label: "Servizi" },
     { id: "lavori", label: "Lavori" },
     { id: "curriculum", label: "CV" },
-    { id: "chi-sono", label: "Chi sono" },
+    { id: "chi-sono", label: "Profilo" },
     { id: "contatti", label: "Contatti" },
   ],
   hero: {
@@ -80,8 +80,11 @@ export const SITE_DEFAULT = {
     ],
   },
   chiSono: {
-    eyebrow: "Chi sono",
+    eyebrow: "Profilo",
     title: "Fuori dal foglio.",
+    peek: "C’è ironia, qualche serata e le passioni vere.",
+    openLabel: "Apri il foglio",
+    closeLabel: "Chiudi il foglio",
     body1:
       "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief.",
     body2:
@@ -89,20 +92,29 @@ export const SITE_DEFAULT = {
     notesEyebrow: "Cose che mi tengono acceso",
     notes: [
       {
-        title: "Tool nuovi",
-        body: "Li provo subito. Se reggono il flusso, restano. Altrimenti li lascio.",
+        title: "Le mie passioni",
+        body: "Videogiochi, anime e manga: seguo le uscite, i meme e le mode del web, e le cito in gruppo. Stesso fiato per computer e hardware: se un pezzo nuovo tiene, lo provo.",
       },
       {
-        title: "Ironia in corsia",
-        body: "Una battuta mentre si chiude un volantino vale più di una call in più.",
+        title: "Serate goliardiche",
+        body: "Dopo il lavoro una birra con amici o colleghi. Svago, aggregazione, niente call in più. I meme del giorno arrivano lì, non in riunione.",
       },
       {
-        title: "Supporti veri",
-        body: "Carta, LED, store. Fuori dall’ufficio resto attaccato a come le cose stanno nello spazio.",
+        title: "Ironia",
+        body: "In corsia e in studio una battuta vale più di una call. Sdrammatizzo sotto pressione e tengo l’ironia al primo posto, anche a volantino che chiude.",
       },
     ],
-    toolkitEyebrow: "Fuori dall’orario",
-    toolkit: ["Tool nuovi", "Battute in studio", "Carta", "Schermo", "Prototipi"],
+    toolkitEyebrow: "Le mie passioni",
+    toolkitBody:
+      "Videogiochi, anime e manga: seguo le uscite, i meme e le mode del web. Computer e hardware, da citare in gruppo. Dopo il lavoro una birra con amici o colleghi.",
+    hobbies: [
+      { id: "games", label: "Videogiochi" },
+      { id: "anime", label: "Anime e manga" },
+      { id: "web", label: "Meme e mode" },
+      { id: "hw", label: "Hardware" },
+      { id: "beer", label: "Serate goliardiche" },
+    ],
+    toolkit: ["Videogiochi", "Anime", "Manga", "Meme", "Hardware", "In gruppo"],
   },
   lavori: {
     eyebrow: "Portfolio",
@@ -413,8 +425,8 @@ export const SITE_DEFAULT = {
       {
         id: "digitale",
         number: "04",
-        title: "Tool interni",
-        body: "Interfacce e gestionali di produzione. CUBOT e questo sito, con Cursor e Antigravity.",
+        title: "Tool alternativi",
+        body: "Sviluppo e adozione di strumenti innovativi per gestire e ottimizzare flussi di produzione complessi. Creazione di interfacce, gestionali e micro-applicativi con Cursor e Antigravity per automatizzare attività e costruire soluzioni personalizzate che migliorano efficienza e qualità del lavoro.",
       },
     ],
   },
@@ -436,7 +448,7 @@ export const SITE_DEFAULT = {
       { id: "servizi", label: "Servizi" },
       { id: "lavori", label: "Lavori" },
       { id: "curriculum", label: "Curriculum" },
-      { id: "chi-sono", label: "Chi sono" },
+      { id: "chi-sono", label: "Profilo" },
     ],
     socialEyebrow: "Social",
     social: [
@@ -540,6 +552,24 @@ function isStockProject(project) {
   )
 }
 
+function isStaleAboutToolkit(item) {
+  const toolkit = item?.toolkit ?? []
+  return (
+    toolkit.includes("Battute in studio") ||
+    toolkit.includes("Tool nuovi") ||
+    toolkit.includes("Prototipi")
+  )
+}
+
+function isStockAboutNotes(notes) {
+  const titles = (notes ?? []).map((item) => String(item?.title ?? ""))
+  return (
+    titles.includes("Tool nuovi") ||
+    titles.includes("Ironia in corsia") ||
+    titles.includes("Supporti veri")
+  )
+}
+
 function isLegacyChiSono(item) {
   const toolkit = item?.toolkit ?? []
   return (
@@ -547,6 +577,15 @@ function isLegacyChiSono(item) {
     toolkit.includes("Liste prodotti") ||
     toolkit.includes("Volantini") ||
     /Mandarino Agency/.test(item?.body1 ?? "")
+  )
+}
+
+function isStaleDigitalePhase(phase) {
+  const title = String(phase?.title ?? "").trim()
+  const body = String(phase?.body ?? "")
+  return (
+    phase?.id === "digitale" &&
+    (title === "Tool interni" || /CUBOT e questo sito/i.test(body))
   )
 }
 
@@ -560,6 +599,20 @@ function isLegacyServizi(servizi) {
   )
 }
 
+function normalizeServiziPhases(savedPhases, fallbackPhases, migrating = false) {
+  const phases = Array.isArray(savedPhases) && savedPhases.length ? savedPhases : fallbackPhases
+  const byId = new Map(fallbackPhases.map((item) => [item.id, item]))
+  return phases.map((phase) => {
+    const base = byId.get(phase?.id)
+    if (migrating && isStaleDigitalePhase(phase) && base) return { ...base }
+    return {
+      ...phase,
+      title: polishCopy(typeof phase?.title === "string" ? phase.title.trim() : phase?.title),
+      body: polishPhaseBody(phase?.body),
+    }
+  })
+}
+
 function nonempty(value, fallback) {
   return typeof value === "string" && value.trim() ? value : fallback
 }
@@ -567,7 +620,7 @@ function nonempty(value, fallback) {
 const COPY_FIXES = {
   "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.":
     "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
-  "Tool Alternativi": "Tool alternativi",
+  "Chi sono": "Profilo",
   "Dall'impaginazione editoriale al pensiero creativo il passo è breve!":
     "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
   "Dall’impaginazione editoriale al pensiero creativo il passo è breve!":
@@ -604,20 +657,23 @@ function polishPhaseBody(value) {
   return polishCopy(next)
 }
 
+const OBSOLETE_PROJECT_IDS = new Set([
+  "nexus",
+  "aura",
+  "shift",
+  "mono",
+  "identita",
+  "editoria",
+  "comunicazione",
+  "industrialtech",
+])
+
 export function hydrateSite(saved) {
   const base = cloneSite(SITE_DEFAULT)
   if (!saved || typeof saved !== "object") return base
 
   const savedRevision = Number(saved.contentRevision) || 0
-  if (savedRevision < SITE_CONTENT_REVISION) {
-    const savedPortrait = saved.hero?.portraitSrc
-    const keepPortrait =
-      typeof savedPortrait === "string" &&
-      savedPortrait.trim() &&
-      !savedPortrait.endsWith("hero-portrait.svg")
-    if (keepPortrait) base.hero.portraitSrc = savedPortrait
-    return base
-  }
+  const migrating = savedRevision < SITE_CONTENT_REVISION
 
   const savedProjects = Array.isArray(saved.lavori?.projects)
     ? saved.lavori.projects
@@ -629,7 +685,6 @@ export function hydrateSite(saved) {
     !savedPortrait.trim() ||
     savedPortrait.endsWith("hero-portrait.svg")
 
-  const replaceProjects = savedProjects.some(isStockProject)
   const savedChiSono = saved.chiSono ?? {}
   const chiSono = {
     ...base.chiSono,
@@ -641,28 +696,59 @@ export function hydrateSite(saved) {
     toolkit: Array.isArray(savedChiSono.toolkit)
       ? savedChiSono.toolkit
       : base.chiSono.toolkit,
+    hobbies:
+      Array.isArray(savedChiSono.hobbies) && savedChiSono.hobbies.length
+        ? savedChiSono.hobbies
+        : base.chiSono.hobbies,
   }
-  if (isLegacyChiSono(savedChiSono)) {
-    chiSono.title = base.chiSono.title
-    chiSono.body1 = base.chiSono.body1
-    chiSono.body2 = base.chiSono.body2
-    chiSono.notes = base.chiSono.notes
-    chiSono.notesEyebrow = base.chiSono.notesEyebrow
+  if (migrating && (isLegacyChiSono(savedChiSono) || isStaleAboutToolkit(chiSono))) {
+    chiSono.title = isLegacyChiSono(savedChiSono) ? base.chiSono.title : chiSono.title
+    chiSono.body1 = isLegacyChiSono(savedChiSono) ? base.chiSono.body1 : chiSono.body1
+    chiSono.body2 = isLegacyChiSono(savedChiSono) ? base.chiSono.body2 : chiSono.body2
+    chiSono.notes = isLegacyChiSono(savedChiSono) ? base.chiSono.notes : chiSono.notes
+    chiSono.notesEyebrow = isLegacyChiSono(savedChiSono)
+      ? base.chiSono.notesEyebrow
+      : chiSono.notesEyebrow
     chiSono.toolkit = base.chiSono.toolkit
     chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
+    chiSono.toolkitBody = base.chiSono.toolkitBody
+    chiSono.hobbies = base.chiSono.hobbies
+  }
+  if (isStockAboutNotes(chiSono.notes)) chiSono.notes = base.chiSono.notes
+  if (isStaleAboutToolkit(chiSono)) {
+    chiSono.toolkit = base.chiSono.toolkit
+    chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
+    chiSono.toolkitBody = base.chiSono.toolkitBody
+  }
+  if (chiSono.toolkitEyebrow === "Fuori dall’orario" || chiSono.toolkitEyebrow === "Fuori dall'orario") {
+    chiSono.toolkitEyebrow = base.chiSono.toolkitEyebrow
+  }
+  chiSono.hobbies = (chiSono.hobbies ?? []).map((item) =>
+    item?.label === "Una birra dopo" ? { ...item, label: "Serate goliardiche" } : item
+  )
+  chiSono.eyebrow = polishCopy(chiSono.eyebrow)
+  chiSono.openLabel = nonempty(chiSono.openLabel, base.chiSono.openLabel)
+  chiSono.closeLabel = nonempty(chiSono.closeLabel, base.chiSono.closeLabel)
+  chiSono.peek = nonempty(chiSono.peek, base.chiSono.peek)
+  if (chiSono.peek === "C’è ironia, carta e qualche prototipo serale.") {
+    chiSono.peek = base.chiSono.peek
+  }
+  chiSono.toolkitBody = nonempty(chiSono.toolkitBody, base.chiSono.toolkitBody)
+  if (
+    chiSono.toolkitBody ===
+    "Videogiochi, anime e manga. Seguo le novità, i meme e l’hardware. Dopo il lavoro, una birra con amici o colleghi."
+  ) {
+    chiSono.toolkitBody = base.chiSono.toolkitBody
   }
 
-  const servizi = isLegacyServizi(saved.servizi)
-    ? base.servizi
-    : {
-        ...base.servizi,
-        ...saved.servizi,
-        phases: (saved.servizi?.phases ?? base.servizi.phases).map((phase) => ({
-          ...phase,
-          title: typeof phase?.title === "string" ? phase.title.trim() : phase?.title,
-          body: polishPhaseBody(phase?.body),
-        })),
-      }
+  const servizi =
+    migrating && isLegacyServizi(saved.servizi)
+      ? base.servizi
+      : {
+          ...base.servizi,
+          ...saved.servizi,
+          phases: normalizeServiziPhases(saved.servizi?.phases, base.servizi.phases, migrating),
+        }
 
   const footerPrivacy =
     !saved.footer?.privacy || saved.footer.privacy === "Privacy" ? "" : saved.footer.privacy
@@ -674,7 +760,10 @@ export function hydrateSite(saved) {
     ...saved,
     contentRevision: SITE_CONTENT_REVISION,
     logo: !savedLogo || savedLogo === "Maurizio." ? base.logo : saved.logo,
-    nav: mergeById(saved.nav, base.nav),
+    nav: mergeById(saved.nav, base.nav).map((item) => ({
+      ...item,
+      label: polishCopy(item.label),
+    })),
     hero: {
       ...base.hero,
       ...saved.hero,
@@ -715,22 +804,26 @@ export function hydrateSite(saved) {
       ...base.lavori,
       ...saved.lavori,
       waitLabel: saved.lavori?.waitLabel || base.lavori.waitLabel,
-      projects: replaceProjects
-        ? base.lavori.projects
-        : savedProjects
-            .filter((project) => project?.id !== "industrialtech")
-            .map((project) => {
+      projects: (() => {
+        const mapped = savedProjects
+          .filter((project) => project?.id && !OBSOLETE_PROJECT_IDS.has(project.id))
+          .map((project) => {
             const fallback = base.lavori.projects.find((item) => item.id === project.id)
             const gallery =
               Array.isArray(project.gallery) && project.gallery.length > 0
                 ? project.gallery
                 : (fallback?.gallery ?? [])
+            const image =
+              isStockProject(project) && fallback?.image
+                ? fallback.image
+                : (project.image || fallback?.image || "")
             return {
               role: fallback?.role ?? "",
               year: fallback?.year ?? "",
               deliverable: fallback?.deliverable ?? "",
               href: "",
               ...project,
+              image,
               gallery,
               group: project.group || fallback?.group || "",
               client: project.client || fallback?.client || "",
@@ -738,7 +831,9 @@ export function hydrateSite(saved) {
               description: polishCopy(project.description || fallback?.description || ""),
               frame: project.frame || fallback?.frame || "landscape",
             }
-          }),
+          })
+        return mapped.length ? mapped : base.lavori.projects
+      })(),
     },
     servizi,
     cv: {
@@ -748,7 +843,10 @@ export function hydrateSite(saved) {
     footer: {
       ...base.footer,
       ...saved.footer,
-      menu: mergeById(saved.footer?.menu, base.footer.menu),
+      menu: mergeById(saved.footer?.menu, base.footer.menu).map((item) => ({
+        ...item,
+        label: polishCopy(item.label),
+      })),
       social: saved.footer?.social ?? base.footer.social,
       privacy: footerPrivacy,
       cookie: footerCookie,

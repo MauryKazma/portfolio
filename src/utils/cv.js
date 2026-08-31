@@ -115,7 +115,7 @@ export function hydrateCV(saved, fallback) {
   if (!saved || typeof saved !== "object") return base
   const savedRevision = Number(saved.contentRevision) || 0
   const currentRevision = Number(fallback.contentRevision) || 0
-  if (savedRevision < currentRevision) return base
+  const migrating = savedRevision < currentRevision
   return {
     ...base,
     ...saved,
@@ -124,15 +124,20 @@ export function hydrateCV(saved, fallback) {
     experiences: mergeTaggedEntries(saved.experiences, base.experiences, emptyExperience),
     education: mergeTaggedEntries(saved.education, base.education, emptyEducation),
     languages: Array.isArray(saved.languages) && saved.languages.length ? saved.languages : base.languages,
-    digitalSkills: digitalSkillsNeedRefresh(saved.digitalSkills)
-      ? base.digitalSkills
-      : Array.isArray(saved.digitalSkills) && saved.digitalSkills.length
-        ? saved.digitalSkills
-        : base.digitalSkills,
+    digitalSkills:
+      migrating && digitalSkillsNeedRefresh(saved.digitalSkills)
+        ? base.digitalSkills
+        : Array.isArray(saved.digitalSkills) && saved.digitalSkills.length
+          ? saved.digitalSkills
+          : base.digitalSkills,
     interpersonalSkills:
       Array.isArray(saved.interpersonalSkills) && saved.interpersonalSkills.length
         ? saved.interpersonalSkills
         : base.interpersonalSkills,
+    hobbies:
+      typeof saved.hobbies === "string" && saved.hobbies.trim()
+        ? saved.hobbies
+        : base.hobbies,
   }
 }
 

@@ -5,10 +5,11 @@ import { useSite } from "../context/SiteContentProvider"
 import { useEditorUnlock } from "../hooks/useEditorAccess"
 import { useRoute } from "../hooks/useRoute"
 import { goHome, goToSection } from "../utils/scroll"
+import { openAboutFold } from "../utils/aboutFold"
 import { InlineEdit } from "./EditableText"
 
 export default function Navbar() {
-  const { guardNavigation: guardCV, expand } = useCV()
+  const { guardNavigation: guardCV, expand, save: saveCV, editing: cvEditing } = useCV()
   const {
     display,
     editing,
@@ -110,6 +111,7 @@ export default function Navbar() {
     guarded(() => {
       setOpen(false)
       if (id === "curriculum") expand()
+      if (id === "chi-sono") openAboutFold()
       requestAnimationFrame(() => goToSection(id))
     })
   }
@@ -191,7 +193,14 @@ export default function Navbar() {
                   <button type="button" className="btn-secondary" onClick={requestCancel}>
                     Annulla
                   </button>
-                  <button type="button" className="btn-primary" onClick={save}>
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => {
+                      save()
+                      if (cvEditing) saveCV()
+                    }}
+                  >
                     Salva
                   </button>
                 </>
@@ -203,6 +212,16 @@ export default function Navbar() {
               {status === "saved" ? (
                 <p className="site-nav-status" aria-live="polite">
                   Salvato.
+                </p>
+              ) : null}
+              {status === "quota" ? (
+                <p className="site-nav-status is-error" aria-live="assertive">
+                  Spazio pieno: riduci le immagini e riprova.
+                </p>
+              ) : null}
+              {status === "error" ? (
+                <p className="site-nav-status is-error" aria-live="assertive">
+                  Salvataggio non riuscito. Riprova.
                 </p>
               ) : null}
             </div>

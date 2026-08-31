@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { CV_CONTENT_REVISION, CV_DEFAULT } from "../data/cvDefault"
 import { cvStorage } from "../data/cvStorage"
-import { isEditorSession } from "../utils/editorSession"
+import { EDITOR_GRANTED, isEditorSession } from "../utils/editorSession"
 import {
   byOrder,
   cloneCV,
@@ -96,8 +96,15 @@ export function CVProvider({ children }) {
       return false
     }
     const saved = cloneCV(draft)
+    saved.contentRevision = CV_CONTENT_REVISION
+    if (isEditorSession()) {
+      const result = cvStorage.save(saved)
+      if (!result.ok) {
+        setStatus(result.quota ? "quota" : "persist-error")
+        return false
+      }
+    }
     setData(saved)
-    if (isEditorSession()) cvStorage.save(saved)
     setDraft(null)
     setStatus("saved")
     clearTimeout(savedMessageTimer.current)
@@ -139,8 +146,20 @@ export function CVProvider({ children }) {
     if (!isEditorSession()) return
     const loaded = cvStorage.load()
     if (!loaded || loaded.contentRevision === CV_CONTENT_REVISION) return
-    cvStorage.save(data)
+    const payload = cloneCV(data)
+    payload.contentRevision = CV_CONTENT_REVISION
+    cvStorage.save(payload)
   }, [data])
+
+  useEffect(() => {
+    const onGrant = () => {
+      const loaded = hydrateCV(cvStorage.load(), CV_DEFAULT)
+      setData(loaded)
+      dataRef.current = loaded
+    }
+    window.addEventListener(EDITOR_GRANTED, onGrant)
+    return () => window.removeEventListener(EDITOR_GRANTED, onGrant)
+  }, [])
 
   const guardNavigation = useCallback(
     (proceed) => {

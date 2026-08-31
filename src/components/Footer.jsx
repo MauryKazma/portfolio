@@ -2,6 +2,7 @@ import { Mail } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
 import { goToSection } from "../utils/scroll"
+import { openAboutFold } from "../utils/aboutFold"
 import { EditableText, InlineEdit } from "./EditableText"
 import SiteSection from "./SiteSection"
 
@@ -24,6 +25,7 @@ export default function Footer() {
     guardSite(() =>
       guardCV(() => {
         if (id === "curriculum") expand()
+        if (id === "chi-sono") openAboutFold()
         requestAnimationFrame(() => goToSection(id))
       })
     )

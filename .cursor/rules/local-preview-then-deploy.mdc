@@ -1,5 +1,5 @@
 ---
-description: Modifiche solo in locale, anteprima in Cursor, poi chiedi se uppare su GitHub e Railway.
+description: Modifiche solo in locale, anteprima in Chrome, poi chiedi se uppare su GitHub e Railway.
 alwaysApply: true
 ---
 
@@ -11,13 +11,13 @@ Questa regola è fissa per **questo progetto**. Non vale per altri workspace.
 
 Quando l’utente chiede modifiche, lavora **solo** sui file di questa cartella. Non fare `git push`, non aprire PRs, non cambiare GitHub o Railway, non usare `railway up` / variabili / domini, finché non lo chiede esplicitamente.
 
-## 2. Mostrare il sito dentro Cursor
+## 2. Mostrare il sito in Google Chrome
 
-Dopo ogni modifica visibile (UI, CSS, contenuto, routing):
+Dopo ogni modifica visibile (UI, CSS, contenuto, routing), e dopo un deploy Railway:
 
-1. Avvia o riusa Vite locale (`npm run dev`) se non è già in ascolto.
-2. Apri l’URL locale **dentro Cursor** con `open_resource` (`http://localhost:5173` o la porta effettiva).
-3. Verifica il flusso nel browser di Cursor (click, scroll, viewport se il layout è cambiato). Non limitarti a descrivere le modifiche.
+1. Avvia o riusa Vite locale (`npm run dev`) se non è già in ascolto (solo per lavoro locale).
+2. Apri l’URL in **Google Chrome**, non nel browser di Cursor e non con `open_resource`. Su Windows: `Start-Process` su `chrome.exe` con l’URL (`http://localhost:5173` in locale, oppure `https://portfolio-production-cb03.up.railway.app` dopo il deploy).
+3. Verifica il flusso (click, scroll, viewport se il layout è cambiato). Non limitarti a descrivere le modifiche.
 
 ## 3. Dopo le modifiche, chiedi sempre
 

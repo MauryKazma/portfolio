@@ -37,12 +37,17 @@ export function SiteContentProvider({ children }) {
     if (!isEditorSession()) return
     const loaded = siteStorage.load()
     if (!loaded || loaded.contentRevision === SITE_CONTENT_REVISION) return
-    siteStorage.save(data)
+    const payload = cloneSite(data)
+    payload.contentRevision = SITE_CONTENT_REVISION
+    siteStorage.save(payload)
   }, [data])
 
   useEffect(() => {
     const onGrant = () => {
-      setDraft(cloneSite(dataRef.current))
+      const loaded = hydrateSite(siteStorage.load())
+      setData(loaded)
+      dataRef.current = loaded
+      setDraft(cloneSite(loaded))
       setStatus("")
     }
     window.addEventListener(EDITOR_GRANTED, onGrant)
@@ -87,8 +92,15 @@ export function SiteContentProvider({ children }) {
   const save = useCallback(() => {
     if (!draft) return false
     const saved = cloneSite(draft)
+    saved.contentRevision = SITE_CONTENT_REVISION
+    if (isEditorSession()) {
+      const result = siteStorage.save(saved)
+      if (!result.ok) {
+        setStatus(result.quota ? "quota" : "error")
+        return false
+      }
+    }
     setData(saved)
-    if (isEditorSession()) siteStorage.save(saved)
     setDraft(null)
     setStatus("saved")
     clearTimeout(savedMessageTimer.current)
@@ -168,15 +180,19 @@ export function SiteContentProvider({ children }) {
           if (!current) return current
           const next = cloneSite(current)
           next.hero.portraitSrc = value
+          next.contentRevision = SITE_CONTENT_REVISION
           return next
         })
         if (!isEditorSession()) return
-        setData((current) => {
-          const next = cloneSite(current)
-          next.hero.portraitSrc = value
-          siteStorage.save(next)
-          return next
-        })
+        const next = cloneSite(dataRef.current)
+        next.hero.portraitSrc = value
+        next.contentRevision = SITE_CONTENT_REVISION
+        const result = siteStorage.save(next)
+        if (!result.ok) {
+          setStatus(result.quota ? "quota" : "error")
+          return
+        }
+        setData(next)
       },
       setTickerItem(index, value) {
         patch((next) => {
@@ -211,6 +227,14 @@ export function SiteContentProvider({ children }) {
         patch((next) => {
           next.chiSono.notes = (next.chiSono.notes ?? []).map((item, i) =>
             i === index ? { ...item, [field]: value } : item
+          )
+          return next
+        })
+      },
+      setHobby(index, value) {
+        patch((next) => {
+          next.chiSono.hobbies = (next.chiSono.hobbies ?? []).map((item, i) =>
+            i === index ? { ...item, label: value } : item
           )
           return next
         })

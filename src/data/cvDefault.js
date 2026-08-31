@@ -1,6 +1,6 @@
 /** @typedef {import('../utils/cv.js').CVData} CVData */
 
-export const CV_CONTENT_REVISION = 1
+export const CV_CONTENT_REVISION = 5
 
 /** @type {CVData} */
 export const CV_DEFAULT = {
@@ -27,7 +27,7 @@ export const CV_DEFAULT = {
       role: "Grafico editoriale",
       location: "Latina",
       description:
-        "Editoria GDO per Risparmio Casa: dalle liste prodotti alle etichette in automazione, alle pagine del volantino, fino a locandine, stopper, cartellonistica (4×3, 6×3, 75×150, Coupon Days) e video per maxischermo e girocampo LED dello Stadio Olimpico. Seguo la campagna dalla versione di rete alla chiusura, con scadenze strette. Progetto anche identità visive e CUBOT, il gestionale interno del flusso volantini, con Cursor e Antigravity.",
+        "Produzioni GDO per grandi clienti: realizzazione di volantini stampati e web, newsletter, materiali POP in store, video per totem e social e PED. Progettazione di brand identity e creazione di contenuti per i canali social. Attività affiancata dallo studio e dall’applicazione di nuove tecnologie AI, con sviluppo di interfacce e micro-tool tramite programmi di agent AI per ottimizzare flussi e processi creativi.",
       tags: [
         "InDesign",
         "Photoshop",
@@ -48,7 +48,7 @@ export const CV_DEFAULT = {
       role: "Grafico editoriale",
       location: "Latina",
       description:
-        "Comunicazione GDO per Portobello: volantini web, newsletter, materiali POP in store e video verticali per totem e stories (528×880, 1000×1500, 1080×1920). Preparavo le versioni di rete e rispettavo il calendario promozionale.",
+        "Produzioni GDO per grandi clienti: realizzazione di volantini stampati e web, newsletter, materiali POP in store, video per totem e social e PED. Progettazione di brand identity e creazione di contenuti per i canali social.",
       tags: ["InDesign", "Photoshop", "Premiere Pro", "Illustrator"],
       order: 1,
     },
@@ -61,7 +61,7 @@ export const CV_DEFAULT = {
       role: "Addetto alle affissioni pubblicitarie",
       location: "Latina",
       description:
-        "Stampa, modifica e affissione di materiali pubblicitari: adattavo i file al formato, stampavo e seguivo il montaggio sui punti affissione.",
+        "Progettazione, stampa e affissione di elementi grafici: adattavo i file ai formati di posa e seguivo il montaggio sui punti affissione.",
       tags: ["Photoshop", "Illustrator", "InDesign"],
       order: 2,
     },
@@ -74,7 +74,7 @@ export const CV_DEFAULT = {
       role: "Graphic Designer",
       location: "",
       description:
-        "Ritocco e postproduzione fotografica di prodotti commerciali: pulizia delle immagini e file pronti per la comunicazione del punto vendita.",
+        "Ritocco e modifica fotografica di prodotti commerciali, per file pronti alla comunicazione del punto vendita.",
       tags: ["Photoshop"],
       order: 3,
     },
@@ -87,7 +87,7 @@ export const CV_DEFAULT = {
       role: "Addetto alle affissioni pubblicitarie",
       location: "Latina",
       description:
-        "Stampa, modifica e affissione di materiali pubblicitari: adattavo i file al formato, stampavo e seguivo il montaggio sui punti affissione.",
+        "Progettazione, stampa e affissione di elementi grafici: adattavo i file ai formati di posa e seguivo il montaggio sui punti affissione.",
       tags: ["Photoshop", "Illustrator", "InDesign"],
       order: 4,
     },
@@ -100,7 +100,7 @@ export const CV_DEFAULT = {
       role: "Graphic Designer",
       location: "Latina",
       description:
-        "Ritocco fotografico di capi per l’e-commerce dell’outlet: pulizia delle immagini e file pronti per la scheda prodotto.",
+        "Ritocco fotografico di capi per l’e-commerce dell’outlet, con file pronti per la scheda prodotto.",
       tags: ["Photoshop"],
       order: 5,
     },
@@ -110,11 +110,11 @@ export const CV_DEFAULT = {
       endDate: "2018-01-14",
       current: false,
       company: "INBRAND",
-      role: "Videomaker / grafico",
+      role: "Videomaker / Grafico",
       location: "Latina",
       description:
-        "Creazione di contenuti video modificando template in After Effects, gestione delle pagine social con testi brevi e impaginazione dei cataloghi per le campagne.",
-      tags: ["After Effects", "InDesign", "Photoshop"],
+        "Creazione di contenuti video adattando template in After Effects, gestione delle pagine social con testi brevi e impaginazione dei cataloghi.",
+      tags: ["Premiere Pro", "After Effects", "InDesign", "Photoshop"],
       order: 6,
     },
     {
@@ -126,7 +126,7 @@ export const CV_DEFAULT = {
       role: "Graphic Designer",
       location: "Cisterna di Latina",
       description:
-        "Creazione di manifesti pubblicitari, cataloghi e locandine: dal file di stampa all’impaginazione dei materiali per la tipografia.",
+        "Creazione di manifesti pubblicitari, cataloghi e locandine per la stampa in tipografia.",
       tags: ["InDesign", "Illustrator", "Photoshop"],
       order: 7,
     },
@@ -166,7 +166,7 @@ export const CV_DEFAULT = {
       institute: "Latina Formazione Lavoro",
       location: "Latina",
       description:
-        "Percorso professionale a Latina Formazione Lavoro: basi del mestiere, con esercitazioni grafiche e video di base.",
+        "Percorso professionale a Latina Formazione Lavoro, dove ho appreso le basi del mestiere, facendo esercitazioni grafiche e video basilari.",
       fieldOfStudy: "Grafico pubblicitario",
       link: "https://www.latinaformazione.it/",
       tags: [],
@@ -272,13 +272,14 @@ export const CV_DEFAULT = {
     },
   ],
   drivingLicence: "B",
-  hobbies: "",
+  hobbies:
+    "Videogiochi, anime e manga, meme e hardware. Serate goliardiche con una birra dopo il lavoro, amici e colleghi. Ironia al primo posto, anche in studio.",
   interpersonalSkills: [
     {
       id: "inter-coop",
       name: "Gestione lavorativa e cooperazione",
       description:
-        "Ottima capacità di lavorare in team, anche sotto pressione: disponibile all’ascolto e aperto a nuove soluzioni. So sdrammatizzare e ironizzare durante le sessioni più intense.",
+        "Ottima capacità di lavorare in team, anche sotto pressione, sempre disponibile all’ascolto e aperto a nuove opzioni lavorative. In grado di sdrammatizzare o ironizzare durante sessioni lavorative particolarmente stressanti.",
       items: [],
       order: 0,
     },
@@ -286,7 +287,7 @@ export const CV_DEFAULT = {
       id: "inter-tech",
       name: "Aggiornamento sulle nuove tecnologie",
       description:
-        "Mi tengo aggiornato sulle tecnologie nuove e su quelle sperimentali, e le applico nel lavoro di ogni giorno per ottimizzare i processi.",
+        "Mi tengo sempre aggiornato sulle ultime tecnologie o su tecnologie sperimentali, e tento di applicarle nei processi che eseguo ogni giorno, per tentare di ottimizzare o migliorare i processi lavorativi.",
       items: [],
       order: 1,
     },

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect, useRef, useState } from "react"
 import { useCV } from "../../context/CVProvider"
 import { useSite } from "../../context/SiteContentProvider"
 import { useEditorAccess } from "../../hooks/useEditorAccess"
@@ -7,7 +7,10 @@ import { EditableText } from "../EditableText"
 import SiteSection from "../SiteSection"
 import { PrimaryButton, SecondaryButton } from "./cvUi"
 
-const CVFull = lazy(() => import("./CVFull"))
+const loadCVFull = () => import("./CVFull")
+const CVFull = lazy(loadCVFull)
+
+const FOLD_MS = 680
 
 function ExperiencePeek({ item }) {
   return (
@@ -37,14 +40,52 @@ export default function Curriculum() {
   const { display: site, editing: siteEditing, setCv } = useSite()
   const canEdit = useEditorAccess()
   const errorCount = Object.keys(errors).length
-  const showFull = expanded || editing
+  const open = expanded || editing
   const peek = byOrder(display.experiences).slice(0, 2)
   const openLabel = site.cv?.openLabel ?? "Apri curriculum"
   const closeLabel = site.cv?.closeLabel ?? "Chiudi curriculum"
+  const [fullMounted, setFullMounted] = useState(open)
+  const [foldOpen, setFoldOpen] = useState(open)
+  const closeTimer = useRef(null)
+
+  useEffect(() => {
+    if (open) {
+      clearTimeout(closeTimer.current)
+      setFullMounted(true)
+      return
+    }
+    setFoldOpen(false)
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    closeTimer.current = setTimeout(() => setFullMounted(false), reduce ? 0 : FOLD_MS)
+    return () => clearTimeout(closeTimer.current)
+  }, [open])
+
+  useEffect(() => {
+    if (!open || !fullMounted) return
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduce) {
+      setFoldOpen(true)
+      return
+    }
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setFoldOpen(true))
+    })
+    return () => cancelAnimationFrame(id)
+  }, [open, fullMounted])
 
   const openAndEdit = () => {
+    loadCVFull()
     expand()
     startEdit()
+  }
+
+  const closeFold = () => {
+    collapse()
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    document.getElementById("curriculum")?.scrollIntoView({
+      behavior: reduce ? "auto" : "smooth",
+      block: "start",
+    })
   }
 
   return (
@@ -81,16 +122,27 @@ export default function Curriculum() {
               </>
             ) : (
               <>
-                {showFull ? (
-                  <SecondaryButton onClick={collapse}>{closeLabel}</SecondaryButton>
+                {open ? (
+                  <SecondaryButton onClick={closeFold} aria-expanded="true">
+                    {closeLabel}
+                  </SecondaryButton>
                 ) : (
-                  <PrimaryButton onClick={expand}>{openLabel}</PrimaryButton>
+                  <PrimaryButton
+                    onClick={expand}
+                    onPointerEnter={loadCVFull}
+                    onFocus={loadCVFull}
+                    aria-expanded="false"
+                  >
+                    {openLabel}
+                  </PrimaryButton>
                 )}
                 {canEdit ? (
-                  showFull ? (
+                  open ? (
                     <PrimaryButton onClick={startEdit}>Modifica CV</PrimaryButton>
                   ) : (
-                    <SecondaryButton onClick={openAndEdit}>Modifica CV</SecondaryButton>
+                    <SecondaryButton onClick={openAndEdit} onPointerEnter={loadCVFull}>
+                      Modifica CV
+                    </SecondaryButton>
                   )
                 ) : null}
               </>
@@ -114,6 +166,12 @@ export default function Curriculum() {
           ) : null}
           <div className="cv-status" aria-live="polite">
             {status === "saved" ? <p className="cv-status-ok">Curriculum salvato.</p> : null}
+            {status === "quota" ? (
+              <p className="cv-error">Spazio pieno: il salvataggio non è stato conservato. Riprova.</p>
+            ) : null}
+            {status === "persist-error" ? (
+              <p className="cv-error">Salvataggio non riuscito. Riprova.</p>
+            ) : null}
             {status === "error" ? (
               <p className="cv-error">
                 Controlla i campi evidenziati. {errorCount}{" "}
@@ -124,25 +182,36 @@ export default function Curriculum() {
           </div>
         </header>
 
-        {showFull ? (
-          <Suspense
-            fallback={
-              <p className="site-body" aria-busy="true">
-                Caricamento curriculum…
-              </p>
-            }
-          >
-            <CVFull />
-          </Suspense>
-        ) : (
-          <div className="cv-summary">
-            <div className="cv-stack">
-              {peek.map((item) => (
-                <ExperiencePeek key={item.id} item={item} />
-              ))}
+        <div className={foldOpen ? "cv-fold is-open" : "cv-fold"}>
+          <div className="cv-fold-peek" aria-hidden={foldOpen}>
+            <div className="cv-fold-clip">
+              <div className="cv-summary">
+                <div className="cv-stack">
+                  {peek.map((item) => (
+                    <ExperiencePeek key={item.id} item={item} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        )}
+          <div className="cv-fold-full" aria-hidden={!foldOpen} {...(!foldOpen ? { inert: true } : {})}>
+            <div className="cv-fold-clip">
+              {fullMounted ? (
+                <div className="cv-fold-inner">
+                  <Suspense
+                    fallback={
+                      <p className="site-body cv-fold-fallback" aria-busy="true">
+                        Caricamento curriculum…
+                      </p>
+                    }
+                  >
+                    <CVFull />
+                  </Suspense>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
       </div>
     </SiteSection>
   )
