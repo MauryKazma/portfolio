@@ -1110,6 +1110,7 @@ html[data-look="clean"] .about-layout {
     "fold"
     "play";
   gap: 56px;
+  align-content: start;
   margin-top: 0;
   overflow: visible;
 }
@@ -1134,6 +1135,7 @@ html[data-look="clean"] .about-hobby {
 @media (min-width: 900px) {
   html[data-look="clean"] .about-layout {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: max-content 1fr;
     grid-template-areas:
       "hero play"
       "fold play";
@@ -1256,13 +1258,22 @@ html[data-look="clean"] .studio-list {
   margin-top: 36px;
 }
 
+html[data-look="clean"] .about-copy > .studio-list:first-child {
+  margin-top: 20px;
+}
+
 html[data-look="clean"] .studio-list > .site-eyebrow {
-  margin-bottom: 4px;
+  margin-bottom: 14px;
 }
 
 html[data-look="clean"] .studio-card {
-  padding: 16px 0;
+  padding: 14px 0;
   border-top: 1px solid var(--hairline);
+}
+
+html[data-look="clean"] .about-copy .studio-list > .studio-card:first-of-type {
+  padding-top: 0;
+  border-top: none;
 }
 
 html[data-look="clean"] .studio-name {
@@ -1277,9 +1288,11 @@ html[data-look="clean"] .studio-name {
 }
 
 html[data-look="clean"] .studio-meta {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--muted);
-  font-size: 0.9375rem;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
 }
 
 html[data-look="clean"] .toolkit-list li,
@@ -2373,9 +2386,8 @@ html[data-look="clean"] .cv-fold-fallback {
 }
 
 html[data-look="clean"] .about-hero {
-  padding-bottom: 28px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 8px;
+  margin-bottom: 0;
 }
 
 html[data-look="clean"] .about-toolbar {
@@ -2445,6 +2457,10 @@ html[data-look="clean"] .about-hobby.toolkit-panel {
   box-shadow: none;
 }
 
+html[data-look="clean"] .about-hobby:has(.about-hobby-frame.is-open) {
+  align-self: start;
+}
+
 html[data-look="clean"] .about-hobby-frame {
   position: relative;
   z-index: 2;
@@ -2459,6 +2475,10 @@ html[data-look="clean"] .about-hobby-frame {
   box-shadow:
     0 12px 28px rgba(30, 58, 138, 0.07),
     0 0 16px rgba(56, 189, 248, 0.16);
+}
+
+html[data-look="clean"] .about-hobby-frame.is-open {
+  flex: 0 0 auto;
 }
 
 html[data-look="clean"] .about-hobby-frame::before {
@@ -2742,7 +2762,7 @@ html[data-look="clean"] .about-play-face.is-hit .about-play-glasses {
 html[data-look="clean"] .about-hobby-sheet {
   position: relative;
   z-index: 3;
-  padding: 22px 22px 24px;
+  padding: 18px 22px 18px;
   border-top: 1px solid var(--hairline);
   background: #fff;
   opacity: 0;
@@ -2795,7 +2815,8 @@ html[data-look="clean"] .about-hobby-label {
 }
 
 html[data-look="clean"] .about-hobby .toolkit-list {
-  margin-top: 20px;
+  margin-top: 18px;
+  margin-bottom: 0;
 }
 
 html[data-look="clean"] .about-hobby .toolkit-list li {
@@ -3057,8 +3078,12 @@ html[data-look="clean"] .back-to-top {
   }
 
   html[data-look="clean"] .about-hero {
-    padding-bottom: 20px;
+    padding-bottom: 4px;
     margin-bottom: 0;
+  }
+
+  html[data-look="clean"] .about-copy > .studio-list:first-child {
+    margin-top: 16px;
   }
 
   html[data-look="clean"] .about-toolbar {

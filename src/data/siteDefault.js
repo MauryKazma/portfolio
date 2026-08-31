@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 26
+export const SITE_CONTENT_REVISION = 28
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -85,10 +85,8 @@ export const SITE_DEFAULT = {
     peek: "C’è ironia, qualche serata e le passioni vere.",
     openLabel: "Apri il foglio",
     closeLabel: "Chiudi il foglio",
-    body1:
-      "Appassionato di videogiochi, anime, manga, informatica e computer, sempre aggiornato sulle tendenze web e i meme di tendenza.",
-    body2:
-      "Persona socievole e ironica, con una spiccata dose di autoironia, amo condividere questi interessi con amici e colleghi, tra serate goliardiche e una birra dopo il lavoro.",
+    body1: "",
+    body2: "",
     notesEyebrow: "Cose che mi tengono acceso",
     notes: [
       {
@@ -105,8 +103,7 @@ export const SITE_DEFAULT = {
       },
     ],
     toolkitEyebrow: "Le mie passioni",
-    toolkitBody:
-      "Videogiochi, anime e manga: seguo le uscite, i meme e le mode del web. Computer e hardware, da citare in gruppo. Dopo il lavoro una birra con amici o colleghi.",
+    toolkitBody: "",
     hobbies: [
       { id: "games", label: "Videogiochi" },
       { id: "anime", label: "Anime e manga" },
@@ -735,22 +732,29 @@ export function hydrateSite(saved) {
   }
   if (
     chiSono.body1 ===
-    "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief."
+      "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief." ||
+    chiSono.body1 ===
+      "Appassionato di videogiochi, anime, manga, informatica e computer, sempre aggiornato sulle tendenze web e i meme di tendenza."
   ) {
-    chiSono.body1 = base.chiSono.body1
+    chiSono.body1 = ""
   }
   if (
     chiSono.body2 ===
-    "Fuori dall’orario resto attaccato a come le cose stanno nello spazio: carta, LED, store. In corsia preferisco una battuta a una call in più."
+      "Fuori dall’orario resto attaccato a come le cose stanno nello spazio: carta, LED, store. In corsia preferisco una battuta a una call in più." ||
+    chiSono.body2 ===
+      "Persona socievole e ironica, con una spiccata dose di autoironia, amo condividere questi interessi con amici e colleghi, tra serate goliardiche e una birra dopo il lavoro."
   ) {
-    chiSono.body2 = base.chiSono.body2
+    chiSono.body2 = ""
   }
-  chiSono.toolkitBody = nonempty(chiSono.toolkitBody, base.chiSono.toolkitBody)
+  chiSono.toolkitBody =
+    typeof chiSono.toolkitBody === "string" ? chiSono.toolkitBody : base.chiSono.toolkitBody
   if (
     chiSono.toolkitBody ===
-    "Videogiochi, anime e manga. Seguo le novità, i meme e l’hardware. Dopo il lavoro, una birra con amici o colleghi."
+      "Videogiochi, anime e manga: seguo le uscite, i meme e le mode del web. Computer e hardware, da citare in gruppo. Dopo il lavoro una birra con amici o colleghi." ||
+    chiSono.toolkitBody ===
+      "Videogiochi, anime e manga. Seguo le novità, i meme e l’hardware. Dopo il lavoro, una birra con amici o colleghi."
   ) {
-    chiSono.toolkitBody = base.chiSono.toolkitBody
+    chiSono.toolkitBody = ""
   }
 
   const servizi =

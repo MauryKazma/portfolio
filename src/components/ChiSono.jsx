@@ -51,14 +51,16 @@ function HobbyPanel({
                   onChange={(value) => setChiSono("toolkitEyebrow", value)}
                   ariaLabel="Etichetta passioni"
                 />
-                <EditableText
-                  className="site-body about-hobby-copy"
-                  value={chiSono.toolkitBody}
-                  editing={editing}
-                  multiline
-                  onChange={(value) => setChiSono("toolkitBody", value)}
-                  ariaLabel="Testo passioni"
-                />
+                {editing || chiSono.toolkitBody ? (
+                  <EditableText
+                    className="site-body about-hobby-copy"
+                    value={chiSono.toolkitBody}
+                    editing={editing}
+                    multiline
+                    onChange={(value) => setChiSono("toolkitBody", value)}
+                    ariaLabel="Testo passioni"
+                  />
+                ) : null}
                 {hobbies.length ? (
                   <ul className="about-hobby-list">
                     {hobbies.map((item, index) => {
@@ -275,22 +277,26 @@ export default function ChiSono() {
               <div className="about-fold-clip">
                 {fullMounted ? (
                   <div className="about-fold-inner about-copy">
-                    <EditableText
-                      className="site-body"
-                      value={chiSono.body1}
-                      editing={editing}
-                      multiline
-                      onChange={(value) => setChiSono("body1", value)}
-                      ariaLabel="Primo paragrafo profilo"
-                    />
-                    <EditableText
-                      className="site-body"
-                      value={chiSono.body2}
-                      editing={editing}
-                      multiline
-                      onChange={(value) => setChiSono("body2", value)}
-                      ariaLabel="Secondo paragrafo profilo"
-                    />
+                    {editing || chiSono.body1 ? (
+                      <EditableText
+                        className="site-body"
+                        value={chiSono.body1}
+                        editing={editing}
+                        multiline
+                        onChange={(value) => setChiSono("body1", value)}
+                        ariaLabel="Primo paragrafo profilo"
+                      />
+                    ) : null}
+                    {editing || chiSono.body2 ? (
+                      <EditableText
+                        className="site-body"
+                        value={chiSono.body2}
+                        editing={editing}
+                        multiline
+                        onChange={(value) => setChiSono("body2", value)}
+                        ariaLabel="Secondo paragrafo profilo"
+                      />
+                    ) : null}
                     <div className="studio-list">
                       <EditableText
                         className="site-eyebrow"
