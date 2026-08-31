@@ -1,6 +1,6 @@
 /** @typedef {import('../utils/cv.js').CVData} CVData */
 
-export const CV_CONTENT_REVISION = 5
+export const CV_CONTENT_REVISION = 6
 
 /** @type {CVData} */
 export const CV_DEFAULT = {
@@ -273,7 +273,7 @@ export const CV_DEFAULT = {
   ],
   drivingLicence: "B",
   hobbies:
-    "Videogiochi, anime e manga, meme e hardware. Serate goliardiche con una birra dopo il lavoro, amici e colleghi. Ironia al primo posto, anche in studio.",
+    "Videogiochi, anime, manga, informatica e computer. Meme e tendenze web, serate goliardiche e una birra dopo il lavoro con amici e colleghi. Ironia e autoironia, anche in studio.",
   interpersonalSkills: [
     {
       id: "inter-coop",

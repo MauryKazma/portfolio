@@ -1,4 +1,4 @@
-export const SITE_CONTENT_REVISION = 25
+export const SITE_CONTENT_REVISION = 26
 
 export const SITE_DEFAULT = {
   contentRevision: SITE_CONTENT_REVISION,
@@ -86,9 +86,9 @@ export const SITE_DEFAULT = {
     openLabel: "Apri il foglio",
     closeLabel: "Chiudi il foglio",
     body1:
-      "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief.",
+      "Appassionato di videogiochi, anime, manga, informatica e computer, sempre aggiornato sulle tendenze web e i meme di tendenza.",
     body2:
-      "Fuori dall’orario resto attaccato a come le cose stanno nello spazio: carta, LED, store. In corsia preferisco una battuta a una call in più.",
+      "Persona socievole e ironica, con una spiccata dose di autoironia, amo condividere questi interessi con amici e colleghi, tra serate goliardiche e una birra dopo il lavoro.",
     notesEyebrow: "Cose che mi tengono acceso",
     notes: [
       {
@@ -732,6 +732,18 @@ export function hydrateSite(saved) {
   chiSono.peek = nonempty(chiSono.peek, base.chiSono.peek)
   if (chiSono.peek === "C’è ironia, carta e qualche prototipo serale.") {
     chiSono.peek = base.chiSono.peek
+  }
+  if (
+    chiSono.body1 ===
+    "Sono curioso e un po’ ironico. Quando esce uno strumento nuovo lo apro, anche la sera. I prototipi nascono così, non da un brief."
+  ) {
+    chiSono.body1 = base.chiSono.body1
+  }
+  if (
+    chiSono.body2 ===
+    "Fuori dall’orario resto attaccato a come le cose stanno nello spazio: carta, LED, store. In corsia preferisco una battuta a una call in più."
+  ) {
+    chiSono.body2 = base.chiSono.body2
   }
   chiSono.toolkitBody = nonempty(chiSono.toolkitBody, base.chiSono.toolkitBody)
   if (

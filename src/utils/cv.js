@@ -136,7 +136,10 @@ export function hydrateCV(saved, fallback) {
         : base.interpersonalSkills,
     hobbies:
       typeof saved.hobbies === "string" && saved.hobbies.trim()
-        ? saved.hobbies
+        ? saved.hobbies ===
+          "Videogiochi, anime e manga, meme e hardware. Serate goliardiche con una birra dopo il lavoro, amici e colleghi. Ironia al primo posto, anche in studio."
+          ? base.hobbies
+          : saved.hobbies
         : base.hobbies,
   }
 }
