@@ -2770,6 +2770,8 @@ html[data-look="clean"] .cv-summary .cv-entry-title {
 
 html[data-look="clean"] .cv-toolbar .btn-primary,
 html[data-look="clean"] .cv-toolbar .btn-secondary,
+html[data-look="clean"] .cv-toolbar .cv-btn-primary,
+html[data-look="clean"] .cv-toolbar .cv-btn-secondary,
 html[data-look="clean"] .cv-toolbar button,
 html[data-look="clean"] .about-toolbar .btn-primary,
 html[data-look="clean"] .about-toolbar button {
@@ -2784,6 +2786,10 @@ html[data-look="clean"] .cv-fold-summary {
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+html[data-look="clean"] .cv-hero {
+  overflow: visible;
 }
 
 html[data-look="clean"] .cv-toolbar {
@@ -2972,35 +2978,44 @@ html[data-look="clean"] .back-to-top {
     min-height: 44px;
   }
 
-  html[data-look="clean"] .cv-toolbar {
-    position: sticky;
-    top: var(--nav-offset);
-    z-index: 8;
-    margin-inline: 0;
-    padding: 10px 0;
-    background: color-mix(in srgb, var(--wash) 88%, white);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+  html[data-look="clean"] .cv-hero {
+    overflow: visible;
+    padding-bottom: 28px;
   }
 
+  html[data-look="clean"] .cv-toolbar,
   html[data-look="clean"] .about-toolbar {
     position: sticky;
     top: var(--nav-offset);
     z-index: 8;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
     margin-inline: 0;
-    padding: 10px 0;
-    background: color-mix(in srgb, var(--wash) 88%, white);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    padding: 4px 0 20px;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    isolation: auto;
   }
 
   html[data-look="clean"] .cv-toolbar .btn-primary,
   html[data-look="clean"] .cv-toolbar .btn-secondary,
+  html[data-look="clean"] .cv-toolbar .cv-btn-primary,
+  html[data-look="clean"] .cv-toolbar .cv-btn-secondary,
+  html[data-look="clean"] .cv-toolbar .cv-download,
   html[data-look="clean"] .cv-toolbar button,
   html[data-look="clean"] .about-toolbar .btn-primary,
   html[data-look="clean"] .about-toolbar button {
     min-height: 44px;
     flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
   }
 
   html[data-look="clean"] .cv-info-grid,
