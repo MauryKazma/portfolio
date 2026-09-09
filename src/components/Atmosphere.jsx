@@ -1,4 +1,11 @@
-/** Decorative field of drifting circles and soft blobs — Pulita tokens. */
+/**
+ * Sfondo decorativo: cerchi e macchie blu che vagano piano.
+ *
+ * Ogni elemento qui è un livello che il browser compone a ogni fotogramma,
+ * per sempre. Erano 23: i dodici puntini centrali e i sei granelli da 4px
+ * al 18% di opacità non si vedevano e costavano quanto gli altri. Restano
+ * i tredici che fanno davvero l'atmosfera lungo i bordi.
+ */
 export default function Atmosphere() {
   return (
     <div className="atmosphere" aria-hidden="true">
@@ -15,16 +22,6 @@ export default function Atmosphere() {
       <span className="atmosphere-dot atmosphere-dot--6" />
       <span className="atmosphere-dot atmosphere-dot--7" />
       <span className="atmosphere-dot atmosphere-dot--8" />
-      <span className="atmosphere-dot atmosphere-dot--9" />
-      <span className="atmosphere-dot atmosphere-dot--10" />
-      <span className="atmosphere-dot atmosphere-dot--11" />
-      <span className="atmosphere-dot atmosphere-dot--12" />
-      <span className="atmosphere-speck atmosphere-speck--1" />
-      <span className="atmosphere-speck atmosphere-speck--2" />
-      <span className="atmosphere-speck atmosphere-speck--3" />
-      <span className="atmosphere-speck atmosphere-speck--4" />
-      <span className="atmosphere-speck atmosphere-speck--5" />
-      <span className="atmosphere-speck atmosphere-speck--6" />
     </div>
   )
 }

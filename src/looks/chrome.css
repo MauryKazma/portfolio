@@ -1,3 +1,4 @@
+/* Comandi flottanti: torna-su a destra, pillola contatti a sinistra. */
 .back-to-top {
   position: fixed;
   right: 20px;
@@ -8,15 +9,33 @@
   width: 44px;
   height: 44px;
   border: 0;
-  background: #1e3a8a;
-  color: #fff;
+  border-radius: 999px;
+  background: var(--spot-deep);
+  color: var(--paper);
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(30, 58, 138, 0.28);
+  box-shadow: var(--cta-shadow, 0 12px 28px rgba(30, 58, 138, 0.28));
 }
 
 @media (max-width: 767px) {
   .back-to-top {
-    right: max(12px, env(safe-area-inset-right, 0px));
-    bottom: calc(var(--dock-h, 16px) + 12px);
+    right: max(16px, env(safe-area-inset-right, 0px));
+    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@keyframes clean-dock-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-dock {
+    animation: none !important;
   }
 }

@@ -80,6 +80,29 @@ export function uniqueTag(list, label) {
   return [...(list ?? []), next]
 }
 
+/**
+ * Esperienze ritirate dal sito con la revisione 8: stage e affissioni
+ * (Karti e simili). Restano nel PDF, che è il documento completo; qui
+ * il curriculum mostra i due impieghi veri. Senza questo elenco
+ * tornerebbero a galla dal localStorage di chi aveva già salvato dall'editor.
+ */
+const RETIRED_EXPERIENCE_IDS = new Set([
+  "exp-karti",
+  "exp-karti-2019-12",
+  "exp-karti-2019-04",
+  "exp-doganella",
+  "exp-zigo",
+  "exp-inbrand",
+  "exp-monti",
+  "exp-milanese",
+])
+
+function isRetiredExperience(item) {
+  if (!item) return true
+  if (RETIRED_EXPERIENCE_IDS.has(item.id)) return true
+  return /karti/i.test(String(item.company ?? ""))
+}
+
 function mergeTaggedEntries(saved, fallback, emptyItem) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
   const byId = new Map(fallback.map((item) => [item.id, item]))
@@ -121,7 +144,11 @@ export function hydrateCV(saved, fallback) {
     ...saved,
     contentRevision: currentRevision,
     personalInfo: { ...base.personalInfo, ...(saved.personalInfo ?? {}) },
-    experiences: mergeTaggedEntries(saved.experiences, base.experiences, emptyExperience),
+    experiences: reindex(
+      byOrder(
+        mergeTaggedEntries(saved.experiences, base.experiences, emptyExperience)
+      ).filter((item) => !isRetiredExperience(item))
+    ),
     education: mergeTaggedEntries(saved.education, base.education, emptyEducation),
     languages: Array.isArray(saved.languages) && saved.languages.length ? saved.languages : base.languages,
     digitalSkills:

@@ -1,6 +1,6 @@
 /** @typedef {import('../utils/cv.js').CVData} CVData */
 
-export const CV_CONTENT_REVISION = 6
+export const CV_CONTENT_REVISION = 8
 
 /** @type {CVData} */
 export const CV_DEFAULT = {
@@ -51,97 +51,6 @@ export const CV_DEFAULT = {
         "Produzioni GDO per grandi clienti: realizzazione di volantini stampati e web, newsletter, materiali POP in store, video per totem e social e PED. Progettazione di brand identity e creazione di contenuti per i canali social.",
       tags: ["InDesign", "Photoshop", "Premiere Pro", "Illustrator"],
       order: 1,
-    },
-    {
-      id: "exp-karti-2019-12",
-      startDate: "2019-12-04",
-      endDate: "2019-12-18",
-      current: false,
-      company: "Karti",
-      role: "Addetto alle affissioni pubblicitarie",
-      location: "Latina",
-      description:
-        "Progettazione, stampa e affissione di elementi grafici: adattavo i file ai formati di posa e seguivo il montaggio sui punti affissione.",
-      tags: ["Photoshop", "Illustrator", "InDesign"],
-      order: 2,
-    },
-    {
-      id: "exp-doganella",
-      startDate: "2019-11-10",
-      endDate: "2019-11-23",
-      current: false,
-      company: "Doganella di Ninfa",
-      role: "Graphic Designer",
-      location: "",
-      description:
-        "Ritocco e modifica fotografica di prodotti commerciali, per file pronti alla comunicazione del punto vendita.",
-      tags: ["Photoshop"],
-      order: 3,
-    },
-    {
-      id: "exp-karti-2019-04",
-      startDate: "2019-04-15",
-      endDate: "2019-04-29",
-      current: false,
-      company: "Karti",
-      role: "Addetto alle affissioni pubblicitarie",
-      location: "Latina",
-      description:
-        "Progettazione, stampa e affissione di elementi grafici: adattavo i file ai formati di posa e seguivo il montaggio sui punti affissione.",
-      tags: ["Photoshop", "Illustrator", "InDesign"],
-      order: 4,
-    },
-    {
-      id: "exp-zigo",
-      startDate: "2018-07-15",
-      endDate: "2018-11-02",
-      current: false,
-      company: "Zigo Zago Outlet Grandi Marche 0-16",
-      role: "Graphic Designer",
-      location: "Latina",
-      description:
-        "Ritocco fotografico di capi per l’e-commerce dell’outlet, con file pronti per la scheda prodotto.",
-      tags: ["Photoshop"],
-      order: 5,
-    },
-    {
-      id: "exp-inbrand",
-      startDate: "2017-10-10",
-      endDate: "2018-01-14",
-      current: false,
-      company: "INBRAND",
-      role: "Videomaker / Grafico",
-      location: "Latina",
-      description:
-        "Creazione di contenuti video adattando template in After Effects, gestione delle pagine social con testi brevi e impaginazione dei cataloghi.",
-      tags: ["Premiere Pro", "After Effects", "InDesign", "Photoshop"],
-      order: 6,
-    },
-    {
-      id: "exp-monti",
-      startDate: "2017-02-15",
-      endDate: "2017-03-15",
-      current: false,
-      company: "Tipografia Monti",
-      role: "Graphic Designer",
-      location: "Cisterna di Latina",
-      description:
-        "Creazione di manifesti pubblicitari, cataloghi e locandine per la stampa in tipografia.",
-      tags: ["InDesign", "Illustrator", "Photoshop"],
-      order: 7,
-    },
-    {
-      id: "exp-milanese",
-      startDate: "2016-06-07",
-      endDate: "2016-06-15",
-      current: false,
-      company: "Milanese Oriana",
-      role: "Graphic Designer",
-      location: "Latina",
-      description:
-        "Creazione e adattamento di elementi grafici per la stampa su magliette.",
-      tags: ["Illustrator", "Photoshop", "InDesign"],
-      order: 8,
     },
   ],
   education: [

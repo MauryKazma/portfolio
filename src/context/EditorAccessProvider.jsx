@@ -2,9 +2,9 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import {
   checkEditorPassword,
   EDITOR_GRANTED,
-  EDITOR_SESSION,
   grantEditorSession,
   isEditorSession,
+  wantsEditor,
 } from "../utils/editorSession"
 
 const EditorAccessContext = createContext(null)
@@ -16,14 +16,8 @@ export function EditorAccessProvider({ children }) {
   useEffect(() => {
     const sync = () => setAllowed(isEditorSession())
 
-    if (new URLSearchParams(window.location.search).get("edit") === "1") {
-      try {
-        sessionStorage.setItem(EDITOR_SESSION, "1")
-      } catch {
-        /* ignore quota / private mode */
-      }
-      setAllowed(true)
-    }
+    // `?edit=1` apre la richiesta di password, non concede l'accesso.
+    if (wantsEditor() && !isEditorSession()) setUnlockOpen(true)
 
     window.addEventListener(EDITOR_GRANTED, sync)
     return () => window.removeEventListener(EDITOR_GRANTED, sync)
@@ -39,8 +33,8 @@ export function EditorAccessProvider({ children }) {
 
   const closeUnlock = useCallback(() => setUnlockOpen(false), [])
 
-  const submitUnlock = useCallback((password) => {
-    if (!checkEditorPassword(password)) return false
+  const submitUnlock = useCallback(async (password) => {
+    if (!(await checkEditorPassword(password))) return false
     grantEditorSession()
     setAllowed(true)
     setUnlockOpen(false)

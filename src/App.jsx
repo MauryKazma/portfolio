@@ -17,11 +17,51 @@ import CasePage, { CaseNotFound } from "./components/CasePage"
 import EditorUnlockDialog from "./components/EditorUnlockDialog"
 import { ConfirmDialog } from "./components/cv/cvUi"
 import { useRoute } from "./hooks/useRoute"
-import { applySeo } from "./utils/route"
+import { applySeo, applyStructuredData } from "./utils/route"
 import { consumePendingScroll, scrollToId } from "./utils/scroll"
 import { useEffect, useLayoutEffect } from "react"
 
 const HOME_TITLE = "Maurizio Pecutari | Designer"
+const SITE_URL = "https://portfolio-production-cb03.up.railway.app"
+
+function personSchema(display) {
+  const social = (display.footer?.social ?? [])
+    .map((item) => item.href?.trim())
+    .filter((href) => href && href !== "#")
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Maurizio Pecutari",
+    jobTitle: "Graphic Designer",
+    email: `mailto:${display.footer?.email ?? ""}`,
+    telephone: display.footer?.phone || undefined,
+    url: `${SITE_URL}/`,
+    knowsAbout: (display.servizi?.phases ?? []).map((phase) => phase.title),
+    sameAs: social.length ? social : undefined,
+  }
+}
+
+/**
+ * `year` è un campo libero: a volte è "2024", a volte "2025–2026".
+ * schema.org accetta solo una data, quindi un intervallo va scartato.
+ */
+function schemaYear(year) {
+  const match = /^\s*(\d{4})\s*$/.exec(String(year ?? ""))
+  return match ? match[1] : undefined
+}
+
+function projectSchema(project) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    abstract: project.description,
+    url: `${SITE_URL}/lavori/${project.id}`,
+    dateCreated: schemaYear(project.year),
+    keywords: Array.isArray(project.tags) && project.tags.length ? project.tags : undefined,
+    creator: { "@type": "Person", name: "Maurizio Pecutari", url: `${SITE_URL}/` },
+  }
+}
 
 function DialogHost() {
   const { dialog: cvDialog, setDialog: setCvDialog } = useCV()
@@ -76,18 +116,23 @@ function AppShell() {
       applySeo({
         title: `${project.title} | Maurizio Pecutari`,
         path: `/lavori/${project.id}`,
+        description: project.description,
+        image: project.image,
       })
+      applyStructuredData(projectSchema(project))
       return
     }
     if (route.name === "case" || route.name === "unknown") {
       applySeo({
         title: "Progetto non trovato | Maurizio Pecutari",
         path: window.location.pathname.replace(/\/+$/, "") || "/",
+        noindex: true,
       })
       return
     }
     applySeo({ title: HOME_TITLE, path: "/" })
-  }, [project, route])
+    applyStructuredData(personSchema(display))
+  }, [display, project, route])
 
   return (
     <div className="page">

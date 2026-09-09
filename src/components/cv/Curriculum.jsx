@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react"
+import { Download } from "lucide-react"
 import { useCV } from "../../context/CVProvider"
 import { useSite } from "../../context/SiteContentProvider"
 import { useEditorAccess } from "../../hooks/useEditorAccess"
@@ -22,6 +23,22 @@ function ExperiencePeek({ item }) {
   )
 }
 
+function plural(n, singolare, plurale) {
+  return `${n} ${n === 1 ? singolare : plurale}`
+}
+
+/** Dice cosa c'è dentro il curriculum chiuso, così aprirlo ha un motivo. */
+function foldSummary(cv) {
+  const parti = []
+  const esperienze = cv.experiences?.length ?? 0
+  const studi = cv.education?.length ?? 0
+  const lingue = cv.languages?.length ?? 0
+  if (esperienze) parti.push(plural(esperienze, "esperienza", "esperienze"))
+  if (studi) parti.push(plural(studi, "percorso di studi", "percorsi di studi"))
+  if (lingue) parti.push(plural(lingue, "lingua", "lingue"))
+  return parti.join(" · ")
+}
+
 export default function Curriculum() {
   const {
     display,
@@ -41,9 +58,14 @@ export default function Curriculum() {
   const canEdit = useEditorAccess()
   const errorCount = Object.keys(errors).length
   const open = expanded || editing
-  const peek = byOrder(display.experiences).slice(0, 2)
+  // In vetrina solo i due impieghi veri: Mandarino e Stratego.
+  const peek = byOrder(display.experiences)
+    .filter((item) => /mandarino|stratego/i.test(item.company ?? ""))
+    .slice(0, 2)
   const openLabel = site.cv?.openLabel ?? "Apri curriculum"
   const closeLabel = site.cv?.closeLabel ?? "Chiudi curriculum"
+  const pdfHref = site.cv?.pdfHref?.trim()
+  const summary = foldSummary(display)
   const [fullMounted, setFullMounted] = useState(open)
   const [foldOpen, setFoldOpen] = useState(open)
   const closeTimer = useRef(null)
@@ -136,6 +158,12 @@ export default function Curriculum() {
                     {openLabel}
                   </PrimaryButton>
                 )}
+                {pdfHref ? (
+                  <a className="btn-secondary cv-download" href={pdfHref} download>
+                    <Download size={16} aria-hidden />
+                    Scarica il PDF
+                  </a>
+                ) : null}
                 {canEdit ? (
                   open ? (
                     <PrimaryButton onClick={startEdit}>Modifica CV</PrimaryButton>
@@ -186,6 +214,7 @@ export default function Curriculum() {
           <div className="cv-fold-peek" aria-hidden={foldOpen}>
             <div className="cv-fold-clip">
               <div className="cv-summary">
+                {summary ? <p className="cv-fold-summary">{summary}</p> : null}
                 <div className="cv-stack">
                   {peek.map((item) => (
                     <ExperiencePeek key={item.id} item={item} />

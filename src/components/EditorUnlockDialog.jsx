@@ -35,9 +35,9 @@ export default function EditorUnlockDialog() {
 
   if (!unlockOpen) return null
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
-    if (submitUnlock(password)) return
+    if (await submitUnlock(password)) return
     setError("Password non corretta.")
     inputRef.current?.select()
   }

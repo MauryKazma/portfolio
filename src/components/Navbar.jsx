@@ -20,6 +20,8 @@ export default function Navbar() {
     guardNavigation: guardSite,
     setNavLabel,
     setLogo,
+    exportContent,
+    importContent,
   } = useSite()
   const { allowed: canEdit, requestUnlock, unlockOpen } = useEditorUnlock()
   const route = useRoute()
@@ -193,6 +195,21 @@ export default function Navbar() {
                   <button type="button" className="btn-secondary" onClick={requestCancel}>
                     Annulla
                   </button>
+                  <label className="btn-secondary site-nav-import">
+                    <input
+                      type="file"
+                      accept="application/json,.json"
+                      onChange={(event) => {
+                        const file = event.target.files?.[0]
+                        event.target.value = ""
+                        if (file) importContent(file)
+                      }}
+                    />
+                    Importa JSON
+                  </label>
+                  <button type="button" className="btn-secondary" onClick={exportContent}>
+                    Esporta JSON
+                  </button>
                   <button
                     type="button"
                     className="btn-primary"
@@ -211,12 +228,27 @@ export default function Navbar() {
               )}
               {status === "saved" ? (
                 <p className="site-nav-status" aria-live="polite">
-                  Salvato.
+                  Salvato in locale. Per pubblicarlo: Esporta JSON.
+                </p>
+              ) : null}
+              {status === "exported" ? (
+                <p className="site-nav-status" aria-live="polite">
+                  Scaricato. Sostituisci <code>src/data/siteContent.json</code> e fai commit.
+                </p>
+              ) : null}
+              {status === "imported" ? (
+                <p className="site-nav-status" aria-live="polite">
+                  Contenuto caricato nell’editor.
+                </p>
+              ) : null}
+              {status === "import-error" ? (
+                <p className="site-nav-status is-error" aria-live="assertive">
+                  File non valido: serve un siteContent.json.
                 </p>
               ) : null}
               {status === "quota" ? (
                 <p className="site-nav-status is-error" aria-live="assertive">
-                  Spazio pieno: riduci le immagini e riprova.
+                  Spazio pieno: usa un percorso tipo /works/nome.jpg invece di caricare il file.
                 </p>
               ) : null}
               {status === "error" ? (

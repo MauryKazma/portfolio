@@ -1,8 +1,34 @@
-import { copyFileSync, existsSync } from "node:fs"
+import { copyFileSync, existsSync, writeFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
+import site from "./src/data/siteContent.json" with { type: "json" }
+
+const SITE_URL = "https://portfolio-production-cb03.up.railway.app"
+
+/** La sitemap si rigenera dai contenuti a ogni build, così non invecchia. */
+function sitemap() {
+  return {
+    name: "sitemap",
+    closeBundle() {
+      const today = new Date().toISOString().slice(0, 10)
+      const paths = ["/", ...(site.lavori?.projects ?? []).map((p) => `/lavori/${p.id}`)]
+      const urls = paths
+        .map(
+          (path) =>
+            `  <url>\n    <loc>${SITE_URL}${path}</loc>\n    <lastmod>${today}</lastmod>\n` +
+            `    <priority>${path === "/" ? "1.0" : "0.7"}</priority>\n  </url>`
+        )
+        .join("\n")
+      writeFileSync(
+        resolve(process.cwd(), "dist/sitemap.xml"),
+        `<?xml version="1.0" encoding="UTF-8"?>\n` +
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+      )
+    },
+  }
+}
 
 function spaNotFound() {
   return {
@@ -41,5 +67,5 @@ function preloadLatinFonts() {
 
 export default defineConfig({
   appType: "spa",
-  plugins: [react(), tailwindcss(), preloadLatinFonts(), spaNotFound()],
+  plugins: [react(), tailwindcss(), preloadLatinFonts(), sitemap(), spaNotFound()],
 })

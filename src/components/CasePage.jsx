@@ -1,5 +1,5 @@
-import { useLayoutEffect, useState } from "react"
-import { ArrowLeft } from "lucide-react"
+import { useEffect, useLayoutEffect, useState } from "react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage } from "../utils/image"
 import { glueItalianWrap } from "../utils/typography"
@@ -13,6 +13,62 @@ function isHttpHref(href) {
   return typeof href === "string" && /^https?:\/\//i.test(href)
 }
 
+/** Progetto precedente e successivo, seguendo l'ordine dell'elenco Lavori. */
+function useSiblings(projects, project) {
+  const index = projects.findIndex((item) => item.id === project.id)
+  if (index === -1) return { previous: null, next: null, index: 0, total: projects.length }
+  return {
+    previous: index > 0 ? projects[index - 1] : null,
+    next: index < projects.length - 1 ? projects[index + 1] : null,
+    index,
+    total: projects.length,
+  }
+}
+
+function CaseNav({ previous, next, index, total }) {
+  if (!previous && !next) return null
+
+  return (
+    <nav className="case-nav" aria-label="Naviga tra i progetti">
+      {previous ? (
+        <button
+          type="button"
+          className="case-nav-link case-nav-link--prev"
+          onClick={() => navigateTo(`/lavori/${previous.id}`)}
+        >
+          <span className="site-eyebrow">
+            <ArrowLeft size={14} aria-hidden />
+            Precedente
+          </span>
+          <span className="case-nav-title">{previous.title}</span>
+        </button>
+      ) : (
+        <span className="case-nav-link is-empty" aria-hidden="true" />
+      )}
+
+      <p className="case-nav-count">
+        {index + 1} / {total}
+      </p>
+
+      {next ? (
+        <button
+          type="button"
+          className="case-nav-link case-nav-link--next"
+          onClick={() => navigateTo(`/lavori/${next.id}`)}
+        >
+          <span className="site-eyebrow">
+            Successivo
+            <ArrowRight size={14} aria-hidden />
+          </span>
+          <span className="case-nav-title">{next.title}</span>
+        </button>
+      ) : (
+        <span className="case-nav-link is-empty" aria-hidden="true" />
+      )}
+    </nav>
+  )
+}
+
 export default function CasePage({ project }) {
   const { display } = useSite()
   const [shotIdx, setShotIdx] = useState(0)
@@ -21,10 +77,27 @@ export default function CasePage({ project }) {
   const current = shots[safeShot]
   const email = display.footer?.email?.trim()
   const external = isHttpHref(project.href)
+  const siblings = useSiblings(display.lavori?.projects ?? [], project)
 
   useLayoutEffect(() => {
     setShotIdx(0)
   }, [project.id])
+
+  // Frecce della tastiera per sfogliare, come in una galleria.
+  useEffect(() => {
+    const onKey = (event) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+      const tag = document.activeElement?.tagName
+      if (tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable) return
+      if (event.key === "ArrowLeft" && siblings.previous) {
+        navigateTo(`/lavori/${siblings.previous.id}`)
+      } else if (event.key === "ArrowRight" && siblings.next) {
+        navigateTo(`/lavori/${siblings.next.id}`)
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [siblings.next, siblings.previous])
 
   if (!current) return null
 
@@ -125,6 +198,8 @@ export default function CasePage({ project }) {
             ) : null}
           </div>
         </div>
+
+        <CaseNav {...siblings} />
       </div>
     </SiteSection>
   )

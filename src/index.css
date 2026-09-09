@@ -84,7 +84,7 @@
   }
 
   ::selection {
-    background: var(--spot);
+    background: color-mix(in srgb, var(--spot) 45%, white);
     color: var(--ink);
   }
 
@@ -309,13 +309,6 @@ main > .site-section:first-child {
   transform: scale(0.98);
 }
 
-.site-nav .btn-primary,
-.site-section--ink .btn-primary {
-  background-color: var(--spot);
-  border-color: var(--spot);
-  color: var(--ink);
-}
-
 .btn-secondary:active {
   border-color: var(--ink);
 }
@@ -325,8 +318,8 @@ main > .site-section:first-child {
   left: 24px;
   top: -100%;
   z-index: 100;
-  background: var(--spot);
-  color: var(--ink);
+  background: var(--spot-deep);
+  color: var(--paper);
   padding: 11px 22px;
   font-weight: 500;
   border-radius: var(--radius);
@@ -343,7 +336,7 @@ main > .site-section:first-child {
   z-index: 50;
   color: var(--paper);
   background: color-mix(in srgb, var(--ink) 78%, transparent);
-  border-bottom: 1px solid rgba(247, 244, 238, 0.12);
+  border-bottom: 1px solid var(--hairline);
 }
 
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
@@ -503,13 +496,32 @@ main > .site-section:first-child {
   font-size: 0.8125rem;
 }
 
+.site-nav-import {
+  cursor: pointer;
+}
+
+.site-nav-import input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
 .site-nav-status {
   margin: 0;
+  max-width: 34ch;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--paper-muted);
+}
+
+.site-nav-status code {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .site-nav .btn-secondary {
@@ -517,12 +529,8 @@ main > .site-section:first-child {
   border-color: color-mix(in srgb, var(--paper) 35%, transparent);
 }
 
-.site-nav :focus-visible {
-  outline-color: var(--spot);
-}
-
 .site-nav-mobile {
-  border-bottom: 1px solid rgba(247, 244, 238, 0.12);
+  border-bottom: 1px solid var(--hairline);
   background: color-mix(in srgb, var(--ink) 78%, transparent);
 }
 
@@ -547,7 +555,7 @@ main > .site-section:first-child {
   color: var(--paper);
   background: none;
   border: 0;
-  border-top: 1px solid rgba(247, 244, 238, 0.14);
+  border-top: 1px solid var(--hairline);
 }
 
 .site-nav-mobile ul:has(button[aria-current="location"]) button {
@@ -646,9 +654,9 @@ main > .site-section:first-child {
   width: 100%;
   margin: 0;
   border: 0;
-  border-left: 10px solid var(--spot);
+  border-left: 0;
   border-radius: var(--radius);
-  background: #1a1814;
+  background: var(--paper);
   transform: rotate(-1.8deg);
   cursor: grab;
   touch-action: none;
@@ -661,8 +669,8 @@ main > .site-section:first-child {
 
 .hero-portrait-frame {
   margin: 14px 14px 0;
-  border: 1px solid rgba(247, 244, 238, 0.4);
-  background: #141210;
+  border: 1px solid var(--hairline);
+  background: var(--wash);
   overflow: hidden;
 }
 
@@ -722,7 +730,7 @@ main > .site-section:first-child {
   margin: 0;
   width: 100%;
   padding-top: 16px;
-  border-top: 1px solid rgba(247, 244, 238, 0.14);
+  border-top: 1px solid var(--hairline);
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 400;
@@ -808,7 +816,7 @@ main > .site-section:first-child {
 
 .toolkit-list li,
 .chip-list li {
-  border: 1px solid var(--ink);
+  border: 1px solid var(--hairline);
   padding: 8px 12px;
   color: var(--ink);
   font-family: var(--font-mono);
@@ -816,7 +824,7 @@ main > .site-section:first-child {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: var(--radius);
+  border-radius: 999px;
   transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
     background-color var(--t-fast) var(--ease);
 }
@@ -829,9 +837,9 @@ main > .site-section:first-child {
   }
 
   .chip-list li:hover {
-    border-color: var(--ink);
+    border-color: var(--spot);
     color: var(--ink);
-    background: var(--spot);
+    background: color-mix(in srgb, var(--spot) 18%, white);
   }
 }
 
@@ -935,29 +943,8 @@ main > .site-section:first-child {
   cursor: pointer;
 }
 
-.work-split {
-  display: grid;
-  gap: 40px;
-  align-items: start;
-}
-
-.work-index {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 20px;
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
 .work-empty {
   margin-top: 24px;
-}
-
-@media (min-width: 900px) {
-  .work-split {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 @media (min-width: 900px) {
@@ -1261,7 +1248,7 @@ main > .site-section:first-child {
   width: 36px;
   height: 36px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 12px;
   flex-shrink: 0;
 }
 
@@ -1290,9 +1277,9 @@ main > .site-section:first-child {
 }
 
 .skill-meter-track {
-  height: 2px;
+  height: 4px;
   margin: 0;
-  border-radius: 0;
+  border-radius: 999px;
   background: var(--hairline);
   overflow: hidden;
 }
@@ -1316,11 +1303,12 @@ main > .site-section:first-child {
 }
 
 .skill-meter-pct {
+  flex: 0 0 auto;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.625rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1;
 }
 
@@ -1328,7 +1316,7 @@ main > .site-section:first-child {
   display: block;
   width: 0;
   height: 100%;
-  border-radius: 0;
+  border-radius: 999px;
   background: var(--spot-deep);
   transition: width 780ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--skill-delay, 0ms);
@@ -1967,6 +1955,19 @@ main > .site-section:first-child {
   resize: vertical;
 }
 
+.site-edit-hint {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.site-edit-hint code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
 input.site-headline.site-edit-field,
 textarea.site-headline.site-edit-field {
   max-width: 18ch;
@@ -2051,38 +2052,39 @@ input.stat-value.site-edit-field {
   display: inline-block;
 }
 
+/* Riga dei mestieri: testo statico, centrato, senza lastra. */
 .site-ticker {
   position: relative;
-  z-index: 2;
-  overflow: hidden;
-  padding: 16px 0;
-  background: var(--spot);
-  color: var(--ink);
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
+  z-index: 1;
+  margin: 0;
+  padding: 28px 0 48px;
+  background: transparent;
+  color: var(--spot-deep);
+  border: 0;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .site-ticker-track {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  width: max-content;
-  gap: 2rem;
-  animation: site-ticker 56s linear infinite;
+  width: auto;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 32px);
+  gap: 0.35rem 1.35rem;
+  list-style: none;
 }
 
-.site-ticker-item {
-  white-space: nowrap;
-}
-
-.site-ticker-sep {
-  flex: 0 0 auto;
-  letter-spacing: 0;
-  line-height: 1;
+.site-ticker-item + .site-ticker-item::before {
+  content: "·";
+  margin-right: 1.1rem;
+  opacity: 0.45;
 }
 
 .site-ticker.is-editing {
@@ -2096,7 +2098,6 @@ input.stat-value.site-edit-field {
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink);
 }
 
 .site-ticker-edit-list {
@@ -2121,31 +2122,25 @@ input.stat-value.site-edit-field {
   min-width: 16ch;
   max-width: 28ch;
   padding: 6px 8px;
-  color: var(--ink);
-  border: 1px solid var(--ink);
-  background: color-mix(in srgb, var(--paper) 55%, transparent);
+  background: var(--surface);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-family: var(--font-mono);
   font-size: 0.75rem;
 }
 
-.site-ticker .site-tag-remove {
-  color: var(--ink);
+.site-ticker .site-tag-input,
+.site-ticker .site-tag-add-input,
+.site-ticker .site-tag-remove,
+.site-ticker .btn-secondary,
+.site-ticker-edit-label {
+  color: var(--spot-deep);
 }
 
+.site-ticker .site-tag-input,
+.site-ticker .site-tag-add-input,
 .site-ticker .btn-secondary {
-  color: var(--ink);
-  border-color: var(--ink);
-}
-
-@keyframes site-ticker {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  border: 1px solid color-mix(in srgb, var(--spot-deep) 28%, white);
 }
 
 .site-section--ink .site-headline,
@@ -2172,7 +2167,7 @@ input.stat-value.site-edit-field {
 .site-section--ink .footer-meta,
 .site-section--ink .project-frame,
 .site-section--ink .chip-list li {
-  border-color: rgba(247, 244, 238, 0.16);
+  border-color: var(--hairline);
 }
 
 .site-section--ink .project-list button:hover,
@@ -2202,10 +2197,6 @@ input.stat-value.site-edit-field {
   background: transparent;
   color: inherit;
   border-color: currentColor;
-}
-
-.site-section--ink :focus-visible {
-  outline-color: var(--spot);
 }
 
 .site-section--spot .site-headline,
@@ -2249,10 +2240,6 @@ input.stat-value.site-edit-field {
   color: var(--spot-deep);
 }
 
-.site-section--spot :focus-visible {
-  outline-color: var(--spot);
-}
-
 .site-nav .btn-primary:hover,
 .site-nav .btn-primary:active,
 .site-section--ink .btn-primary:hover,
@@ -2278,10 +2265,6 @@ input.stat-value.site-edit-field {
 
   .btn-primary svg {
     transform: none;
-  }
-
-  .site-ticker-track {
-    animation: none;
   }
 
   .hero-portrait {

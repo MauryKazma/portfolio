@@ -4,7 +4,7 @@ import { useSite } from "../context/SiteContentProvider"
 import { ABOUT_OPEN } from "../utils/aboutFold"
 import { glueItalianWrap } from "../utils/typography"
 import AboutPlay from "./AboutPlay"
-import { EditableText, TagEditor } from "./EditableText"
+import { EditableText } from "./EditableText"
 import SiteSection from "./SiteSection"
 
 const FOLD_MS = 680
@@ -17,24 +17,13 @@ const HOBBY_ICONS = {
   beer: Beer,
 }
 
-function HobbyPanel({
-  chiSono,
-  editing,
-  foldOpen,
-  fullMounted,
-  setChiSono,
-  setHobby,
-  setToolkitTag,
-  addToolkitTag,
-  removeToolkitTag,
-}) {
+function HobbyPanel({ chiSono, editing, foldOpen, fullMounted, setChiSono, setHobby }) {
   const hobbies = chiSono.hobbies ?? []
-  const tags = chiSono.toolkit ?? []
 
   return (
     <aside className="toolkit-panel about-hobby">
       <div className={foldOpen ? "about-hobby-frame is-open" : "about-hobby-frame"}>
-        <AboutPlay open={fullMounted} />
+        <AboutPlay />
         <div
           id="about-hobby-fold"
           className={foldOpen ? "about-hobby-fold is-open" : "about-hobby-fold"}
@@ -82,15 +71,6 @@ function HobbyPanel({
                     })}
                   </ul>
                 ) : null}
-                <TagEditor
-                  tags={tags}
-                  editing={editing}
-                  listClassName="toolkit-list"
-                  addLabel="Nuovo tag"
-                  onRename={setToolkitTag}
-                  onAdd={addToolkitTag}
-                  onRemove={removeToolkitTag}
-                />
               </div>
             ) : null}
           </div>
@@ -101,16 +81,7 @@ function HobbyPanel({
 }
 
 export default function ChiSono() {
-  const {
-    display,
-    editing,
-    setChiSono,
-    setNote,
-    setHobby,
-    setToolkitTag,
-    addToolkitTag,
-    removeToolkitTag,
-  } = useSite()
+  const { display, editing, setChiSono, setNote, setHobby } = useSite()
   const { chiSono } = display
   const [expanded, setExpanded] = useState(
     () => typeof window !== "undefined" && window.location.hash === "#chi-sono",
@@ -123,17 +94,7 @@ export default function ChiSono() {
   const openLabel = chiSono.openLabel || "Apri il foglio"
   const closeLabel = chiSono.closeLabel || "Chiudi il foglio"
   const peek = chiSono.peek || ""
-  const hobbyProps = {
-    chiSono,
-    editing,
-    foldOpen,
-    fullMounted,
-    setChiSono,
-    setHobby,
-    setToolkitTag,
-    addToolkitTag,
-    removeToolkitTag,
-  }
+  const hobbyProps = { chiSono, editing, foldOpen, fullMounted, setChiSono, setHobby }
 
   useEffect(() => {
     const onOpen = () => setExpanded(true)

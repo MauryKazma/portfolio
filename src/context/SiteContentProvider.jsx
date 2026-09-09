@@ -7,6 +7,7 @@ import {
   SITE_CONTENT_REVISION,
 } from "../data/siteDefault"
 import { siteStorage } from "../data/siteStorage"
+import { downloadSiteContent, readSiteContentFile } from "../utils/contentFile"
 import { EDITOR_GRANTED, isEditorSession } from "../utils/editorSession"
 
 const SiteContext = createContext(null)
@@ -108,6 +109,28 @@ export function SiteContentProvider({ children }) {
     return true
   }, [draft])
 
+  /** Scarica il contenuto corrente da committare come src/data/siteContent.json. */
+  const exportContent = useCallback(() => {
+    const payload = cloneSite(draft ?? dataRef.current)
+    payload.contentRevision = SITE_CONTENT_REVISION
+    downloadSiteContent(payload)
+    setStatus("exported")
+    clearTimeout(savedMessageTimer.current)
+    savedMessageTimer.current = setTimeout(() => setStatus(""), 6000)
+  }, [draft])
+
+  /** Ricarica nell'editor un siteContent.json, per ripartire da quanto è pubblicato. */
+  const importContent = useCallback(async (file) => {
+    try {
+      setDraft(hydrateSite(await readSiteContentFile(file)))
+      setStatus("imported")
+      clearTimeout(savedMessageTimer.current)
+      savedMessageTimer.current = setTimeout(() => setStatus(""), 6000)
+    } catch {
+      setStatus("import-error")
+    }
+  }, [])
+
   useEffect(() => {
     const onBeforeUnload = (event) => {
       if (!dirty) return
@@ -150,6 +173,8 @@ export function SiteContentProvider({ children }) {
       startEdit,
       requestCancel,
       save,
+      exportContent,
+      importContent,
       guardNavigation,
       setLogo(value) {
         patch((next) => {
@@ -454,6 +479,40 @@ export function SiteContentProvider({ children }) {
           return next
         })
       },
+      setPhaseDeliverable(id, index, value) {
+        patch((next) => {
+          next.servizi.phases = next.servizi.phases.map((item) => {
+            if (item.id !== id) return item
+            return {
+              ...item,
+              deliverables: (item.deliverables ?? []).map((entry, i) =>
+                i === index ? value : entry
+              ),
+            }
+          })
+          return next
+        })
+      },
+      addPhaseDeliverable(id, label) {
+        patch((next) => {
+          next.servizi.phases = next.servizi.phases.map((item) =>
+            item.id === id
+              ? { ...item, deliverables: uniqueTag(item.deliverables ?? [], label) }
+              : item
+          )
+          return next
+        })
+      },
+      removePhaseDeliverable(id, index) {
+        patch((next) => {
+          next.servizi.phases = next.servizi.phases.map((item) =>
+            item.id === id
+              ? { ...item, deliverables: (item.deliverables ?? []).filter((_, i) => i !== index) }
+              : item
+          )
+          return next
+        })
+      },
       setCv(field, value) {
         patch((next) => {
           next.cv[field] = value
@@ -483,7 +542,20 @@ export function SiteContentProvider({ children }) {
         })
       },
     }),
-    [dialog, dirty, display, editing, guardNavigation, patch, requestCancel, save, startEdit, status]
+    [
+      dialog,
+      dirty,
+      display,
+      editing,
+      exportContent,
+      guardNavigation,
+      importContent,
+      patch,
+      requestCancel,
+      save,
+      startEdit,
+      status,
+    ]
   )
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>

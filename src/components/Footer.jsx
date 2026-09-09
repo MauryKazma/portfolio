@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react"
+import { Download, Mail } from "lucide-react"
 import { useCV } from "../context/CVProvider"
 import { useSite } from "../context/SiteContentProvider"
 import { goToSection } from "../utils/scroll"
@@ -20,6 +20,9 @@ export default function Footer() {
     ? footer.social
     : footer.social.filter((item) => isLiveHref(item.href))
   const legal = [footer.privacy, footer.cookie].map((item) => item?.trim()).filter(Boolean)
+  const phone = footer.phone?.trim()
+  const location = footer.location?.trim()
+  const cvHref = display.cv?.pdfHref?.trim()
 
   const go = (id) => {
     guardSite(() =>
@@ -68,12 +71,37 @@ export default function Footer() {
                   aria-label="Indirizzo email"
                   onChange={(event) => setFooter("email", event.target.value)}
                 />
+                <input
+                  className="site-tag-add-input"
+                  type="tel"
+                  value={footer.phone ?? ""}
+                  placeholder="Telefono (lascia vuoto per non mostrarlo)"
+                  aria-label="Telefono"
+                  onChange={(event) => setFooter("phone", event.target.value)}
+                />
+                <input
+                  className="site-tag-add-input"
+                  value={footer.location ?? ""}
+                  placeholder="Zona di lavoro"
+                  aria-label="Zona di lavoro"
+                  onChange={(event) => setFooter("location", event.target.value)}
+                />
               </div>
             ) : (
               <a className="contact-email" href={`mailto:${footer.email}`}>
                 {footer.email}
               </a>
             )}
+            {!editing && (phone || location) ? (
+              <ul className="contact-details">
+                {phone ? (
+                  <li>
+                    <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
+                  </li>
+                ) : null}
+                {location ? <li>{location}</li> : null}
+              </ul>
+            ) : null}
             <div className="project-cta">
               <a href={`mailto:${footer.email}`} className="btn-primary">
                 <Mail size={16} aria-hidden />
@@ -84,6 +112,12 @@ export default function Footer() {
                   ariaLabel="Testo pulsante email"
                 />
               </a>
+              {cvHref ? (
+                <a href={cvHref} className="btn-secondary" download>
+                  <Download size={16} aria-hidden />
+                  Scarica il CV
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -136,6 +170,7 @@ export default function Footer() {
                             <input
                               className="site-edit-field"
                               value={item.href}
+                              placeholder="https://…"
                               aria-label={`Link social ${item.label}`}
                               onChange={(event) => setSocial(index, "href", event.target.value)}
                             />
@@ -153,6 +188,12 @@ export default function Footer() {
                     )
                   })}
                 </ul>
+                {editing ? (
+                  <p className="site-edit-hint">
+                    I profili senza link non compaiono sul sito. Incolla l’indirizzo completo per
+                    farli apparire.
+                  </p>
+                ) : null}
               </div>
             ) : null}
           </div>

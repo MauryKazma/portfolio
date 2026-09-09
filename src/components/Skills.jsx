@@ -9,6 +9,18 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
+/**
+ * In vetrina si legge il livello, non la percentuale: "Buono" dice qualcosa,
+ * "60%" invita solo a chiedersi cosa manchi per arrivare a cento.
+ * La percentuale resta il dato che regola la barra e si modifica nell'editor.
+ */
+function skillLevel(percent) {
+  if (percent >= 85) return "Esperto"
+  if (percent >= 70) return "Avanzato"
+  if (percent >= 55) return "Buono"
+  return "Base"
+}
+
 function useMeterReveal(instant) {
   const ref = useRef(null)
   const [hot, setHot] = useState(instant)
@@ -116,21 +128,20 @@ function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemov
     )
   }
 
+  const level = skillLevel(percent)
+
   return (
     <li className="skill-meter">
       <ToolIcon tool={tool} />
       <div className="skill-meter-copy">
         <div className="skill-meter-head">
           <span className="skill-meter-name">{tool.name}</span>
-          <span className="skill-meter-pct">{percent}%</span>
+          <span className="skill-meter-pct">{level}</span>
         </div>
         <div
           className={`skill-meter-track${hot ? " is-hot" : ""}`}
-          role="progressbar"
-          aria-label={tool.name}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={percent}
+          role="img"
+          aria-label={`${tool.name}: ${level}`}
         >
           <span
             className="skill-meter-fill"

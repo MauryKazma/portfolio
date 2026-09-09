@@ -1,463 +1,13 @@
-export const SITE_CONTENT_REVISION = 28
+import SITE_PUBLISHED from "./siteContent.json"
 
-export const SITE_DEFAULT = {
-  contentRevision: SITE_CONTENT_REVISION,
-  logo: "Maurizio Pecutari",
-  skipLink: "Salta al contenuto",
-  nav: [
-    { id: "skill", label: "Skill" },
-    { id: "servizi", label: "Servizi" },
-    { id: "lavori", label: "Lavori" },
-    { id: "curriculum", label: "CV" },
-    { id: "chi-sono", label: "Profilo" },
-    { id: "contatti", label: "Contatti" },
-  ],
-  hero: {
-    eyebrow: "Graphic designer",
-    title: "Impagino. Progetto. Gioco con l’AI.",
-    body: "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.",
-    cta: "Vedi i lavori",
-    availability: "Disponibile per nuove collaborazioni.",
-    portraitName: "Maurizio Pecutari",
-    portraitSrc: "",
-  },
-  ticker: {
-    items: [
-      "STUDIO DEI PROCESSI",
-      "Editoria GDO",
-      "Identità visive",
-      "montaggio video",
-      "Strumenti AI",
-      "Vibe coding",
-    ],
-  },
-  skills: {
-    eyebrow: "Skill",
-    title: "Strumenti di lavoro.",
-    body: "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
-    craftEyebrow: "Mestiere",
-    toolsEyebrow: "Software",
-    traitsEyebrow: "Attitudine al lavoro",
-    traits: ["Curioso dei tool", "Ironia al primo posto", "Massimo impegno"],
-    usefulEyebrow: "Competenze utili",
-    useful: ["Pacchetto Office", "Canva", "Google Workspace", "Conoscenza hardware", "Integrazione di strumenti AI"],
-    tools: [
-      { id: "tool-id", mark: "Id", name: "InDesign", level: 90, icon: "/icons/indesign.svg" },
-      { id: "tool-ai", mark: "Ai", name: "Illustrator", level: 75, icon: "/icons/illustrator.svg" },
-      { id: "tool-ps", mark: "Ps", name: "Photoshop", level: 75, icon: "/icons/photoshop.svg" },
-      { id: "tool-pr", mark: "Pr", name: "Premiere Pro", level: 70, icon: "/icons/premiere.svg" },
-      { id: "tool-ae", mark: "Ae", name: "After Effects", level: 50, icon: "/icons/after-effects.svg" },
-      { id: "tool-fg", mark: "Fg", name: "Figma", level: 60, icon: "/icons/figma.svg?v=12" },
-      { id: "tool-cu", mark: "Cu", name: "Cursor", level: 80, icon: "/icons/cursor.png" },
-      { id: "tool-ag", mark: "Ag", name: "Antigravity", level: 70, icon: "/icons/antigravity.png" },
-      { id: "tool-genai", mark: "AI", name: "Intelligenza Artificiale", level: 85, icon: "/icons/ai.svg?v=2" },
-    ],
-    disciplines: [
-      {
-        id: "disc-gdo",
-        title: "Impaginatore editoriale & GDO",
-        body: "Anni di esperienza in produzioni frenetiche e complesse: leggo la struttura di una lavorazione, organizzo gli elementi con criterio e progetto processi che ottimizzano tempi e qualità. So lavorare in team su progetti di grande scala, coordinandomi con altre figure creative e tecniche per mantenere coerenza, efficienza e rispetto delle scadenze anche in contesti ad alta pressione.",
-        tools: ["InDesign", "Photoshop", "Illustrator"],
-      },
-      {
-        id: "disc-identita",
-        title: "Identità visiva",
-        body: "Ascolto l’idea e gli obiettivi del cliente per costruire identità visive coerenti con i valori, la personalità e la direzione del brand. Traduco questa visione in un sistema grafico riconoscibile e funzionale, supportando l’attività con materiali di comunicazione grafici e video pensati per raccontare il brand in modo efficace.",
-        tools: ["Illustrator", "InDesign", "Figma"],
-      },
-      {
-        id: "disc-video",
-        title: "Montaggio video",
-        body: "Do vita alle tue idee attraverso il montaggio video: lavoro principalmente su Adobe Premiere per strutturare ritmi, narrazione e coerenza visiva dei tuoi contenuti. Mi muovo con flessibilità nell’ecosistema Adobe, integrando quando serve effetti e animazioni per completare il progetto in modo coerente e professionale.",
-        tools: ["Premiere Pro", "After Effects", "Photoshop"],
-      },
-      {
-        id: "disc-tools",
-        title: "Tool alternativi",
-        body: "Sviluppo e adozione di strumenti innovativi per gestire e ottimizzare flussi di produzione complessi. Creazione di interfacce, gestionali e micro-applicativi con Cursor e Antigravity per automatizzare attività e costruire soluzioni personalizzate che migliorano efficienza e qualità del lavoro.",
-        tools: ["Cursor", "Antigravity", "Figma"],
-      },
-    ],
-  },
-  chiSono: {
-    eyebrow: "Profilo",
-    title: "Fuori dal foglio.",
-    peek: "C’è ironia, qualche serata e le passioni vere.",
-    openLabel: "Apri il foglio",
-    closeLabel: "Chiudi il foglio",
-    body1: "",
-    body2: "",
-    notesEyebrow: "Cose che mi tengono acceso",
-    notes: [
-      {
-        title: "Le mie passioni",
-        body: "Videogiochi, anime e manga: seguo le uscite, i meme e le mode del web, e le cito in gruppo. Stesso fiato per computer e hardware: se un pezzo nuovo tiene, lo provo.",
-      },
-      {
-        title: "Serate goliardiche",
-        body: "Dopo il lavoro una birra con amici o colleghi. Svago, aggregazione, niente call in più. I meme del giorno arrivano lì, non in riunione.",
-      },
-      {
-        title: "Ironia",
-        body: "In corsia e in studio una battuta vale più di una call. Sdrammatizzo sotto pressione e tengo l’ironia al primo posto, anche a volantino che chiude.",
-      },
-    ],
-    toolkitEyebrow: "Le mie passioni",
-    toolkitBody: "",
-    hobbies: [
-      { id: "games", label: "Videogiochi" },
-      { id: "anime", label: "Anime e manga" },
-      { id: "web", label: "Meme e mode" },
-      { id: "hw", label: "Hardware" },
-      { id: "beer", label: "Serate goliardiche" },
-    ],
-    toolkit: ["Videogiochi", "Anime", "Manga", "Meme", "Hardware", "In gruppo"],
-  },
-  lavori: {
-    eyebrow: "Portfolio",
-    title: "Lavori.",
-    body: "Una selezione di editoria GDO, video, identità visive e CUBOT.",
-    cta: "Apri il progetto",
-    waitLabel: "Disponibile su richiesta",
-    filters: [
-      { id: "all", label: "Tutti" },
-      { id: "gdo", label: "GDO" },
-      { id: "video", label: "Video" },
-      { id: "brand", label: "Brand" },
-      { id: "digital", label: "Digitale" },
-    ],
-    projects: [
-      {
-        id: "rc-volantino",
-        group: "gdo",
-        client: "Risparmio Casa",
-        title: "Volantino rete",
-        category: "Volantino",
-        role: "Grafico editoriale, Mandarino Agency",
-        year: "2023–oggi",
-        deliverable: "Foliazioni web e stampa",
-        teaser:
-          "Foliazioni di rete per Risparmio Casa. Prezzi, prodotti, fino a 24 facciate.",
-        description:
-          "Volantini di rete per Risparmio Casa, in Mandarino Agency. Analisi delle liste, etichette in automazione, impaginazione e versioni web. Linee Offertissime, Prezzo bomba, Fidelity Card.",
-        tags: ["Liste", "Automazione", "InDesign"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [],
-      },
-      {
-        id: "rc-pop",
-        group: "gdo",
-        client: "Risparmio Casa",
-        title: "POP in corsia",
-        category: "POP",
-        role: "Grafico editoriale, Mandarino Agency",
-        year: "2023–oggi",
-        deliverable: "Locandine 70×100, stopper, A4",
-        teaser:
-          "Locandine 70×100, stopper e A4 a scaffale.",
-        description:
-          "Materiale POP da corsia, allineato al volantino: locandina 70×100, stopper, A4. Tre versioni: Rete, PRZ+BSS e ANC+BSS.",
-        tags: ["Locandina", "Stopper", "A4"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [
-          { src: "", caption: "Stopper a scaffale" },
-        ],
-      },
-      {
-        id: "rc-cartellonistica",
-        group: "gdo",
-        client: "Risparmio Casa",
-        title: "Cartellonistica",
-        category: "OOH",
-        role: "Grafico editoriale, Mandarino Agency",
-        year: "2023–oggi",
-        deliverable: "4×3, 75×150, Coupon Days",
-        teaser:
-          "Affissione di rete e Coupon Days a Pescara.",
-        description:
-          "Cartelloni 4×3, 6×3, 75×150, striscione e Coupon Days in via Socrate a Pescara. La campagna del volantino portata all’esterno.",
-        tags: ["4×3", "75×150", "Coupon Days"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [
-          { src: "", caption: "Coupon Days, Pescara" },
-          { src: "", caption: "Affissione 75×150" },
-        ],
-      },
-      {
-        id: "pb-volantino",
-        group: "gdo",
-        client: "Portobello",
-        title: "Volantino web",
-        category: "Volantino",
-        role: "Grafico editoriale, Stratego",
-        year: "2022–2023",
-        deliverable: "Foliazioni web",
-        teaser:
-          "Foliazioni web da maggio 2022. Calendario promozionale Portobello.",
-        description:
-          "Volantini web per Portobello, in Stratego. Liste, etichette, pagine e declinazioni di campagna. Teal di brand, prezzo in evidenza, date di validità.",
-        tags: ["Foliazione", "Prezzo", "InDesign"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [],
-      },
-      {
-        id: "pb-newsletter",
-        group: "gdo",
-        client: "Portobello",
-        title: "Newsletter",
-        category: "Newsletter",
-        role: "Grafico editoriale, Stratego",
-        year: "2022",
-        deliverable: "Tre uscite di maggio",
-        teaser:
-          "Tre uscite di maggio 2022, dal brief alla mail.",
-        description:
-          "Newsletter Portobello: copertina, volantino sfogliabile, pulsante «trova il negozio». Brief, bozze e correzioni.",
-        tags: ["Mail", "Bozze", "CTA"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [
-          { src: "", caption: "Copertina" },
-          { src: "", caption: "Apertura" },
-          { src: "", caption: "CTA negozio" },
-        ],
-      },
-      {
-        id: "pb-pop",
-        group: "gdo",
-        client: "Portobello",
-        title: "POP prodotto",
-        category: "POP",
-        role: "Grafico editoriale, Stratego",
-        year: "2022",
-        deliverable: "Materiale in store",
-        teaser:
-          "Panasonic 50” e United 32”. Prodotto, prezzo, pezzo unico.",
-        description:
-          "POP in store sulle offerte del volantino. Stesso periodo, stesso teal, formato da corsia.",
-        tags: ["Store", "Prezzo", "Prodotto"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [
-          { src: "", caption: "United 32”" },
-        ],
-      },
-      {
-        id: "stadio-olimpico",
-        group: "video",
-        client: "Risparmio Casa",
-        title: "Stadio Olimpico",
-        category: "Video",
-        role: "Video, Mandarino Agency",
-        year: "2025–2026",
-        deliverable: "Maxischermo e girocampo LED",
-        teaser:
-          "Maxischermo 1095×645 e girocampo LED. L’offerta si legge in un passaggio.",
-        description:
-          "Video per lo Stadio Olimpico: maxischermo HD e strisce LED di girocampo, da 1152×96 a 5760×96. Montaggio in Premiere, testo di lettura rapida.",
-        tags: ["Maxischermo", "Girocampo", "Premiere"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [
-          { src: "", caption: "Aria di Pasqua" },
-          { src: "", caption: "Girocampo LED" },
-        ],
-      },
-      {
-        id: "pb-video",
-        group: "video",
-        client: "Portobello",
-        title: "Video in store",
-        category: "Video",
-        role: "Video, Stratego",
-        year: "2022",
-        deliverable: "Totem e stories",
-        teaser:
-          "Totem e stories. Tre formati, versioni Udine e San Benedetto.",
-        description:
-          "Video del volantino Portobello per totem e stories. Layout verticale, tre tagli: 528×880, 1000×1500, 1080×1920.",
-        tags: ["Totem", "Stories", "Premiere"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [
-          { src: "", caption: "1080×1920 rete" },
-        ],
-      },
-      {
-        id: "rc-video",
-        group: "video",
-        client: "Risparmio Casa",
-        title: "Video prodotti",
-        category: "Video",
-        role: "Video, Mandarino Agency",
-        year: "2023–oggi",
-        deliverable: "Video di rete",
-        teaser:
-          "Natale di rete e ranking scuola. Packshot e prezzo.",
-        description:
-          "Video di prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
-        tags: ["Packshot", "Rete", "Premiere"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [],
-      },
-      {
-        id: "tracina",
-        group: "brand",
-        client: "Tracina Beach",
-        title: "Tracina Beach",
-        category: "Brand identity",
-        role: "Grafico",
-        year: "2024",
-        deliverable: "Marchio e applicazioni",
-        teaser:
-          "Marchio, polaroid, palette. Sistema per carta e social.",
-        description:
-          "Identità visiva per Tracina Beach. Marchio a blocchi, sole e fasce magenta, arancio e cielo. Polaroid, varianti, applicazioni social.",
-        tags: ["Marchio", "Palette", "Social"],
-        href: "",
-        image: "",
-        frame: "portrait",
-        gallery: [
-          { src: "", caption: "Marchio" },
-          { src: "", caption: "Applicazione" },
-          { src: "", caption: "Social" },
-          { src: "", caption: "Tavola" },
-        ],
-      },
-      {
-        id: "landaway",
-        group: "brand",
-        client: "Landaway",
-        title: "Landaway",
-        category: "Brand identity",
-        role: "Grafico",
-        year: "2022–2024",
-        deliverable: "Tavola tipografica",
-        teaser:
-          "Tavola tipografica. Griglia stretta, parole in nero.",
-        description:
-          "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
-        tags: ["Tipografia", "Tavola"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [],
-      },
-      {
-        id: "kitaku",
-        group: "brand",
-        client: "Kitaku",
-        title: "Kitaku",
-        category: "Brand identity",
-        role: "Grafico",
-        year: "2022–2024",
-        deliverable: "Wordmark",
-        teaser:
-          "Wordmark geometrico, nero su bianco.",
-        description:
-          "Marchio Kitaku. Lettere ravvicinate, taglio da insegna. Un segno unico, da tenere pulito.",
-        tags: ["Wordmark"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [],
-      },
-      {
-        id: "cubot",
-        group: "digital",
-        client: "CUBOT",
-        title: "CUBOT",
-        category: "Digitale",
-        role: "Progetto e sviluppo",
-        year: "2025–2026",
-        deliverable: "Gestionale interno",
-        teaser:
-          "Gestionale del flusso volantini. Antigravity e Cursor.",
-        description:
-          "CUBOT coordina liste, scadenze, varianti di rete e OK stampa. Realizzato con Antigravity e Cursor. Python, FastAPI, Vue.",
-        tags: ["Cursor", "Antigravity", "Sviluppo"],
-        href: "",
-        image: "",
-        frame: "landscape",
-        gallery: [],
-      },
-    ],
-  },
-  servizi: {
-    eyebrow: "Servizi",
-    title: "Aree di lavoro.",
-    phases: [
-      {
-        id: "gdo",
-        number: "01",
-        title: "Impaginazione",
-        body: "È il processo di organizzazione di testi, immagini e elementi grafici all’interno di una o più pagine, per rendere il contenuto chiaro, leggibile ed esteticamente coerente. Definisce gerarchie visive, allineamenti, spaziature e griglie, guidando l’occhio del lettore e valorizzando il messaggio. È fondamentale nella produzione editoriale, nei cataloghi, nei volantini e in qualsiasi materiale destinato alla stampa o al digitale.",
-      },
-      {
-        id: "identita",
-        number: "02",
-        title: "Identità visiva",
-        body: "È l’insieme coordinato di elementi grafici (logo, colori, tipografia, icone, immagini) che definiscono e rendono riconoscibile un brand. Traduce i valori, la personalità e il posizionamento del brand in un sistema visivo coerente, applicato su tutti i touchpoint: sito, social, stampa, packaging, video e materiali di comunicazione.",
-      },
-      {
-        id: "video",
-        number: "03",
-        title: "Montaggio video",
-        body: "È il processo di selezione, organizzazione e assemblaggio di riprese, audio ed effetti per dare ritmo, narrazione e coerenza a un contenuto video. Si applica a qualsiasi formato e scala: dai video brevi per social e web, fino a produzioni complesse come maxischermi, girocampo da stadio e contenuti per grandi eventi.",
-      },
-      {
-        id: "digitale",
-        number: "04",
-        title: "Tool alternativi",
-        body: "Sviluppo e adozione di strumenti innovativi per gestire e ottimizzare flussi di produzione complessi. Creazione di interfacce, gestionali e micro-applicativi con Cursor e Antigravity per automatizzare attività e costruire soluzioni personalizzate che migliorano efficienza e qualità del lavoro.",
-      },
-    ],
-  },
-  cv: {
-    eyebrow: "Curriculum",
-    title: "Lavoro e formazione.",
-    openLabel: "Apri curriculum",
-    closeLabel: "Chiudi curriculum",
-  },
-  footer: {
-    eyebrow: "Contatti",
-    title: "Un progetto da avviare?",
-    body: "Editoria GDO, identità visiva, video o un tool interno. Sono disponibile per nuove collaborazioni.",
-    cta: "Scrivimi",
-    email: "mauriziopecutari98@gmail.com",
-    menuEyebrow: "Menu",
-    menu: [
-      { id: "skill", label: "Skill" },
-      { id: "servizi", label: "Servizi" },
-      { id: "lavori", label: "Lavori" },
-      { id: "curriculum", label: "Curriculum" },
-      { id: "chi-sono", label: "Profilo" },
-    ],
-    socialEyebrow: "Social",
-    social: [
-      { href: "", label: "LinkedIn" },
-      { href: "", label: "Behance" },
-      { href: "", label: "Instagram" },
-    ],
-    copyright: "© 2026 Maurizio Pecutari. Tutti i diritti riservati.",
-    privacy: "",
-    cookie: "",
-  },
-}
+/**
+ * Contenuti pubblicati, versionati nel repo.
+ * Si aggiornano sostituendo siteContent.json con l'export dell'editor:
+ * Modifica -> Esporta JSON -> sovrascrivi src/data/siteContent.json -> commit.
+ */
+export const SITE_DEFAULT = SITE_PUBLISHED
+
+export const SITE_CONTENT_REVISION = SITE_DEFAULT.contentRevision
 
 export function cloneSite(data) {
   return JSON.parse(JSON.stringify(data))
@@ -477,6 +27,9 @@ export function clampSkillPercent(value) {
   if (Number.isInteger(n) && n >= 0 && n <= 5) return n * 20
   return Math.max(0, Math.min(100, Math.round(n)))
 }
+
+/** Strumenti ritirati: non tornano anche se restano in un salvataggio vecchio. */
+const OBSOLETE_TOOL_IDS = new Set(["tool-ae"])
 
 function normalizeSkillTools(saved, fallback) {
   if (!Array.isArray(saved) || saved.length === 0) return fallback
@@ -498,7 +51,7 @@ function normalizeSkillTools(saved, fallback) {
     }
   })
   saved.forEach((item) => {
-    if (!item?.id || known.has(item.id)) return
+    if (!item?.id || known.has(item.id) || OBSOLETE_TOOL_IDS.has(item.id)) return
     merged.push({
       id: item.id,
       name: typeof item.name === "string" ? item.name : "",
@@ -596,16 +149,29 @@ function isLegacyServizi(servizi) {
   )
 }
 
+/** I vecchi testi dei servizi aprivano con una definizione da dizionario. */
+function isDictionaryPhaseBody(phase) {
+  return /^(È il processo|È l’insieme|È l'insieme|Processo di|Il montaggio video è)/i.test(
+    String(phase?.body ?? "").trim()
+  )
+}
+
 function normalizeServiziPhases(savedPhases, fallbackPhases, migrating = false) {
   const phases = Array.isArray(savedPhases) && savedPhases.length ? savedPhases : fallbackPhases
   const byId = new Map(fallbackPhases.map((item) => [item.id, item]))
   return phases.map((phase) => {
     const base = byId.get(phase?.id)
-    if (migrating && isStaleDigitalePhase(phase) && base) return { ...base }
+    if (migrating && base && (isStaleDigitalePhase(phase) || isDictionaryPhaseBody(phase))) {
+      return { ...base }
+    }
+    const deliverables = Array.isArray(phase?.deliverables) && phase.deliverables.length
+      ? phase.deliverables.filter((item) => typeof item === "string" && item.trim())
+      : (base?.deliverables ?? [])
     return {
       ...phase,
       title: polishCopy(typeof phase?.title === "string" ? phase.title.trim() : phase?.title),
       body: polishPhaseBody(phase?.body),
+      deliverables,
     }
   })
 }
@@ -711,6 +277,8 @@ export function hydrateSite(saved) {
     chiSono.toolkitBody = base.chiSono.toolkitBody
     chiSono.hobbies = base.chiSono.hobbies
   }
+  // I tag duplicavano l'elenco delle passioni: dalla revisione 29 non si mostrano più.
+  if (migrating) chiSono.toolkit = base.chiSono.toolkit
   if (isStockAboutNotes(chiSono.notes)) chiSono.notes = base.chiSono.notes
   if (isStaleAboutToolkit(chiSono)) {
     chiSono.toolkit = base.chiSono.toolkit

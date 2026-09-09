@@ -24,17 +24,49 @@ export function navigateTo(path) {
   window.dispatchEvent(new Event("app:route"))
 }
 
-export function applySeo({ title, path, image = "/og.png" } = {}) {
+function setMeta(selector, value) {
+  if (!value) return
+  document.querySelector(selector)?.setAttribute("content", value)
+}
+
+/**
+ * Aggiorna titolo, canonical, descrizione e anteprima social della pagina corrente.
+ *
+ * Il sito è una SPA: senza questo, ogni progetto condiviso su WhatsApp o
+ * LinkedIn mostrerebbe titolo, testo e immagine della home.
+ */
+export function applySeo({ title, path, description, image = "/og.png", noindex = false } = {}) {
   const origin = window.location.origin
   const cleanPath = path || window.location.pathname.replace(/\/+$/, "") || "/"
   const pageUrl = `${origin}${cleanPath === "/" ? "/" : cleanPath}`
-  const imageUrl = image.startsWith("http") ? image : `${origin}${image}`
+  const rawImage = String(image || "/og.png")
+  // Un'immagine caricata nell'editor è un data URL: come anteprima non serve a nulla.
+  const safeImage = rawImage.startsWith("data:") ? "/og.png" : rawImage
+  const imageUrl = safeImage.startsWith("http") ? safeImage : `${origin}${safeImage}`
 
   if (title) document.title = title
   document.querySelector('link[rel="canonical"]')?.setAttribute("href", pageUrl)
-  document.querySelector('meta[property="og:url"]')?.setAttribute("content", pageUrl)
-  document.querySelector('meta[property="og:title"]')?.setAttribute("content", title ?? document.title)
-  document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title ?? document.title)
-  document.querySelector('meta[property="og:image"]')?.setAttribute("content", imageUrl)
-  document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl)
+  setMeta('meta[property="og:url"]', pageUrl)
+  setMeta('meta[property="og:title"]', title ?? document.title)
+  setMeta('meta[name="twitter:title"]', title ?? document.title)
+  setMeta('meta[property="og:image"]', imageUrl)
+  setMeta('meta[name="twitter:image"]', imageUrl)
+  if (description) {
+    setMeta('meta[name="description"]', description)
+    setMeta('meta[property="og:description"]', description)
+    setMeta('meta[name="twitter:description"]', description)
+  }
+  document
+    .querySelector('meta[property="og:type"]')
+    ?.setAttribute("content", cleanPath === "/" ? "website" : "article")
+
+  const robots = document.querySelector('meta[name="robots"]')
+  if (robots) robots.setAttribute("content", noindex ? "noindex, follow" : "index, follow")
+}
+
+/** Dati strutturati della pagina: Person sulla home, CreativeWork sui progetti. */
+export function applyStructuredData(data) {
+  const tag = document.getElementById("ld-page")
+  if (!tag) return
+  tag.textContent = JSON.stringify(data)
 }
