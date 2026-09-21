@@ -9,6 +9,25 @@ export const SITE_DEFAULT = SITE_PUBLISHED
 
 export const SITE_CONTENT_REVISION = SITE_DEFAULT.contentRevision
 
+export const FEATURED_WORK_IDS = [
+  "cubot",
+  "stadio-olimpico",
+  "tracina",
+  "landaway",
+  "rc-volantino",
+]
+
+export const WORK_COVERS = {
+  cubot: "/works/cubot.webp",
+  "stadio-olimpico": "/works/stadio-olimpico.webp",
+  tracina: "/works/tracina.webp",
+  landaway: "/works/landaway.webp",
+  "rc-volantino": "/works/rc-volantino.webp",
+}
+
+const LEGACY_HERO_BODY =
+  "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti."
+
 export function cloneSite(data) {
   return JSON.parse(JSON.stringify(data))
 }
@@ -181,6 +200,8 @@ function nonempty(value, fallback) {
 }
 
 const COPY_FIXES = {
+  "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.":
+    "Editoria GDO, identità visive e video. L’AI entra nel flusso, sui problemi concreti.",
   "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.":
     "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
   "Chi sono": "Profilo",
@@ -357,7 +378,10 @@ export function hydrateSite(saved) {
         saved.hero?.title === "Impagino. Firmo. Gioco con l’AI."
           ? base.hero.title
           : nonempty(saved.hero?.title, base.hero.title),
-      body: nonempty(saved.hero?.body, base.hero.body),
+      body:
+        saved.hero?.body === LEGACY_HERO_BODY
+          ? base.hero.body
+          : polishCopy(nonempty(saved.hero?.body, base.hero.body)),
       cta: nonempty(saved.hero?.cta, base.hero.cta),
       availability: nonempty(saved.hero?.availability, base.hero.availability),
     },
@@ -388,6 +412,10 @@ export function hydrateSite(saved) {
       ...base.lavori,
       ...saved.lavori,
       waitLabel: saved.lavori?.waitLabel || base.lavori.waitLabel,
+      featured:
+        migrating || !Array.isArray(saved.lavori?.featured) || saved.lavori.featured.length === 0
+          ? base.lavori.featured ?? FEATURED_WORK_IDS
+          : saved.lavori.featured,
       projects: (() => {
         const mapped = savedProjects
           .filter((project) => project?.id && !OBSOLETE_PROJECT_IDS.has(project.id))
@@ -397,10 +425,11 @@ export function hydrateSite(saved) {
               Array.isArray(project.gallery) && project.gallery.length > 0
                 ? project.gallery
                 : (fallback?.gallery ?? [])
+            const cover = WORK_COVERS[project.id] || fallback?.image || ""
             const image =
-              isStockProject(project) && fallback?.image
-                ? fallback.image
-                : (project.image || fallback?.image || "")
+              isStockProject(project) && (fallback?.image || cover)
+                ? fallback?.image || cover
+                : (project.image || fallback?.image || cover)
             return {
               role: fallback?.role ?? "",
               year: fallback?.year ?? "",

@@ -1,0 +1,93 @@
+/* Link list e footer. */
+.link-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.link-list li {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.link-list button,
+.link-list a {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 16px 0;
+  text-align: left;
+  background: none;
+  background-image: none;
+  border: 0;
+  font: inherit;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.link-list button::after,
+.link-list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 12px;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--spot);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.link-list button:hover,
+.link-list a:hover {
+  color: var(--ink);
+}
+
+.link-list button:hover::after,
+.link-list a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 48px;
+}
+
+@media (min-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+  color: var(--muted);
+}
+
+.site-section a:not(.btn-primary):not(.btn-secondary):not(.work-card):not(.work-index-link) {
+  color: var(--ink);
+  text-decoration: none;
+  background-image: linear-gradient(var(--spot-deep), var(--spot-deep));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 2px;
+  transition: background-size var(--t-ui) var(--ease);
+}
+
+.site-section--ink a:not(.btn-primary):not(.btn-secondary):not(.work-card):not(.work-index-link),
+.site-section--spot a:not(.btn-primary):not(.btn-secondary):not(.work-card):not(.work-index-link) {
+  color: var(--paper);
+  background-image: linear-gradient(var(--spot), var(--spot));
+}
+
+.site-section a:not(.btn-primary):not(.btn-secondary):not(.work-card):not(.work-index-link):hover {
+  background-size: 100% 2px;
+}

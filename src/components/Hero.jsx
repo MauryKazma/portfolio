@@ -312,7 +312,6 @@ function HeroPortrait() {
 export default function Hero() {
   const { display, editing, setHero } = useSite()
   const { hero } = display
-  const email = display.footer?.email?.trim()
 
   return (
     <SiteSection
@@ -323,7 +322,7 @@ export default function Hero() {
       aria-labelledby="hero-title"
     >
       <div className="site-content">
-        <div className="hero-grid">
+        <div className="hero-grid is-copy-first">
           <div className="hero-copy">
             <EditableText
               className="site-eyebrow"
@@ -357,11 +356,6 @@ export default function Hero() {
                 onChange={(value) => setHero("availability", value)}
                 ariaLabel="Disponibilità"
               />
-            ) : null}
-            {email ? (
-              <a className="hero-email" href={`mailto:${email}`}>
-                {email}
-              </a>
             ) : null}
             <div className="hero-cta">
               <button

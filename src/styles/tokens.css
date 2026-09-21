@@ -1,0 +1,52 @@
+/* Pulita — token di base. Overlay in src/looks/clean.css. */
+
+@property --spot {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #38bdf8;
+}
+
+:root {
+  --ink: #1b2430;
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --raised: #ffffff;
+  --accent: #1d4ed8;
+  --spot: #38bdf8;
+  --spot-deep: #1e3a8a;
+  --muted: #66707c;
+  --paper-muted: #7b8494;
+  --hairline: #e4ecf4;
+  --grid-line: transparent;
+  --divider: rgba(30, 58, 138, 0.08);
+  --content-max: 1200px;
+  --nav-h: 76px;
+  --section-y: 88px;
+  --radius: 16px;
+  --wash: #f5f8fb;
+  --t-fast: 140ms;
+  --t-ui: 220ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --band-fill: none;
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-y: 120px;
+  }
+}
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --color-ink: #1b2430;
+  --color-surface: #ffffff;
+  --color-accent: #1d4ed8;
+  --color-spot: #38bdf8;
+  --color-muted: #66707c;
+  --color-hairline: #e4ecf4;
+}

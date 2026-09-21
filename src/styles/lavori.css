@@ -1,0 +1,257 @@
+/* Portfolio: filtri, frame, case. */
+.project-board {
+  display: grid;
+  gap: 48px;
+  margin-top: 24px;
+}
+
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 0;
+}
+
+.project-filter {
+  margin: 0;
+  padding: 8px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--paper, #fff);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.work-empty {
+  margin-top: 24px;
+}
+
+@media (min-width: 900px) {
+  .split-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .project-board {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.project-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.project-list .site-eyebrow {
+  margin: 0;
+}
+
+.project-list .site-body {
+  margin: 4px 0 0;
+  display: block;
+}
+
+.project-list button {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--muted);
+  border-radius: var(--radius);
+  transition: color var(--t-fast) var(--ease);
+}
+
+.project-list button:hover {
+  color: var(--ink);
+}
+
+.project-list button[aria-current="true"] {
+  color: var(--ink);
+}
+
+.project-list button[aria-current="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  background: var(--spot);
+}
+
+.project-list button[aria-current="true"] > span:last-child {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.project-list button[aria-current="true"] .site-body {
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.project-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+.article .site-eyebrow {
+  margin-top: 24px;
+}
+
+.project-frame + .site-eyebrow {
+  margin-top: 24px;
+}
+
+.project-title {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.project-cta {
+  margin-top: 24px;
+}
+
+.project-wait {
+  margin-top: 24px;
+  color: var(--muted);
+}
+
+.project-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-href {
+  margin-top: 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-frame img {
+    animation: img-fade var(--t-ui) var(--ease);
+    transition: transform 420ms var(--ease);
+  }
+
+  .project-frame:hover img {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes img-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .work-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.work-card-cover {
+  display: block;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--wash);
+}
+
+.work-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.work-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px 20px;
+  flex: 1;
+}
+
+.work-card-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.work-card-line {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.work-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--spot-deep);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.work-archive {
+  margin-top: 48px;
+}

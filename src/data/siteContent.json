@@ -1,5 +1,5 @@
 {
-  "contentRevision": 29,
+  "contentRevision": 30,
   "logo": "Maurizio Pecutari",
   "skipLink": "Salta al contenuto",
   "nav": [
@@ -31,7 +31,7 @@
   "hero": {
     "eyebrow": "Graphic designer",
     "title": "Impagino. Progetto. Gioco con l’AI.",
-    "body": "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.",
+    "body": "Editoria GDO, identità visive e video. L’AI entra nel flusso, sui problemi concreti.",
     "cta": "Vedi i lavori",
     "availability": "Disponibile per nuove collaborazioni.",
     "portraitName": "Maurizio Pecutari",
@@ -223,6 +223,13 @@
     "body": "Una selezione di editoria GDO, video, identità visive e CUBOT.",
     "cta": "Apri il progetto",
     "waitLabel": "Disponibile su richiesta",
+    "featured": [
+      "cubot",
+      "stadio-olimpico",
+      "tracina",
+      "landaway",
+      "rc-volantino"
+    ],
     "filters": [
       {
         "id": "all",
@@ -263,7 +270,7 @@
           "InDesign"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/rc-volantino.webp",
         "frame": "portrait",
         "gallery": []
       },
@@ -421,7 +428,7 @@
           "Premiere"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/stadio-olimpico.webp",
         "frame": "landscape",
         "gallery": [
           {
@@ -498,7 +505,7 @@
           "Social"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/tracina.webp",
         "frame": "portrait",
         "gallery": [
           {
@@ -535,7 +542,7 @@
           "Tavola"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/landaway.webp",
         "frame": "landscape",
         "gallery": []
       },
@@ -575,7 +582,7 @@
           "Sviluppo"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/cubot.webp",
         "frame": "landscape",
         "gallery": []
       }

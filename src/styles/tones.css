@@ -1,0 +1,135 @@
+/* Toni ink/spot e reduced-motion. */
+.site-section--ink .site-headline,
+.site-section--ink .site-eyebrow,
+.site-section--ink .project-title,
+.site-section--ink .footer-meta {
+  color: var(--ink);
+}
+
+.site-section--ink .site-body,
+.site-section--ink .project-list button,
+.site-section--ink .link-list button,
+.site-section--ink .link-list a,
+.site-section--ink .phase-list button {
+  color: var(--muted);
+}
+
+.site-section--ink .project-list,
+.site-section--ink .project-list button,
+.site-section--ink .link-list,
+.site-section--ink .link-list li,
+.site-section--ink .phase-list,
+.site-section--ink .phase-list li,
+.site-section--ink .footer-meta,
+.site-section--ink .project-frame,
+.site-section--ink .chip-list li {
+  border-color: var(--hairline);
+}
+
+.site-section--ink .project-list button:hover,
+.site-section--ink .project-list button[aria-current="true"],
+.site-section--ink .link-list button:hover,
+.site-section--ink .link-list a:hover,
+.site-section--ink .phase-list button:hover,
+.site-section--ink .phase-list button[aria-expanded="true"] {
+  color: var(--spot-deep);
+}
+
+.site-section--ink .chip-list li {
+  color: var(--spot-deep);
+  border-color: var(--hairline);
+}
+
+.site-section--ink .chip-list li:hover {
+  background: var(--spot);
+  color: var(--ink);
+  border-color: var(--spot);
+}
+
+.site-section--ink .site-edit-field,
+.site-section--spot .site-edit-field,
+.site-section--ink .site-tag-add-input,
+.site-section--spot .site-tag-add-input {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+}
+
+.site-section--spot .site-headline,
+.site-section--spot .site-eyebrow {
+  color: var(--ink);
+}
+
+.site-section--spot .site-body,
+.site-section--spot .phase-list button {
+  color: var(--muted);
+}
+
+.site-section--spot .phase-list,
+.site-section--spot .phase-list li,
+.site-section--spot .phase-icon {
+  border-color: var(--hairline);
+  color: var(--ink);
+}
+
+.site-section--spot .phase-list button:hover,
+.site-section--spot .phase-list button[aria-expanded="true"] {
+  color: var(--spot-deep);
+}
+
+.site-section--spot .phase-list button[aria-expanded="true"] .phase-icon {
+  background: var(--spot);
+  border-color: var(--spot);
+  color: var(--ink);
+}
+
+.site-section--spot .btn-primary {
+  background: var(--spot);
+  border-color: var(--spot);
+  color: var(--ink);
+}
+
+.site-section--spot .btn-primary:hover,
+.site-section--spot .btn-primary:active {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--spot-deep);
+}
+
+.site-nav .btn-primary:hover,
+.site-nav .btn-primary:active,
+.site-section--ink .btn-primary:hover,
+.site-section--ink .btn-primary:active {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-section--band::before {
+    opacity: 0.04;
+  }
+
+  .hero-portrait-glow {
+    opacity: 0.55;
+  }
+
+  .btn-primary:active,
+  .cv-btn-primary:active {
+    transform: none;
+  }
+
+  .btn-primary svg {
+    transform: none;
+  }
+
+  .hero-portrait {
+    transform: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
