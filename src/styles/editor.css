@@ -1,0 +1,113 @@
+/* Campi editor contenuto. */
+.site-edit-field {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: inherit;
+  resize: vertical;
+}
+
+.site-edit-hint {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.site-edit-hint code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+input.site-headline.site-edit-field,
+textarea.site-headline.site-edit-field {
+  max-width: 18ch;
+}
+
+textarea.site-body.site-edit-field {
+  margin-top: 16px;
+  max-width: 66ch;
+}
+
+.stat-row .site-body.site-edit-field {
+  margin-top: 8px;
+}
+
+input.stat-value.site-edit-field {
+  width: 8rem;
+}
+
+.site-edit-inline {
+  outline: 1px solid var(--hairline);
+  outline-offset: 2px;
+  min-width: 1ch;
+  cursor: text;
+}
+
+.toolkit-list li:has(.site-tag-input),
+.chip-list li:has(.site-tag-input),
+.cv-chip-list li:has(.site-tag-input) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-tag-input {
+  width: 12ch;
+  min-width: 8ch;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+
+.site-tag-remove {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+}
+
+.site-tag-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.site-tag-add-input {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  padding: 8px 10px;
+  min-width: 12rem;
+}
+
+.site-social-edit {
+  display: grid;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.footer-meta .site-edit-field {
+  width: auto;
+  max-width: 24ch;
+  display: inline-block;
+}

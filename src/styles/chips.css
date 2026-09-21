@@ -1,0 +1,113 @@
+/* Chip, toolkit, stats, studio. */
+.toolkit-list,
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toolkit-list li,
+.chip-list li {
+  border: 1px solid var(--hairline);
+  padding: 8px 12px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease);
+}
+
+@media (hover: hover) {
+  .toolkit-list li:hover {
+    border-color: var(--spot-deep);
+    color: var(--paper);
+    background: var(--spot-deep);
+  }
+
+  .chip-list li:hover {
+    border-color: var(--spot);
+    color: var(--ink);
+    background: color-mix(in srgb, var(--spot) 18%, white);
+  }
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.stat-value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--spot-deep);
+}
+
+.stat-row .site-body {
+  margin-top: 8px;
+}
+
+.stat-row > div + div {
+  padding-left: 32px;
+  border-left: 1px solid var(--hairline);
+}
+
+@media (max-width: 767px) {
+  .stat-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .stat-row > div + div {
+    padding-left: 24px;
+  }
+}
+
+.split-grid {
+  display: grid;
+  gap: 48px;
+  margin-top: 24px;
+}
+
+.studio-list {
+  margin-top: 36px;
+}
+
+.studio-list > .site-eyebrow {
+  margin-bottom: 4px;
+}
+
+.studio-card {
+  padding: 16px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.studio-name {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.studio-meta {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}

@@ -1,40 +1,31 @@
-import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, Pause, Play } from "lucide-react"
+import { useEffect, useState } from "react"
+import { ArrowUpRight } from "lucide-react"
+import { FEATURED_WORK_IDS, WORK_COVERS, featuredWorks } from "../data/siteDefault"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage, readImageFile } from "../utils/image"
 import ShotImage from "./ShotImage"
 import { navigateTo } from "../utils/route"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
-import Tossable from "./Tossable"
 
 function projectLead(project) {
   const teaser = String(project?.teaser ?? "").trim()
-  if (teaser) return teaser
-  return String(project?.description ?? "").trim()
+  const role = String(project?.role ?? "").trim()
+  const outcome = String(project?.deliverable ?? "").trim()
+  const raw = teaser || (role && outcome ? `${role}. ${outcome}.` : role || outcome || String(project?.description ?? "").trim())
+  const one = raw.split(/(?<=\.)\s+/)[0] ?? raw
+  return one.trim()
 }
 
-function deckSlice(list, start, size = 3) {
-  if (!list.length) return []
-  const count = Math.min(size, list.length)
-  return Array.from({ length: count }, (_, offset) => list[(start + offset) % list.length])
-}
-
-function usePrefersReducedMotion() {
-  const [reduce, setReduce] = useState(false)
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const sync = () => setReduce(media.matches)
-    sync()
-    media.addEventListener("change", sync)
-    return () => media.removeEventListener("change", sync)
-  }, [])
-  return reduce
+function coverSrc(project) {
+  const image = String(project?.image ?? "").trim()
+  if (image && !isPlaceholderImage(image)) return image
+  return WORK_COVERS[project?.id] ?? ""
 }
 
 export function projectShots(project) {
   const cover = {
-    src: project.image ?? "",
+    src: coverSrc(project),
     caption: project.client || project.category || "Pezzo",
   }
   const extras = Array.isArray(project.gallery) ? project.gallery : []
@@ -57,19 +48,23 @@ export function ProjectShot({
   const missing = !String(src ?? "").trim()
   const placeholder = missing || isPlaceholderImage(src)
   const [ratio, setRatio] = useState(null)
+  const [broken, setBroken] = useState(false)
 
   useEffect(() => {
     setRatio(null)
+    setBroken(false)
   }, [src])
+
+  const empty = placeholder || broken
 
   return (
     <div
-      className={`project-frame${placeholder ? " is-placeholder" : ""}${
+      className={`project-frame${empty ? " is-placeholder" : ""}${
         lockRatio ? " is-locked" : frameClass(frame)
       } ${className}`.trim()}
-      style={!lockRatio && ratio ? { aspectRatio: ratio } : undefined}
+      style={!lockRatio && !empty && ratio ? { aspectRatio: ratio } : undefined}
     >
-      {missing ? (
+      {empty ? (
         <div className="project-shot-empty">
           <span className="project-shot-empty-title">{caption}</span>
           <span className="project-shot-empty-meta">Foto in arrivo</span>
@@ -82,6 +77,7 @@ export function ProjectShot({
           height={lockRatio || frame !== "portrait" ? 600 : 800}
           sizes="(min-width: 900px) 640px, 100vw"
           eager={eager}
+          onError={() => setBroken(true)}
           onLoad={(event) => {
             if (placeholder || lockRatio) return
             const { naturalWidth: width, naturalHeight: height } = event.currentTarget
@@ -92,6 +88,41 @@ export function ProjectShot({
       {caption ? <span className="project-frame-chip">{caption}</span> : null}
     </div>
   )
+}
+
+function WorkCover({ src, eager = false }) {
+  const missing = !String(src ?? "").trim() || isPlaceholderImage(src)
+  const [broken, setBroken] = useState(false)
+
+  useEffect(() => {
+    setBroken(false)
+  }, [src])
+
+  const empty = missing || broken
+
+  return (
+    <span className={`work-card-cover${empty ? " is-placeholder" : ""}`}>
+      {empty ? (
+        <span className="work-card-cover-empty" aria-hidden="true" />
+      ) : (
+        <ShotImage
+          src={src}
+          alt=""
+          width={1280}
+          height={720}
+          sizes="(min-width: 1100px) 380px, (min-width: 700px) 45vw, 100vw"
+          eager={eager}
+          onError={() => setBroken(true)}
+        />
+      )}
+    </span>
+  )
+}
+
+function openCase(event, id) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
+  event.preventDefault()
+  navigateTo(`/lavori/${id}`)
 }
 
 export default function LavoriRecenti() {
@@ -106,94 +137,19 @@ export default function LavoriRecenti() {
     setProjectGalleryItem,
   } = useSite()
   const projects = display.lavori.projects
-  const filters = display.lavori.filters ?? [
-    { id: "all", label: "Tutti" },
-    { id: "gdo", label: "GDO" },
-    { id: "video", label: "Video" },
-    { id: "brand", label: "Brand" },
-    { id: "digital", label: "Digitale" },
-  ]
-  const [filter, setFilter] = useState("all")
-  const [activeIdx, setActiveIdx] = useState(0)
+  const grid = featuredWorks(projects)
+  const rest = projects.filter((project) => !FEATURED_WORK_IDS.includes(project.id))
+  const [activeId, setActiveId] = useState(grid[0]?.id ?? projects[0]?.id ?? "")
   const [shotIdx, setShotIdx] = useState(0)
-  const [userPaused, setUserPaused] = useState(false)
-  const [hoverPaused, setHoverPaused] = useState(false)
-  const [revealGen, setRevealGen] = useState(0)
-  const holdingRef = useRef(false)
-  const skipFirstReveal = useRef(true)
-  const reduceMotion = usePrefersReducedMotion()
-  const visible =
-    filter === "all" ? projects : projects.filter((project) => project.group === filter)
-  const safeIdx = visible.length === 0 ? 0 : Math.min(activeIdx, visible.length - 1)
-  const active = visible[safeIdx]
+
+  const active = projects.find((project) => project.id === activeId) ?? grid[0] ?? projects[0]
   const shots = active ? projectShots(active) : []
   const safeShot = shots.length === 0 ? 0 : Math.min(shotIdx, shots.length - 1)
   const currentShot = shots[safeShot]
 
   useEffect(() => {
-    setActiveIdx(0)
-    setShotIdx(0)
-    if (skipFirstReveal.current) {
-      skipFirstReveal.current = false
-      return
-    }
-    setRevealGen((n) => n + 1)
-  }, [filter])
-
-  useEffect(() => {
     setShotIdx(0)
   }, [active?.id])
-
-  useEffect(() => {
-    if (userPaused || hoverPaused || reduceMotion || editing || visible.length < 2) return
-    const timer = window.setInterval(() => {
-      if (holdingRef.current) return
-      setActiveIdx((current) => (current + 1) % visible.length)
-    }, 8000)
-    return () => window.clearInterval(timer)
-  }, [userPaused, hoverPaused, reduceMotion, editing, visible.length])
-
-  const pauseForHover = () => {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return
-    setHoverPaused(true)
-  }
-
-  const resumeFromHover = () => {
-    if (!holdingRef.current) setHoverPaused(false)
-  }
-
-  const openProject = (index) => {
-    const project = visible[index]
-    if (!project) return
-    if (editing) {
-      if (index === safeIdx) return
-      setActiveIdx(index)
-      setShotIdx(0)
-      return
-    }
-    navigateTo(`/lavori/${project.id}`)
-  }
-
-  const selectProject = (index) => {
-    if (index === safeIdx) {
-      openProject(index)
-      return
-    }
-    setActiveIdx(index)
-    setShotIdx(0)
-  }
-
-  const onListKeyDown = (event) => {
-    if (!editing || !visible.length) return
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      event.preventDefault()
-      selectProject((safeIdx + 1) % visible.length)
-    }
-    if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      event.preventDefault()
-      selectProject((safeIdx - 1 + visible.length) % visible.length)
-    }
-  }
 
   const onCoverFile = async (event) => {
     const file = event.target.files?.[0]
@@ -220,201 +176,111 @@ export default function LavoriRecenti() {
   if (!projects.length) return null
 
   const extras = Array.isArray(active?.gallery) ? active.gallery : []
-  const teaser = projectLead(active)
   const editTeaser = active?.teaser || active?.description || ""
-  const deck = deckSlice(visible, safeIdx)
-  const slotNames = ["front", "mid", "back"]
-  const revealing = revealGen > 0 && !reduceMotion
-  const revealClass = revealing ? " is-revealing" : ""
 
-  const openActive = () => {
-    if (!active) return
-    openProject(safeIdx)
+  const selectProject = (id) => {
+    setActiveId(id)
+    setShotIdx(0)
   }
 
   return (
     <SiteSection id="lavori" className="scroll-mt-24" wash aria-labelledby="lavori-title">
       <div className="site-content">
-        <div
-          className="work-split"
-          onMouseEnter={pauseForHover}
-          onMouseLeave={resumeFromHover}
-          onFocus={pauseForHover}
-          onBlur={(event) => {
-            if (event.currentTarget.contains(event.relatedTarget)) return
-            resumeFromHover()
-          }}
-        >
-          <div className="work-copy">
-            <EditableText
-              className="site-eyebrow"
-              value={display.lavori.eyebrow}
-              editing={editing}
-              onChange={(value) => setLavori("eyebrow", value)}
-              ariaLabel="Etichetta portfolio"
-            />
-            <EditableText
-              as="h2"
-              id="lavori-title"
-              className="site-headline"
-              value={display.lavori.title}
-              editing={editing}
-              onChange={(value) => setLavori("title", value)}
-              ariaLabel="Titolo lavori"
-            />
-            <EditableText
-              className="site-body"
-              value={display.lavori.body ?? ""}
-              editing={editing}
-              multiline
-              onChange={(value) => setLavori("body", value)}
-              ariaLabel="Testo lavori"
-            />
-            {teaser ? (
-              <p className="work-teaser">{teaser}</p>
-            ) : null}
-          </div>
+        <div className="work-copy">
+          <EditableText
+            className="site-eyebrow"
+            value={display.lavori.eyebrow}
+            editing={editing}
+            onChange={(value) => setLavori("eyebrow", value)}
+            ariaLabel="Etichetta portfolio"
+          />
+          <EditableText
+            as="h2"
+            id="lavori-title"
+            className="site-headline"
+            value={display.lavori.title}
+            editing={editing}
+            onChange={(value) => setLavori("title", value)}
+            ariaLabel="Titolo lavori"
+          />
+          <EditableText
+            className="site-body"
+            value={display.lavori.body ?? ""}
+            editing={editing}
+            multiline
+            onChange={(value) => setLavori("body", value)}
+            ariaLabel="Testo lavori"
+          />
+        </div>
 
-          {deck.length > 0 ? (
-            <div
-              key={`stage-${filter}-${revealGen}`}
-              className={`work-stage${revealClass}`}
-            >
-              <div className="work-stage-glow" aria-hidden="true" />
-              <div className="work-deck" aria-hidden="true">
-                {deck.map((project, slot) => {
-                  const cover = project.image ?? ""
-                  const missing = !String(cover).trim() || isPlaceholderImage(cover)
-                  const index = visible.findIndex((item) => item.id === project.id)
-                  return (
-                    <Tossable
-                      key={project.id}
-                      href={`/lavori/${project.id}`}
-                      className={`work-deck-card is-${slotNames[slot] ?? "back"}`}
-                      ariaCurrent={index === safeIdx ? true : undefined}
-                      ariaLabel={`${project.title}${project.client ? `, ${project.client}` : ""}`}
-                      onEngage={() => {
-                        holdingRef.current = true
-                      }}
-                      onRelease={() => {
-                        holdingRef.current = false
-                      }}
-                      onActivate={() => openProject(index)}
+        {grid.length > 0 ? (
+          <ul className="work-grid">
+            {grid.map((project, index) => {
+              const line = projectLead(project)
+              const src = coverSrc(project)
+              return (
+                <li key={project.id}>
+                  {editing ? (
+                    <button
+                      type="button"
+                      className={`work-card${project.id === active?.id ? " is-current" : ""}`}
+                      aria-current={project.id === active?.id ? true : undefined}
+                      onClick={() => selectProject(project.id)}
                     >
-                      <span className="work-deck-frame">
-                        {missing ? (
-                          <span className="project-shot-empty">
-                            <span className="project-shot-empty-title">{project.category}</span>
-                            <span className="project-shot-empty-meta">Foto in arrivo</span>
-                          </span>
-                        ) : (
-                          <ShotImage
-                            src={cover}
-                            alt=""
-                            width={640}
-                            height={800}
-                            sizes="(min-width: 900px) 280px, 210px"
-                            eager={slot === 0}
-                            draggable={false}
-                          />
-                        )}
-                      </span>
-                      <span className="work-deck-caption">
-                        <span className="site-eyebrow">{project.category}</span>
-                        <span className="work-deck-title">{project.title}</span>
-                        <span className="work-deck-meta">
-                          {[project.client !== project.title ? project.client : null, project.year]
-                            .filter(Boolean)
-                            .join(" · ")}
+                      <WorkCover src={src} eager={index < 2} />
+                      <span className="work-card-copy">
+                        <span className="work-card-title">{project.title}</span>
+                        {line ? <span className="work-card-line">{line}</span> : null}
+                        <span className="work-card-cta">
+                          {display.lavori.cta}
+                          <ArrowUpRight size={16} aria-hidden />
                         </span>
                       </span>
-                    </Tossable>
-                  )
-                })}
-              </div>
-              {visible.length > 1 ? (
-                <div className="work-deck-controls">
-                  <p className="work-deck-count" aria-live="polite">
-                    {String(safeIdx + 1).padStart(2, "0")}
-                    <span aria-hidden="true"> · </span>
-                    {String(visible.length).padStart(2, "0")}
-                  </p>
-                  {!reduceMotion && !editing ? (
-                    <button
-                      type="button"
-                      className="work-deck-pause"
-                      aria-pressed={userPaused}
-                      aria-label={userPaused ? "Riprendi il mazzo" : "Metti in pausa il mazzo"}
-                      onClick={() => setUserPaused((value) => !value)}
-                    >
-                      {userPaused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
-                      {userPaused ? "Riprendi" : "Pausa"}
                     </button>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
+                  ) : (
+                    <a
+                      className="work-card"
+                      href={`/lavori/${project.id}`}
+                      onClick={(event) => openCase(event, project.id)}
+                    >
+                      <WorkCover src={src} eager={index < 2} />
+                      <span className="work-card-copy">
+                        <span className="work-card-title">{project.title}</span>
+                        {line ? <span className="work-card-line">{line}</span> : null}
+                        <span className="work-card-cta">
+                          {display.lavori.cta}
+                          <ArrowUpRight size={16} aria-hidden />
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        ) : null}
 
-          <div className="work-picker">
-            {filters.length > 1 ? (
-              <div className="project-filters" role="group" aria-label="Filtra i lavori">
-                {filters.map((item) => (
+        {editing && rest.length > 0 ? (
+          <div className="work-archive">
+            <p className="site-eyebrow">Altri casi</p>
+            <ul className="work-index">
+              {rest.map((project) => (
+                <li key={project.id}>
                   <button
-                    key={item.id}
                     type="button"
-                    className="project-filter"
-                    aria-pressed={filter === item.id}
-                    onClick={() => setFilter(item.id)}
+                    aria-current={project.id === active?.id ? true : undefined}
+                    onClick={() => selectProject(project.id)}
                   >
-                    {item.label}
+                    <span>{project.title}</span>
+                    {project.client && project.client !== project.title ? (
+                      <span>{project.client}</span>
+                    ) : null}
                   </button>
-                ))}
-              </div>
-            ) : null}
-
-            {visible.length === 0 ? (
-              <p key={`empty-${revealGen}`} className={`site-body work-empty${revealClass}`}>
-                Nessun lavoro in questa categoria.
-              </p>
-            ) : (
-              <ul
-                key={`index-${filter}-${revealGen}`}
-                className={`work-index${revealClass}`}
-                onKeyDown={onListKeyDown}
-              >
-                {visible.map((project, index) => (
-                  <li key={project.id} style={{ "--reveal-i": index }}>
-                    <button
-                      type="button"
-                      aria-current={index === safeIdx ? true : undefined}
-                      onClick={() => selectProject(index)}
-                    >
-                      <span>{project.title}</span>
-                      {project.client && project.client !== project.title ? (
-                        <span>{project.client}</span>
-                      ) : null}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {active ? (
-              <div key={`cta-${filter}-${revealGen}`} className={`work-cta${revealClass}`}>
-                <button type="button" className="btn-primary" onClick={openActive}>
-                  <InlineEdit
-                    value={display.lavori.cta}
-                    editing={editing}
-                    onChange={(value) => setLavori("cta", value)}
-                    ariaLabel="Testo pulsante progetto"
-                  />
-                  <ArrowUpRight size={16} aria-hidden />
-                </button>
-              </div>
-            ) : null}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        ) : null}
 
         {editing && active ? (
           <article className="work-edit" id={`lavoro-${active.id}`}>
@@ -431,7 +297,9 @@ export default function LavoriRecenti() {
             />
             <label className="hero-portrait-change">
               <input type="file" accept="image/*" onChange={onCoverFile} />
-              {isPlaceholderImage(active.image) ? "Inserisci foto principale" : "Cambia foto principale"}
+              {isPlaceholderImage(active.image) && !coverSrc(active)
+                ? "Inserisci foto principale"
+                : "Cambia foto principale"}
             </label>
             {shots.length > 1 ? (
               <ul className="project-gallery">

@@ -9,6 +9,37 @@ export const SITE_DEFAULT = SITE_PUBLISHED
 
 export const SITE_CONTENT_REVISION = SITE_DEFAULT.contentRevision
 
+export const FEATURED_WORK_IDS = [
+  "cubot",
+  "stadio-olimpico",
+  "tracina",
+  "landaway",
+  "rc-volantino",
+]
+
+export const WORK_COVERS = {
+  cubot: "/works/cubot.webp",
+  "stadio-olimpico": "/works/stadio-olimpico.webp",
+  tracina: "/works/tracina.webp",
+  landaway: "/works/landaway.webp",
+  "rc-volantino": "/works/rc-volantino.webp",
+}
+
+export function isFeaturedWork(id) {
+  return FEATURED_WORK_IDS.includes(id)
+}
+
+/** Vetrina homepage: solo i featured, nell'ordine locked. */
+export function featuredWorks(projects) {
+  const byId = new Map((projects ?? []).map((project) => [project.id, project]))
+  return FEATURED_WORK_IDS.map((id) => byId.get(id)).filter(
+    (project) => project && project.featured
+  )
+}
+
+const LEGACY_HERO_BODY =
+  "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti."
+
 export function cloneSite(data) {
   return JSON.parse(JSON.stringify(data))
 }
@@ -181,6 +212,8 @@ function nonempty(value, fallback) {
 }
 
 const COPY_FIXES = {
+  "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.":
+    "Editoria GDO, identità visive e video. L’AI entra nel flusso, sui problemi concreti.",
   "InDesign per l’editoria e le identità. Premiere per i video in store e allo stadio. Cursor e Antigravity per i tool interni.":
     "Dall’impaginazione editoriale al pensiero creativo, il passo è breve!",
   "Chi sono": "Profilo",
@@ -195,6 +228,16 @@ const COPY_FIXES = {
     "Video di prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
   "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipo.":
     "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
+  "Gestionale del flusso volantini. Antigravity e Cursor.":
+    "Gestionale interno del flusso volantini.",
+  "Maxischermo 1095×645 e girocampo LED. L’offerta si legge in un passaggio.":
+    "Video per maxischermo e girocampo LED.",
+  "Marchio, polaroid, palette. Sistema per carta e social.":
+    "Marchio e sistema per carta e social.",
+  "Tavola tipografica. Griglia stretta, parole in nero.":
+    "Identità visiva solo di tipografia.",
+  "Foliazioni di rete per Risparmio Casa. Prezzi, prodotti, fino a 24 facciate.":
+    "Foliazioni di rete per Risparmio Casa.",
 }
 
 function polishCopy(value) {
@@ -357,7 +400,10 @@ export function hydrateSite(saved) {
         saved.hero?.title === "Impagino. Firmo. Gioco con l’AI."
           ? base.hero.title
           : nonempty(saved.hero?.title, base.hero.title),
-      body: nonempty(saved.hero?.body, base.hero.body),
+      body:
+        saved.hero?.body === LEGACY_HERO_BODY
+          ? base.hero.body
+          : polishCopy(nonempty(saved.hero?.body, base.hero.body)),
       cta: nonempty(saved.hero?.cta, base.hero.cta),
       availability: nonempty(saved.hero?.availability, base.hero.availability),
     },
@@ -397,10 +443,11 @@ export function hydrateSite(saved) {
               Array.isArray(project.gallery) && project.gallery.length > 0
                 ? project.gallery
                 : (fallback?.gallery ?? [])
+            const cover = WORK_COVERS[project.id] || fallback?.image || ""
             const image =
-              isStockProject(project) && fallback?.image
-                ? fallback.image
-                : (project.image || fallback?.image || "")
+              isStockProject(project) && (fallback?.image || cover)
+                ? fallback?.image || cover
+                : (project.image || fallback?.image || cover)
             return {
               role: fallback?.role ?? "",
               year: fallback?.year ?? "",
@@ -411,9 +458,10 @@ export function hydrateSite(saved) {
               gallery,
               group: project.group || fallback?.group || "",
               client: project.client || fallback?.client || "",
-              teaser: project.teaser || fallback?.teaser || "",
+              teaser: polishCopy(project.teaser || fallback?.teaser || ""),
               description: polishCopy(project.description || fallback?.description || ""),
               frame: project.frame || fallback?.frame || "landscape",
+              featured: isFeaturedWork(project.id),
             }
           })
         return mapped.length ? mapped : base.lavori.projects

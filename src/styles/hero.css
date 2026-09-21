@@ -1,0 +1,221 @@
+/* Hero e ritratto. */
+.hero-grid {
+  display: grid;
+  gap: 48px;
+  align-items: start;
+}
+
+.hero-copy::before {
+  content: "";
+  display: block;
+  width: 88px;
+  height: 10px;
+  margin-bottom: 28px;
+  background: var(--spot);
+}
+
+.hero-grid .site-headline {
+  color: var(--ink);
+}
+
+.site-section--ink .hero-grid .site-eyebrow {
+  color: var(--spot);
+}
+
+.hero-grid .site-body {
+  color: var(--muted);
+}
+
+.hero-portrait-stage {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  justify-self: start;
+}
+
+.hero-portrait-stage.is-dragging,
+.hero-portrait-stage.is-live {
+  z-index: 6;
+}
+
+.hero-portrait-mover {
+  position: relative;
+  width: 100%;
+  will-change: transform;
+}
+
+.hero-portrait-glow {
+  position: absolute;
+  width: min(140%, 520px);
+  aspect-ratio: 1;
+  left: 50%;
+  top: 42%;
+  translate: -50% -50%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--spot) 78%, transparent), transparent 68%);
+}
+
+.hero-portrait {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-left: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  transform: rotate(-1.8deg);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.hero-portrait.is-dragging {
+  cursor: grabbing;
+}
+
+.hero-portrait-frame {
+  margin: 14px 14px 0;
+  border: 1px solid var(--hairline);
+  background: var(--wash);
+  overflow: hidden;
+}
+
+.hero-portrait-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.hero-portrait-add {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 4;
+  cursor: pointer;
+  color: var(--paper-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-portrait-add:hover,
+.hero-portrait-add:focus-within {
+  color: var(--paper);
+  background: color-mix(in srgb, var(--spot) 12%, transparent);
+}
+
+.hero-portrait-add.is-idle {
+  cursor: inherit;
+}
+
+.hero-portrait-add.is-idle:hover,
+.hero-portrait-add.is-idle:focus-within {
+  color: var(--paper-muted);
+  background: transparent;
+}
+
+.hero-portrait-add input,
+.hero-portrait-change input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.hero-portrait-caption {
+  position: relative;
+  padding: 20px 14px 18px;
+}
+
+.hero-portrait-name {
+  margin: 0;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+}
+
+.hero-portrait-change {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--spot);
+}
+
+.hero-portrait-src {
+  margin-top: 12px;
+}
+
+.hero-cta {
+  margin-top: 32px;
+}
+
+@media (max-width: 767px) {
+  .hero-portrait-add {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero-portrait,
+  .hero-portrait.is-static {
+    cursor: default;
+    touch-action: auto;
+    user-select: auto;
+  }
+
+  .hero-portrait-mover {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .hero-portrait,
+  .hero-portrait.is-static {
+    cursor: default;
+    touch-action: auto;
+    user-select: auto;
+  }
+
+  .hero-portrait-mover {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .hero-grid.is-copy-first {
+    grid-template-columns: minmax(0, 1.6fr) minmax(160px, 0.5fr);
+  }
+
+  .hero-portrait-stage {
+    margin-left: auto;
+  }
+
+  .hero-grid.is-copy-first .hero-portrait-stage {
+    max-width: 240px;
+  }
+}

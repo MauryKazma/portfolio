@@ -10,6 +10,7 @@ export default function ShotImage({
   className,
   draggable,
   onLoad,
+  onError,
 }) {
   const webp = rasterWebpSrc(src)
   const img = (
@@ -25,6 +26,7 @@ export default function ShotImage({
       decoding="async"
       draggable={draggable}
       onLoad={onLoad}
+      onError={onError}
     />
   )
 

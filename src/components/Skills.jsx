@@ -1,58 +1,18 @@
-import { useEffect, useRef, useState } from "react"
 import { Plus, X } from "lucide-react"
 import { clampSkillPercent } from "../data/siteDefault"
 import { useSite } from "../context/SiteContentProvider"
 import { EditableText, InlineEdit, TagEditor } from "./EditableText"
 import SiteSection from "./SiteSection"
 
-function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
-}
-
 /**
- * In vetrina si legge il livello, non la percentuale: "Buono" dice qualcosa,
- * "60%" invita solo a chiedersi cosa manchi per arrivare a cento.
- * La percentuale resta il dato che regola la barra e si modifica nell'editor.
+ * In vetrina gli strumenti sono un elenco. Il livello resta un dato
+ * d'editor: regola la barra solo in `?edit=1`.
  */
 function skillLevel(percent) {
   if (percent >= 85) return "Esperto"
   if (percent >= 70) return "Avanzato"
   if (percent >= 55) return "Buono"
   return "Base"
-}
-
-function useMeterReveal(instant) {
-  const ref = useRef(null)
-  const [hot, setHot] = useState(instant)
-
-  useEffect(() => {
-    if (instant || prefersReducedMotion()) {
-      setHot(true)
-      return undefined
-    }
-
-    const el = ref.current
-    if (!el) return undefined
-
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
-      setHot(true)
-      return undefined
-    }
-
-    setHot(false)
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        setHot(true)
-        observer.disconnect()
-      },
-      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [instant])
-
-  return [ref, hot]
 }
 
 function SkillPercentField({ name, value, onChange }) {
@@ -93,65 +53,49 @@ function ToolIcon({ tool }) {
   return <span className="skill-meter-sigla">{tool.mark || "—"}</span>
 }
 
-function ToolMeter({ tool, hot, delay, editing, onMark, onName, onLevel, onRemove }) {
+function ToolChip({ tool }) {
+  return (
+    <li className="skill-tool">
+      <ToolIcon tool={tool} />
+      <span className="skill-tool-name">{tool.name}</span>
+    </li>
+  )
+}
+
+function ToolMeter({ tool, editing, onMark, onName, onLevel, onRemove }) {
   const percent = clampSkillPercent(tool.level)
-
-  if (editing) {
-    return (
-      <li className="skill-meter skill-meter--edit">
-        <div className="skill-meter-edit">
-          <ToolIcon tool={tool} />
-          <input
-            className="site-edit-field skill-mark-input"
-            value={tool.mark}
-            maxLength={3}
-            aria-label={`Sigla ${tool.name}`}
-            onChange={(event) => onMark(event.target.value)}
-          />
-          <input
-            className="site-edit-field"
-            value={tool.name}
-            aria-label={`Nome strumento ${tool.mark}`}
-            onChange={(event) => onName(event.target.value)}
-          />
-          <button
-            type="button"
-            className="site-tag-remove"
-            aria-label={`Rimuovi ${tool.name || "strumento"}`}
-            onClick={onRemove}
-          >
-            <X size={14} aria-hidden />
-          </button>
-        </div>
-        <SkillPercentField name={tool.name} value={percent} onChange={onLevel} />
-      </li>
-    )
-  }
-
   const level = skillLevel(percent)
 
+  if (!editing) return <ToolChip tool={tool} />
+
   return (
-    <li className="skill-meter">
-      <ToolIcon tool={tool} />
-      <div className="skill-meter-copy">
-        <div className="skill-meter-head">
-          <span className="skill-meter-name">{tool.name}</span>
-          <span className="skill-meter-pct">{level}</span>
-        </div>
-        <div
-          className={`skill-meter-track${hot ? " is-hot" : ""}`}
-          role="img"
-          aria-label={`${tool.name}: ${level}`}
+    <li className="skill-meter skill-meter--edit">
+      <div className="skill-meter-edit">
+        <ToolIcon tool={tool} />
+        <input
+          className="site-edit-field skill-mark-input"
+          value={tool.mark}
+          maxLength={3}
+          aria-label={`Sigla ${tool.name}`}
+          onChange={(event) => onMark(event.target.value)}
+        />
+        <input
+          className="site-edit-field"
+          value={tool.name}
+          aria-label={`Nome strumento ${tool.mark}`}
+          onChange={(event) => onName(event.target.value)}
+        />
+        <button
+          type="button"
+          className="site-tag-remove"
+          aria-label={`Rimuovi ${tool.name || "strumento"}`}
+          onClick={onRemove}
         >
-          <span
-            className="skill-meter-fill"
-            style={{
-              "--skill-pct": `${percent}%`,
-              "--skill-delay": `${delay}ms`,
-            }}
-          />
-        </div>
+          <X size={14} aria-hidden />
+        </button>
       </div>
+      <p className="skill-meter-level">{level}</p>
+      <SkillPercentField name={tool.name} value={percent} onChange={onLevel} />
     </li>
   )
 }
@@ -214,7 +158,6 @@ export default function Skills() {
   const traits = skills.traits ?? []
   const useful = skills.useful ?? []
   const body = skills.body ?? ""
-  const [metersRef, hot] = useMeterReveal(editing)
 
   return (
     <SiteSection id="skill" className="scroll-mt-24" wash aria-labelledby="skill-title">
@@ -296,13 +239,11 @@ export default function Skills() {
               ariaLabel="Etichetta software"
             />
             {tools.length ? (
-              <ul ref={metersRef} className={`skill-meters${hot ? " is-hot" : ""}`}>
-                {tools.map((tool, index) => (
+              <ul className={editing ? "skill-meters" : "skill-tools"}>
+                {tools.map((tool) => (
                   <ToolMeter
                     key={tool.id}
                     tool={tool}
-                    hot={hot}
-                    delay={index * 70}
                     editing={editing}
                     onMark={(value) => setSkillTool(tool.id, "mark", value)}
                     onName={(value) => setSkillTool(tool.id, "name", value)}

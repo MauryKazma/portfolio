@@ -1,0 +1,105 @@
+/* html/body, reveal, scrollbar. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+    color-scheme: light;
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    max-width: 100%;
+  }
+
+  body {
+    margin: 0;
+    width: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--spot) 45%, white);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--spot-deep);
+    outline-offset: 3px;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.reveal.is-pending {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.reveal.is-visible {
+  animation: fade-up var(--t-ui) var(--ease) both;
+}
+
+main > .site-section:first-child.reveal.is-pending,
+main > .site-section:first-child.reveal.is-visible {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal.is-pending,
+  .reveal.is-visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+}

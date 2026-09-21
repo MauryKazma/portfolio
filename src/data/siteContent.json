@@ -1,5 +1,5 @@
 {
-  "contentRevision": 29,
+  "contentRevision": 32,
   "logo": "Maurizio Pecutari",
   "skipLink": "Salta al contenuto",
   "nav": [
@@ -31,7 +31,7 @@
   "hero": {
     "eyebrow": "Graphic designer",
     "title": "Impagino. Progetto. Gioco con l’AI.",
-    "body": "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti.",
+    "body": "Editoria GDO, identità visive e video. L’AI entra nel flusso, sui problemi concreti.",
     "cta": "Vedi i lavori",
     "availability": "Disponibile per nuove collaborazioni.",
     "portraitName": "Maurizio Pecutari",
@@ -255,7 +255,7 @@
         "role": "Grafico editoriale, Mandarino Agency",
         "year": "2023–oggi",
         "deliverable": "Foliazioni web e stampa",
-        "teaser": "Foliazioni di rete per Risparmio Casa. Prezzi, prodotti, fino a 24 facciate.",
+        "teaser": "Foliazioni di rete per Risparmio Casa.",
         "description": "Volantini di rete per Risparmio Casa, in Mandarino Agency. Analisi delle liste, etichette in automazione, impaginazione e versioni web. Linee Offertissime, Prezzo bomba, Fidelity Card.",
         "tags": [
           "Liste",
@@ -263,9 +263,10 @@
           "InDesign"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/rc-volantino.webp",
         "frame": "portrait",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       },
       {
         "id": "rc-pop",
@@ -291,7 +292,8 @@
             "src": "",
             "caption": "Stopper a scaffale"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "rc-cartellonistica",
@@ -321,7 +323,8 @@
             "src": "",
             "caption": "Affissione 75×150"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "pb-volantino",
@@ -342,7 +345,8 @@
         "href": "",
         "image": "",
         "frame": "portrait",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "pb-newsletter",
@@ -376,7 +380,8 @@
             "src": "",
             "caption": "CTA negozio"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "pb-pop",
@@ -402,7 +407,8 @@
             "src": "",
             "caption": "United 32”"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "stadio-olimpico",
@@ -413,7 +419,7 @@
         "role": "Video, Mandarino Agency",
         "year": "2025–2026",
         "deliverable": "Maxischermo e girocampo LED",
-        "teaser": "Maxischermo 1095×645 e girocampo LED. L’offerta si legge in un passaggio.",
+        "teaser": "Video per maxischermo e girocampo LED.",
         "description": "Video per lo Stadio Olimpico: maxischermo HD e strisce LED di girocampo, da 1152×96 a 5760×96. Montaggio in Premiere, testo di lettura rapida.",
         "tags": [
           "Maxischermo",
@@ -421,7 +427,7 @@
           "Premiere"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/stadio-olimpico.webp",
         "frame": "landscape",
         "gallery": [
           {
@@ -432,7 +438,8 @@
             "src": "",
             "caption": "Girocampo LED"
           }
-        ]
+        ],
+        "featured": true
       },
       {
         "id": "pb-video",
@@ -458,7 +465,8 @@
             "src": "",
             "caption": "1080×1920 rete"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "rc-video",
@@ -479,7 +487,8 @@
         "href": "",
         "image": "",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "tracina",
@@ -490,7 +499,7 @@
         "role": "Grafico",
         "year": "2024",
         "deliverable": "Marchio e applicazioni",
-        "teaser": "Marchio, polaroid, palette. Sistema per carta e social.",
+        "teaser": "Marchio e sistema per carta e social.",
         "description": "Identità visiva per Tracina Beach. Marchio a blocchi, sole e fasce magenta, arancio e cielo. Polaroid, varianti, applicazioni social.",
         "tags": [
           "Marchio",
@@ -498,7 +507,7 @@
           "Social"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/tracina.webp",
         "frame": "portrait",
         "gallery": [
           {
@@ -517,7 +526,8 @@
             "src": "",
             "caption": "Tavola"
           }
-        ]
+        ],
+        "featured": true
       },
       {
         "id": "landaway",
@@ -528,16 +538,17 @@
         "role": "Grafico",
         "year": "2022–2024",
         "deliverable": "Tavola tipografica",
-        "teaser": "Tavola tipografica. Griglia stretta, parole in nero.",
+        "teaser": "Identità visiva solo di tipografia.",
         "description": "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
         "tags": [
           "Tipografia",
           "Tavola"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/landaway.webp",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       },
       {
         "id": "kitaku",
@@ -556,7 +567,8 @@
         "href": "",
         "image": "",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "cubot",
@@ -567,7 +579,7 @@
         "role": "Progetto e sviluppo",
         "year": "2025–2026",
         "deliverable": "Gestionale interno",
-        "teaser": "Gestionale del flusso volantini. Antigravity e Cursor.",
+        "teaser": "Gestionale interno del flusso volantini.",
         "description": "CUBOT coordina liste, scadenze, varianti di rete e OK stampa. Realizzato con Antigravity e Cursor. Python, FastAPI, Vue.",
         "tags": [
           "Cursor",
@@ -575,9 +587,10 @@
           "Sviluppo"
         ],
         "href": "",
-        "image": "",
+        "image": "/works/cubot.webp",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       }
     ]
   },
