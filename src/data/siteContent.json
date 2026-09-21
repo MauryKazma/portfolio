@@ -1,5 +1,5 @@
 {
-  "contentRevision": 31,
+  "contentRevision": 32,
   "logo": "Maurizio Pecutari",
   "skipLink": "Salta al contenuto",
   "nav": [
@@ -223,13 +223,6 @@
     "body": "Una selezione di editoria GDO, video, identità visive e CUBOT.",
     "cta": "Apri il progetto",
     "waitLabel": "Disponibile su richiesta",
-    "featured": [
-      "cubot",
-      "stadio-olimpico",
-      "tracina",
-      "landaway",
-      "rc-volantino"
-    ],
     "filters": [
       {
         "id": "all",
@@ -272,7 +265,8 @@
         "href": "",
         "image": "/works/rc-volantino.webp",
         "frame": "portrait",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       },
       {
         "id": "rc-pop",
@@ -298,7 +292,8 @@
             "src": "",
             "caption": "Stopper a scaffale"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "rc-cartellonistica",
@@ -328,7 +323,8 @@
             "src": "",
             "caption": "Affissione 75×150"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "pb-volantino",
@@ -349,7 +345,8 @@
         "href": "",
         "image": "",
         "frame": "portrait",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "pb-newsletter",
@@ -383,7 +380,8 @@
             "src": "",
             "caption": "CTA negozio"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "pb-pop",
@@ -409,7 +407,8 @@
             "src": "",
             "caption": "United 32”"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "stadio-olimpico",
@@ -439,7 +438,8 @@
             "src": "",
             "caption": "Girocampo LED"
           }
-        ]
+        ],
+        "featured": true
       },
       {
         "id": "pb-video",
@@ -465,7 +465,8 @@
             "src": "",
             "caption": "1080×1920 rete"
           }
-        ]
+        ],
+        "featured": false
       },
       {
         "id": "rc-video",
@@ -486,7 +487,8 @@
         "href": "",
         "image": "",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "tracina",
@@ -524,7 +526,8 @@
             "src": "",
             "caption": "Tavola"
           }
-        ]
+        ],
+        "featured": true
       },
       {
         "id": "landaway",
@@ -544,7 +547,8 @@
         "href": "",
         "image": "/works/landaway.webp",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       },
       {
         "id": "kitaku",
@@ -563,7 +567,8 @@
         "href": "",
         "image": "",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": false
       },
       {
         "id": "cubot",
@@ -584,7 +589,8 @@
         "href": "",
         "image": "/works/cubot.webp",
         "frame": "landscape",
-        "gallery": []
+        "gallery": [],
+        "featured": true
       }
     ]
   },

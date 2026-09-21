@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
-import { FEATURED_WORK_IDS, WORK_COVERS } from "../data/siteDefault"
+import { FEATURED_WORK_IDS, WORK_COVERS, featuredWorks } from "../data/siteDefault"
 import { useSite } from "../context/SiteContentProvider"
 import { isPlaceholderImage, readImageFile } from "../utils/image"
 import ShotImage from "./ShotImage"
@@ -137,17 +137,12 @@ export default function LavoriRecenti() {
     setProjectGalleryItem,
   } = useSite()
   const projects = display.lavori.projects
-  const featuredIds = (display.lavori.featured ?? FEATURED_WORK_IDS).filter(Boolean)
-  const featured = featuredIds
-    .map((id) => projects.find((project) => project.id === id))
-    .filter(Boolean)
-    .slice(0, 5)
-  const featuredSet = new Set(featured.map((project) => project.id))
-  const rest = projects.filter((project) => !featuredSet.has(project.id))
-  const [activeId, setActiveId] = useState(featured[0]?.id ?? projects[0]?.id ?? "")
+  const grid = featuredWorks(projects)
+  const rest = projects.filter((project) => !FEATURED_WORK_IDS.includes(project.id))
+  const [activeId, setActiveId] = useState(grid[0]?.id ?? projects[0]?.id ?? "")
   const [shotIdx, setShotIdx] = useState(0)
 
-  const active = projects.find((project) => project.id === activeId) ?? featured[0] ?? projects[0]
+  const active = projects.find((project) => project.id === activeId) ?? grid[0] ?? projects[0]
   const shots = active ? projectShots(active) : []
   const safeShot = shots.length === 0 ? 0 : Math.min(shotIdx, shots.length - 1)
   const currentShot = shots[safeShot]
@@ -182,7 +177,6 @@ export default function LavoriRecenti() {
 
   const extras = Array.isArray(active?.gallery) ? active.gallery : []
   const editTeaser = active?.teaser || active?.description || ""
-  const grid = featured.length ? featured : projects.slice(0, 5)
 
   const selectProject = (id) => {
     setActiveId(id)
@@ -266,31 +260,22 @@ export default function LavoriRecenti() {
           </ul>
         ) : null}
 
-        {rest.length > 0 ? (
+        {editing && rest.length > 0 ? (
           <div className="work-archive">
-            <p className="site-eyebrow">Altri lavori</p>
+            <p className="site-eyebrow">Altri casi</p>
             <ul className="work-index">
               {rest.map((project) => (
                 <li key={project.id}>
-                  {editing ? (
-                    <button
-                      type="button"
-                      aria-current={project.id === active?.id ? true : undefined}
-                      onClick={() => selectProject(project.id)}
-                    >
-                      <span>{project.title}</span>
-                      {project.client && project.client !== project.title ? (
-                        <span>{project.client}</span>
-                      ) : null}
-                    </button>
-                  ) : (
-                    <a href={`/lavori/${project.id}`} className="work-index-link" onClick={(event) => openCase(event, project.id)}>
-                      <span>{project.title}</span>
-                      {project.client && project.client !== project.title ? (
-                        <span>{project.client}</span>
-                      ) : null}
-                    </a>
-                  )}
+                  <button
+                    type="button"
+                    aria-current={project.id === active?.id ? true : undefined}
+                    onClick={() => selectProject(project.id)}
+                  >
+                    <span>{project.title}</span>
+                    {project.client && project.client !== project.title ? (
+                      <span>{project.client}</span>
+                    ) : null}
+                  </button>
                 </li>
               ))}
             </ul>

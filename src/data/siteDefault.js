@@ -25,6 +25,18 @@ export const WORK_COVERS = {
   "rc-volantino": "/works/rc-volantino.webp",
 }
 
+export function isFeaturedWork(id) {
+  return FEATURED_WORK_IDS.includes(id)
+}
+
+/** Vetrina homepage: solo i featured, nell'ordine locked. */
+export function featuredWorks(projects) {
+  const byId = new Map((projects ?? []).map((project) => [project.id, project]))
+  return FEATURED_WORK_IDS.map((id) => byId.get(id)).filter(
+    (project) => project && project.featured
+  )
+}
+
 const LEGACY_HERO_BODY =
   "Ottimizzo processi di impaginazione e postproduzione per lavorazioni GDO complesse, progetto identità visive coerenti e creo contenuti digitali che supportano la crescita del tuo brand. Integro strumenti di intelligenza artificiale nel flusso creativo per pensare, produrre e sviluppare soluzioni efficaci a problemi concreti."
 
@@ -422,10 +434,6 @@ export function hydrateSite(saved) {
       ...base.lavori,
       ...saved.lavori,
       waitLabel: saved.lavori?.waitLabel || base.lavori.waitLabel,
-      featured:
-        migrating || !Array.isArray(saved.lavori?.featured) || saved.lavori.featured.length === 0
-          ? base.lavori.featured ?? FEATURED_WORK_IDS
-          : saved.lavori.featured,
       projects: (() => {
         const mapped = savedProjects
           .filter((project) => project?.id && !OBSOLETE_PROJECT_IDS.has(project.id))
@@ -453,6 +461,7 @@ export function hydrateSite(saved) {
               teaser: polishCopy(project.teaser || fallback?.teaser || ""),
               description: polishCopy(project.description || fallback?.description || ""),
               frame: project.frame || fallback?.frame || "landscape",
+              featured: isFeaturedWork(project.id),
             }
           })
         return mapped.length ? mapped : base.lavori.projects
