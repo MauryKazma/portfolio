@@ -1468,39 +1468,37 @@ html[data-look="clean"] .work-card:focus-visible {
 html[data-look="clean"] .work-card-cover {
   display: block;
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--tint);
 }
 
-html[data-look="clean"] .work-card-cover img {
+html[data-look="clean"] .work-card-cover img,
+html[data-look="clean"] .work-card-cover picture,
+html[data-look="clean"] .work-card-cover-empty {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
-html[data-look="clean"] .work-card-cover picture {
-  display: contents;
+html[data-look="clean"] .work-card-cover img {
+  object-fit: cover;
+  object-position: center;
 }
 
-html[data-look="clean"] .work-card-cover .project-shot-empty {
-  position: absolute;
-  inset: 0;
+html[data-look="clean"] .work-card-cover-empty {
+  background: var(--tint);
 }
 
 html[data-look="clean"] .work-card-copy {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 20px 22px 22px;
+  gap: 6px;
+  padding: 18px 20px 20px;
   min-height: 0;
   flex: 1;
-}
-
-html[data-look="clean"] .work-card-copy .site-eyebrow {
-  margin: 0;
-  color: var(--eyebrow);
 }
 
 html[data-look="clean"] .work-card-title {
@@ -1515,12 +1513,10 @@ html[data-look="clean"] .work-card-title {
 html[data-look="clean"] .work-card-line {
   color: var(--muted);
   font-size: 0.9375rem;
-  line-height: 1.45;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  line-height: 1.4;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 html[data-look="clean"] .work-card-cta {

@@ -216,6 +216,16 @@ const COPY_FIXES = {
     "Video di prodotto per la rete Risparmio Casa. Premiere, packshot, durata breve, lettura anche da fermo.",
   "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipo.":
     "Tavola per Landaway. Parole ripetute in nero su bianco, un «annoiato?» al centro. Identità costruita solo di tipografia.",
+  "Gestionale del flusso volantini. Antigravity e Cursor.":
+    "Gestionale interno del flusso volantini.",
+  "Maxischermo 1095×645 e girocampo LED. L’offerta si legge in un passaggio.":
+    "Video per maxischermo e girocampo LED.",
+  "Marchio, polaroid, palette. Sistema per carta e social.":
+    "Marchio e sistema per carta e social.",
+  "Tavola tipografica. Griglia stretta, parole in nero.":
+    "Identità visiva solo di tipografia.",
+  "Foliazioni di rete per Risparmio Casa. Prezzi, prodotti, fino a 24 facciate.":
+    "Foliazioni di rete per Risparmio Casa.",
 }
 
 function polishCopy(value) {
@@ -440,7 +450,7 @@ export function hydrateSite(saved) {
               gallery,
               group: project.group || fallback?.group || "",
               client: project.client || fallback?.client || "",
-              teaser: project.teaser || fallback?.teaser || "",
+              teaser: polishCopy(project.teaser || fallback?.teaser || ""),
               description: polishCopy(project.description || fallback?.description || ""),
               frame: project.frame || fallback?.frame || "landscape",
             }

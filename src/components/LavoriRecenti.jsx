@@ -10,11 +10,11 @@ import SiteSection from "./SiteSection"
 
 function projectLead(project) {
   const teaser = String(project?.teaser ?? "").trim()
-  if (teaser) return teaser
   const role = String(project?.role ?? "").trim()
   const outcome = String(project?.deliverable ?? "").trim()
-  if (role && outcome) return `${role}. ${outcome}.`
-  return role || outcome || String(project?.description ?? "").trim()
+  const raw = teaser || (role && outcome ? `${role}. ${outcome}.` : role || outcome || String(project?.description ?? "").trim())
+  const one = raw.split(/(?<=\.)\s+/)[0] ?? raw
+  return one.trim()
 }
 
 function coverSrc(project) {
@@ -90,7 +90,7 @@ export function ProjectShot({
   )
 }
 
-function WorkCover({ src, caption, eager = false }) {
+function WorkCover({ src, eager = false }) {
   const missing = !String(src ?? "").trim() || isPlaceholderImage(src)
   const [broken, setBroken] = useState(false)
 
@@ -103,17 +103,14 @@ function WorkCover({ src, caption, eager = false }) {
   return (
     <span className={`work-card-cover${empty ? " is-placeholder" : ""}`}>
       {empty ? (
-        <span className="project-shot-empty">
-          <span className="project-shot-empty-title">{caption}</span>
-          <span className="project-shot-empty-meta">Foto in arrivo</span>
-        </span>
+        <span className="work-card-cover-empty" aria-hidden="true" />
       ) : (
         <ShotImage
           src={src}
           alt=""
-          width={960}
+          width={1280}
           height={720}
-          sizes="(min-width: 1100px) 360px, (min-width: 768px) 45vw, 100vw"
+          sizes="(min-width: 1100px) 380px, (min-width: 700px) 45vw, 100vw"
           eager={eager}
           onError={() => setBroken(true)}
         />
@@ -236,9 +233,8 @@ export default function LavoriRecenti() {
                       aria-current={project.id === active?.id ? true : undefined}
                       onClick={() => selectProject(project.id)}
                     >
-                      <WorkCover src={src} caption={project.category} eager={index < 2} />
+                      <WorkCover src={src} eager={index < 2} />
                       <span className="work-card-copy">
-                        <span className="site-eyebrow">{project.category}</span>
                         <span className="work-card-title">{project.title}</span>
                         {line ? <span className="work-card-line">{line}</span> : null}
                         <span className="work-card-cta">
@@ -253,9 +249,8 @@ export default function LavoriRecenti() {
                       href={`/lavori/${project.id}`}
                       onClick={(event) => openCase(event, project.id)}
                     >
-                      <WorkCover src={src} caption={project.category} eager={index < 2} />
+                      <WorkCover src={src} eager={index < 2} />
                       <span className="work-card-copy">
-                        <span className="site-eyebrow">{project.category}</span>
                         <span className="work-card-title">{project.title}</span>
                         {line ? <span className="work-card-line">{line}</span> : null}
                         <span className="work-card-cta">
